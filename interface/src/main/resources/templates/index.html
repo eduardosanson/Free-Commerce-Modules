@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>  
+    <head th:replace="fragments/imports :: imports">
+    </head>
+    <body>
+        <div class="wrapper">
+            <!--This is Header, here we put principals link and menu -->
+            <div th:replace="fragments/header:: header"></div>
+            
+            <!--Here stay bady complete in relative page -->
+<!--
+            
+            <th:block th:each="pageBody : ${pageBody}">
+                <div th:replace="${#strings.concat('fragments/', ${pageBody.key} ) } :: ${pageBody.key}">
+
+                </div>
+            </th:block>
+-->
+            <div th:text="${pageBody}"></div>
+            <div th:replace="${'fragments/' + pageName} :: ${pageFragment}"></div>
+
+            
+            
+            <!--Footer informations stay here V           -->
+            <div th:replace="fragments/footer :: footer"></div>
+        
+    </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        // ===========Featured Owl Carousel============
+        if ($(".owl-carousel-featured").length > 0) {
+            $(".owl-carousel-featured").owlCarousel({
+                items: 3,
+                lazyLoad: true,
+                pagination: true,
+                autoPlay: 5000,
+                stopOnHover: true
+            });
+        }
+
+        // ==================Counter====================
+        $('.item-count').countTo({
+            formatter: function (value, options) {
+                return value.toFixed(options.decimals);
+            },
+            onUpdate: function (value) {
+                console.debug(this);
+            },
+            onComplete: function (value) {
+                console.debug(this);
+            }
+        });
+    });
+
+    $('input').blur(function() {
+                var pass = $('input[name=email]').val();
+                var repass = $('input[name=confirmEmail]').val();
+
+                console.log(pass);
+                console.log(repass);
+
+                if(($('input[name=email]').val().length == 0) || ($('input[name=confirmEmail]').val().length == 0)){
+                    $('#confirmEmail').addClass('has-error');
+                }
+                else if (pass != repass) {
+                    $('#confirmEmail').addClass('has-error');
+                }
+                else {
+                    $('#email').removeClass().addClass('has-success');
+                    $('#confirmEmail').removeClass().addClass('has-success');
+            }});
+</script>
+</body>
+</html> 

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>  
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index, follow">
+        <title>Dlapak - General Listing Template</title>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" type="text/css" />
+        <!-- Essential styles -->
+        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+<!--        <link rel="stylesheet" href="assets/bootstrap/css/bootflat.css" type="text/css">-->
+        <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css" type="text/css"> 
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
+
+        <!-- Dlapak styles -->
+        <link id="theme_style" type="text/css" href="assets/css/style1.css" rel="stylesheet" media="screen">
+
+
+        <!-- Favicon -->
+        <link href="assets/img/favicon.png" rel="icon" type="image/png">
+
+        <!-- Assets -->
+        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.carousel.css">
+        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.theme.css">
+
+        <!-- JS Library -->
+        <script src="assets/js/jquery.js"></script>
+
+    </head>
+    <body>
+        <div class="wrapper">
+            <header  class="navbar navbar-default navbar-fixed-top  navbar-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="index.html" class="navbar-brand"><span class="logo"><i class="fa fa-recycle"></i> Dlapak</span></a>
+                    </div>
+
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="new-ads"><a href="account_create_post.html" class="btn btn-ads btn-block">Advertise</a></li>
+                            <li><a href="signup.html">Signup</a></li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;Pages</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="account_posts.html">My Ads</a></li>
+                                    <li><a href="account_create_post.html">Create Ads</a></li>
+                                    <li><a href="account_profile.html">My Profile</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
+                                <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
+                                    <form>                       
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon addon-login"><i class="fa fa-user"></i></span>
+                                                <input type="text" placeholder="Username or email" required="required" class="form-control input-login">                                            
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon addon-login"><i class="addon fa fa-lock"></i></span>
+                                                <input type="password" placeholder="Password" required="required" class="form-control input-login">                                            
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label class="string optional" for="user_remember_me">
+                                                    <input type="checkbox" id="user_remember_me" style="">
+                                                    Remember me
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="submit" class="btn btn-custom btn-block" value="Sign In">
+                                        <a href="forgot_password.html" class="text-center btn-block">Forgot password?</a>
+                                    </form>                                    
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </header>
+            <section class="main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-10 login-form">
+                            <div class="panel panel-default">
+                                <div class="panel-intro text-center">
+                                    <h1 class="logo"><i class="fa fa-recycle"></i> Dlapak</h1>
+                                </div>
+                                <div class="panel-body">
+                                    <form role="form">
+                                        <h5>Login e senha:</h5>
+                                        <hr size="3" color="#E6E9ED"/>  
+                                        <div class="row">
+                                            <div class="col-md-6 form-group">
+                                                <div class="input-group">
+                                                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" 
+                                                           placeholder="E-mail" class="form-control input-md" required="required" 
+                                                           size="50">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" 
+                                                           placeholder="Confirme o E-mail" class="form-control input-md" required="required"
+                                                           size="50">
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="row form-group">
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="password" placeholder="password" size="50"
+                                                           class="form-control input-md" required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="password" placeholder="Confirme o password" size="50"
+                                                           class="form-control input-md" required="required">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <h5>Dados da Cadastrais</h5>
+                                        <hr size="3" color="#E6E9ED">
+                                        
+                                        <div class="row form-group">
+                                            <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text" placeholder="Nome da Empresa" class="form-control input-md" required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group date">
+                                                    <input type="date" class="form-control input-md" />
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-4 form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text" placeholder="Cpf ou cnpj" class="form-control input-md">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text" class="form-control input-md" placeholder="Razão Social" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    
+                                                    <input type="tel" name="telefone" required="required"  maxlength="15" 
+                                                           pattern="\([0-9]{2}\) [0-9]{4,6}-[0-9]{3,4}$" 
+                                                           class="form-control input-md" placeholder="(99) 99-999-9999" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5>Endereço</h5>
+                                        <hr size="3" color="#E6E9ED">
+                                        <div class="row">
+                                            <div class="col-sm-2 col-xs-1 form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text" placeholder="CEP" class="form-control input-md">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text"  class="form-control input-md" placeholder="Nome da Rua" size="50" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text"  class="form-control input-md" placeholder="Bairro" size="50" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text"  class="form-control input-md" placeholder="Número" size="50" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3 form-group">
+                                                <div class="input-group">
+                                                    <input type="text"  class="form-control input-md" placeholder="Complemento" size="50" />
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 form-group">
+                                                <div class="input-group">
+                                                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                                    <input type="text"  class="form-control input-md" placeholder="UF" size="50" />
+                                                </div>
+                                            </div>
+                                        </div>                                        
+                                        <div class="row container">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="checkbox">
+                                                        <label for="terms" class="string optiona">
+                                                            <input type="checkbox" style="" id="terms">
+                                                            I Agree with Term and Conditions
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                
+                                        <div class="form-group">
+                                            <button class="btn btn-block btn-custom">Sign Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="panel-footer">
+                                    <p class="text-center pull-right"> <a href="login.html"> Have an account? </a> </p>
+                                    <div style=" clear:both"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="footer">
+                <div class="container">
+                <ul class="pull-left footer-menu">
+                    <li>
+                        <a href="index.html"> Home </a>
+                        <a href="about.html"> About us </a>
+                        <a href="contact.html"> Contact us </a>
+                    </li>
+                </ul>
+                <ul class="pull-right footer-menu">
+                    <li> &copy; 2015 Dlapak </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Essentials -->
+        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+        <script src="assets/plugins/owl-carousel/owl.carousel.js"></script>
+        <script src="assets/plugins/counter/jquery.countTo.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                // ===========Featured Owl Carousel============
+                if ($(".owl-carousel-featured").length > 0) {
+                    $(".owl-carousel-featured").owlCarousel({
+                        items: 3,
+                        lazyLoad: true,
+                        pagination: true,
+                        autoPlay: 5000,
+                        stopOnHover: true
+                    });
+                }
+
+                // ==================Counter====================
+                $('.item-count').countTo({
+                    formatter: function (value, options) {
+                        return value.toFixed(options.decimals);
+                    },
+                    onUpdate: function (value) {
+                        console.debug(this);
+                    },
+                    onComplete: function (value) {
+                        console.debug(this);
+                    }
+                });
+            });
+            
+            $(document).ready(function(){
+            $('#telefone').mask('(00) 0000-0000');
+            });
+        </script>
+    </body>
+</html> 

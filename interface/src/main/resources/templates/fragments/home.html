@@ -1,0 +1,30 @@
+<div th:fragment="home">
+    <div th:replace="fragments/findBanner :: findBanner"></div>
+
+    <section class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-8">
+
+                    <!--Product category here type of producties                    -->
+                    <div th:replace="fragments/productCategory :: productCategory"></div>
+
+                    <!--New Features Products                         -->
+                    <div th:replace="fragments/featured :: featured"></div>
+
+                </div>
+
+                <!--Too easy log                       -->
+                <div class="col-md-4 col-sm-4">
+                    <div th:replace="fragments/quickSignup :: quickSignup"></div>
+
+                    <div class="widget" th:replace="fragments/trends :: trends">
+                    </div>
+                    <div class="banner-widget">
+                        <img src="http://placehold.it/600x275" alt="banner" class="img-responsive"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+</div>

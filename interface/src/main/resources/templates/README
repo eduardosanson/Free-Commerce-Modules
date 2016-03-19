@@ -1,0 +1,26 @@
+## Dlapak - Ads Listing Website Theme ##
+Dlapak is a website theme designed to help you built any listing/directory web project. Dlapak is customizable theme and easy to integrate with your backend system.
+
+## Features ##
+ - Bootstrap 3.3.5
+ - Responsive
+ - Valid HTML5 Markup & CSS3
+ - Modern Design
+ - Support All Major Browsers
+ - Pages : home, listing, detail, signup , signin, forgot password, submission, member area, about, contact.
+
+## Changelog ##
+Version 1.0
+
+ - Initial Release
+
+## Credits ##
+ - Bootstrap http://getbootstrap.com/
+ - Unsplash https://unsplash.com/
+ - Font Awesome http://fortawesome.github.io/Font-Awesome/
+ - jQuery http://owlgraphic.com/owlcarousel/
+ - Owl Carousel http://owlgraphic.com/owlcarousel/
+ - Flex Slider http://www.woothemes.com/flexslider/
+ - Bootstrap Filestyle http://markusslima.github.io/bootstrap-filestyle/
+ - Jquery countTo https://github.com/mhuggins/jquery-countTo
+ - Image Banner http://placehold.it
