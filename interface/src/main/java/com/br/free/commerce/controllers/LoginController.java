@@ -4,11 +4,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * Created by eduardo.sanson on 17/03/2016.
  */
 @Controller
-@RequestMapping("public/login")
+@RequestMapping("/public/login")
 public class LoginController {
 
     private static final String LOGIN="index";
@@ -23,6 +25,13 @@ public class LoginController {
         model.addAttribute(PAGE_FRAGMENT,FRAGMENT_LOGIN);
 
         return LOGIN;
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session,Model model){
+        session.invalidate();
+
+        return "redirect:/";
     }
 
 }

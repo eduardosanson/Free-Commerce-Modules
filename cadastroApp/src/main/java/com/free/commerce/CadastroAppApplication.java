@@ -1,7 +1,12 @@
 package com.free.commerce;
 
 import com.free.commerce.entity.Cliente;
+import com.free.commerce.entity.Endereco;
+import com.free.commerce.entity.Enums.Role;
+import com.free.commerce.entity.Loja;
+import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.ClienteRepository;
+import com.free.commerce.repository.LojaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -34,34 +39,51 @@ public class CadastroAppApplication {
 	}
 
     @Bean
-    public CommandLineRunner demo(ClienteRepository repository) {
+    public CommandLineRunner demo(LojaRepository repository) {
         return (args) -> {
             // save a couple of customers
 
+            Loja loja = new Loja();
+            UserLogin login = new UserLogin();
+            Endereco endereco = new Endereco();
 
-            repository.save(new Cliente("eduardo","teste","cpf1234","54611",null,null,null));
-            repository.save(new Cliente("eduardo","teste","cpf1235","54611",null,null,null));
-            repository.save(new Cliente("eduardo","teste","cpf1236","54611",null,null,null));
-            repository.save(new Cliente("eduardo","teste","cpf1237","54611",null,null,null));
-            repository.save(new Cliente("eduardo","teste","cpf1238","54611",null,null,null));
+            endereco.setNome("Rua Capitão Resende");
+            endereco.setBairro("Cachambi");
+            endereco.setCep("20780190");
+            endereco.setCidade("Rio de Janeiro");
+            endereco.setNumero("150");
+            endereco.setPais("Brasil");
+
+            login.setLogin("eduardo@gmail.com");
+            login.setSenha("123");
+            login.setPermissao(Role.STORE);
+
+            loja.setCnpjOuCpf("10468330739");
+            loja.setEmail("eduardo@gmail.com");
+            loja.setEndereco(endereco);
+            loja.setNome("OAS");
+            loja.setNomeEmpresa("Grupo Empreiteira LTDA");
+            loja.setTelefone("219855531620");
+            loja.setUserLogin(login);
+
+            repository.save(loja);
 
             // fetch all customers
             log.info("Customers found with findAll():");
             log.info("-------------------------------");
-            for (Cliente customer : repository.findAll()) {
+            for (Loja customer : repository.findAll()) {
                 log.info(customer.toString());
             }
             log.info("");
 
             // fetch an individual customer by ID
-            Cliente customer = repository.findOne(1L);
+            Loja customer = repository.findOne(1L);
             log.info("Customer found with findOne(1L):");
             log.info("--------------------------------");
             log.info(customer.toString());
             log.info("");
 
             // fetch customers by last name
-            log.info("Customer found with findByLastName('Bauer'):");
             log.info("--------------------------------------------");
 
             log.info("");

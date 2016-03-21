@@ -45,22 +45,17 @@ public class LojaController extends WebMvcConfigurerAdapter {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<StoreResponse> cadastraLoja(@Valid StoreForm storeForm, BindingResult bindingResult){
-
-        StoreResponse response = new StoreResponse();
-        Loja loja =null;
+    public ResponseEntity<UserLogin> cadastraLoja(@Valid @RequestBody StoreForm storeForm, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             logger.info(storeForm);
-            response.setErrors(ValidationErrorTO.exactlyErroMessage(bindingResult));
 
-            return new ResponseEntity<StoreResponse>(response,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<UserLogin>(HttpStatus.BAD_REQUEST);
         }else{
 
-            loja = lojaService.realizarCadastroCompleto(storeForm);
-            response.setLoja(loja);
+            Loja loja = lojaService.realizarCadastroCompleto(storeForm);
 
-            return new ResponseEntity<StoreResponse>(response,HttpStatus.CREATED);
+            return efetuarLogin(storeForm.getEmail());
         }
     }
 

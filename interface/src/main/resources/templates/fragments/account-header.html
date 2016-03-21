@@ -1,22 +1,22 @@
 <div th:fragment="account-header">
-    <div class="account-header">
+    <div class="account-header" th:style="'background:url(' + @{/img/background/hero.jpg} + ')  no-repeat center center / cover  rgba(0, 0, 0, 1);'">
         <div class="container">
             <div class="row">
                 <div class="col-sm-4 col-md-3 col-lg-2">
                     <!-- User avatar -->
                     <div class="profile_avatar">
-                        <img src="/img/people/gie.jpg"
-                             th:src="@{/img/people/gie.jpg}" alt="avatar" class="img-responsive"/>
+                        <img src="/img/people/uer.png"
+                             th:src="@{/img/people/user.png}" alt="avatar" class="img-responsive"/>
                     </div>
                 </div>
                 <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="profile_summary">
                         <!-- User name -->
-                        <h3 class="profile_name">John Doe</h3>
+                        <h3 class="profile_name">Nome da Empresa</h3>
                         <!-- User status -->
-                        <p>Hello.. I'am a frontend developer.</p>
+                        <p>Campo livre</p>
                         <!-- Contact -->
-                        <a href="index.html" class="btn btn-primary btn-warning btn-sm"><i class="fa fa-sign-out"></i> Sign Out</a>
+                        <a href="/public/login/logout" class="btn btn-primary btn-warning btn-sm"><i class="fa fa-sign-out"></i> Sair</a>
                     </div> <!-- / .profile__summary -->
                 </div>
             </div> <!-- / .row -->

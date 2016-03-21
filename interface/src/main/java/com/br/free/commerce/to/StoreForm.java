@@ -3,11 +3,8 @@ package com.br.free.commerce.to;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by eduardosanson on 13/03/16.
@@ -34,8 +31,6 @@ public class StoreForm {
     @NotBlank(message = "Data de criação")
     private String dataDeCriacao;
 
-    @NotBlank
-    @NotNull
     @CPF
     private String cpfOuCnpj;
 
@@ -62,6 +57,33 @@ public class StoreForm {
     @NotNull(message = "obrigatotio")
     @NotBlank(message = "obrigatotio")
     private String uf;
+
+    @NotBlank
+    private  String cidade;
+
+    @NotBlank
+    private String pais;
+
+    @Override
+    public String toString() {
+        return "StoreForm{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", nomeDaEmpresa='" + nomeDaEmpresa + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", dataDeCriacao='" + dataDeCriacao + '\'' +
+                ", cpfOuCnpj='" + cpfOuCnpj + '\'' +
+                ", nomeJuridico='" + nomeJuridico + '\'' +
+                ", cep='" + cep + '\'' +
+                ", nomeDaRua='" + nomeDaRua + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", numero='" + numero + '\'' +
+                ", complemento='" + complemento + '\'' +
+                ", uf='" + uf + '\'' +
+                ", cidade='" + cidade + '\'' +
+                ", pais='" + pais + '\'' +
+                '}';
+    }
 
     public String getEmail() {
         return email;
@@ -165,5 +187,21 @@ public class StoreForm {
 
     public void setUf(String uf) {
         this.uf = uf;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
     }
 }

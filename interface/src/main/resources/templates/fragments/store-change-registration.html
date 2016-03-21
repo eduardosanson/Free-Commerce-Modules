@@ -1,0 +1,79 @@
+store-change-registration
+
+<div th:fragment="store-change-registration">
+    <form role="form" action="#" >
+        <!--th:action="@{/store/form}" th:object="${storeForm}" method="post"-->
+        <h5>Dados da Cadastrais</h5>
+        <hr size="3" color="#E6E9ED"/>
+
+        <div class="row form-group">
+            <div class="col-md-8">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input type="text" placeholder="Nome da Empresa" class="form-control input-md"  />
+                    <!--th:field="*{nomeDaEmpresa}"-->
+                </div>
+                <!--<div th:if="${#fields.hasErrors('nomeDaEmpresa')}" class="alert alert-danger form-control input-md"-->
+                     <!--th:errors="*{nomeDaEmpresa}" role="alert">-->
+                <!--</div>-->
+            </div>
+
+            <div class="col-md-3">
+                <div class="input-group date">
+                    <input type="date" class="form-control input-md" />
+                    <!--th:field="*{dataDeCriacao}"-->
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </div>
+                </div>
+                <!--<div th:if="${#fields.hasErrors('dataDeCriacao')}" class="alert alert-danger form-control input-md"-->
+                     <!--th:errors="*{dataDeCriacao}" role="alert">-->
+                <!--</div>-->
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input type="text" placeholder="Cpf ou cnpj" class="form-control input-md"/>
+                    <!--th:field="*{cpfOuCnpj}"-->
+                </div>
+                <!--<div th:if="${#fields.hasErrors('cpfOuCnpj')}" class="alert alert-danger form-control input-md"-->
+                     <!--th:errors="*{cpfOuCnpj}" role="alert">-->
+                <!--</div>-->
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input  type="text" class="form-control input-md" placeholder="Razão Social" />
+                    <!--th:field="*{nomeJuridico}"-->
+                </div>
+                <!--<div th:if="${#fields.hasErrors('nomeJuridico')}" class="alert alert-danger form-control input-md"-->
+                     <!--th:errors="*{nomeJuridico}" role="alert">-->
+                <!--</div>-->
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input type="tel" maxlength="15"
+                           class="form-control input-md" placeholder="(99) 99-999-9999" />
+                </div>
+                <!--th:field="*{telefone}"-->
+                <!--<div th:if="${#fields.hasErrors('telefone')}" class="alert alert-danger form-control input-md"-->
+                     <!--th:errors="*{telefone}" role="alert">-->
+                <!--</div>-->
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-block btn-custom">Alterar</button>
+        </div>
+    </form>
+
+</div>

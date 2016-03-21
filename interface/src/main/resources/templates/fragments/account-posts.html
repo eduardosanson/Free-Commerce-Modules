@@ -1,28 +1,29 @@
-    <body>
-        <div th:fragment="account-posts">
 
-            <div class="wrapper">
+<div th:fragment="account-posts">
 
-                <section class="main no-padding">
-                    <div th:replace="fragments/account-header :: account-header"></div>
+    <div class="wrapper">
 
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-3">
-                                <div th:replace="fragments/store-menu :: store-menu"></div>
-                            </div>
-                            <div class="col-md-9 col-sm-9">
-                                <div th:replace="${'fragments/' + MENU_NAME} :: ${MENU_FRAGMENT}"></div>
-                            </div>
+        <section class="main no-padding">
+            <div th:replace="fragments/account-header :: account-header"></div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <div th:replace="fragments/store-menu :: store-menu"></div>
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <div id="resultsBlock">
+                            <div th:replace="${'fragments/' + MENU_NAME} :: ${MENU_FRAGMENT}"></div>
                         </div>
                     </div>
-                </section>
-
+                </div>
             </div>
-            <script type="text/javascript">
-                $("#checkAll").change(function () {
-                    $("input:checkbox").prop('checked', $(this).prop("checked"));
-                });
-            </script>
-        </div>
-    </body>
+        </section>
+
+    </div>
+    <script type="text/javascript">
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        });
+    </script>
+</div>
