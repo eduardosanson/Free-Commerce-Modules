@@ -3,6 +3,7 @@ package com.free.commerce.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by eduardosanson on 05/03/16.
@@ -33,12 +34,15 @@ public class Loja {
     @Column(nullable = false)
     private String telefone;
 
-    @Column()
+    @Column
     private String nomeJuridico;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
     private Endereco endereco;
+
+    @OneToMany(mappedBy = "loja")
+    private List<Produto> produtos;
 
     @Override
     public String toString() {
