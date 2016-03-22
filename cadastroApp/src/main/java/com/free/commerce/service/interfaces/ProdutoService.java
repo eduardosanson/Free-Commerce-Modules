@@ -2,6 +2,7 @@ package com.free.commerce.service.interfaces;
 
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
+import com.free.commerce.to.ProdutoTO;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -11,5 +12,8 @@ import org.springframework.data.repository.query.Param;
 public interface ProdutoService {
 
     Produto recuperarProdutoPorLoja(Loja loja);
+
+    Produto CadastrarProduto(ProdutoTO produtoTO,Long lojaId);
+
 
 }

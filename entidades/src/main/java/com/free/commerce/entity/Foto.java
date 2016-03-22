@@ -1,6 +1,10 @@
 package com.free.commerce.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.CascadeType;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.Date;
 
 /**
@@ -18,6 +22,11 @@ public class Foto {
     private String nomeDoArquivo;
 
     private Date registrado;
+
+    @ManyToOne
+    @JoinColumn(name = "id_produto",insertable = true,updatable = true)
+    @Cascade(CascadeType.SAVE_UPDATE)
+    private Produto produto;
 
     public Long getId() {
         return id;

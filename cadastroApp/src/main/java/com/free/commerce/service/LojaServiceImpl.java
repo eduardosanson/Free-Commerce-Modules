@@ -67,6 +67,11 @@ public class LojaServiceImpl implements LojaService {
         return loja;
     }
 
+    @Override
+    public Loja recuperarPorId(Long id) {
+        return repository.findOne(id);
+    }
+
     private UserLogin criarLogin(StoreForm storeForm) {
         UserLogin login = new UserLogin();
         login.setLogin(storeForm.getEmail());

@@ -29,7 +29,7 @@ public class Produto {
 
     private Date registrado;
 
-    @OneToMany(mappedBy = "produto")
+    @OneToMany(mappedBy = "produto",targetEntity = Foto.class)
     private List<Foto> fotos;
 
     public Long getId() {

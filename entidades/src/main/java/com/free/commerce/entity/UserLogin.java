@@ -23,6 +23,7 @@ public class UserLogin {
     private String senha;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private Role permissao;
 
     @OneToOne(mappedBy ="userLogin")
