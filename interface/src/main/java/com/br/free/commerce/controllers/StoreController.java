@@ -45,7 +45,7 @@ public class StoreController {
 
 
     private static final String INDEX="index";
-    private static final String MENU="/store/menu";
+    public static final String MENU="/store/menu";
     private static final String PAGE_NAME="pageName";
     private static final String PAGE_FRAGMENT="pageFragment";
     private static final String PAGE_REGISTRATION="registration";
@@ -121,7 +121,7 @@ public class StoreController {
     }
 
     @RequestMapping("/menu/createProduct")
-    public String showCreateProduct(Model model){
+    public String showCreateProduct(Model model,ProdutoTO produtoTO){
         logger.info("usando ajax de create product");
 
 

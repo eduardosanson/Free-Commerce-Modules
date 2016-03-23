@@ -9,43 +9,44 @@
                 <h4 class="panel-title"> <a href="#collapseB1" data-toggle="collapse"> Novo Produto </a> </h4>
             </div>
 
-            <form accept-charset="utf-8" method="post" enctype="multipart/form-data" id="UserProfileForm" class="form-horizontal">
+            <form accept-charset="utf-8" method="post" enctype="multipart/form-data" id="UserProfileForm"  th:action="@{/store/form}" th:object="${produtoTO}" class="form-horizontal">
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Name</label>
                         <div class="col-sm-9">
-                            <input type="text" required="required" value="" class="form-control"/></div>
+                            <input  th:field="*{nome}" type="text" required="required" value="" class="form-control"/></div>
+                        
+                        <div th:if="${#fields.hasErrors('nome')}" 
+                        class="alert alert-danger form-control input-md"                                      th:errors="*{nome}" role="alert"></div>
+                        
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Price</label>
                         <div class="col-sm-9">
-                            <input type="number" min="1" required="required" value="" class="form-control"/>
+                            <input th:field="*{preco}" type="number" min="1" required="required" value="" class="form-control"/>
                         </div>
+                        <div th:if="${#fields.hasErrors('preco')}" 
+                        class="alert alert-danger form-control input-md"                                      th:errors="*{preco}" role="alert"></div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Detail</label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control"></textarea>
-                        </div>
-                    </div>
+                    
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Photo 1</label>
                         <div class="col-sm-9">
-                            <input type="file" class="filestyle"/>
+                            <input th:field="*{file}" type="file" class="filestyle"/>
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Photo 2</label>
                         <div class="col-sm-9">
-                            <input type="file"  class="filestyle"/>
+                            <input th:field="*{file2}" type="file"  class="filestyle"/>
                             <span class="help-block"></span>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Photo 3</label>
                         <div class="col-sm-9">
-                            <input type="file"  class="filestyle"/>
+                            <input th:field="*{file3}" type="file"  class="filestyle"/>
                             <span class="help-block"></span>
                         </div>
                     </div>

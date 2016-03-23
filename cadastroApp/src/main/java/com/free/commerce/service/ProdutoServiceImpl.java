@@ -6,6 +6,7 @@ import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.repository.ProductRepository;
 import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.ProdutoTO;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Autowired
     private LojaRepository lojaRepository;
 
+    private static Logger logger = Logger.getLogger(ProdutoServiceImpl.class);
+
     @Override
     public Produto recuperarProdutoPorLoja(Loja loja) {
         return null;
@@ -39,7 +42,20 @@ public class ProdutoServiceImpl implements ProdutoService {
         produto.setIdentificadorDoProduto(loja.getId()+"|" + getMilis() + "|"+ random());
         produto.setLoja(loja);
 
-        return repository.save(produto);
+        try{
+            logger.info("iniciando persistencia de porduto: Produto: " + produto);
+            Produto p = repository.save(produto);
+
+            logger.info("produto persistido com sucesso " + produto.getId());
+
+            return p;
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.info("Erro ao persistir produto: " + e.getMessage());
+
+            return null;
+        }
+
 
 
     }
