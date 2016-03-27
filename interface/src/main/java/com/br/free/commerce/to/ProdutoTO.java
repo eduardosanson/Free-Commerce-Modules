@@ -1,7 +1,6 @@
 package com.br.free.commerce.to;
 
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -13,18 +12,28 @@ public class ProdutoTO {
     @NotBlank
     private String nome;
 
+    @NotBlank
+    private String preco;
+
     private String descricaoTetcnica;
 
     private String descricao;
 
-    @NotBlank
-    private Double preco;
+    private MultipartFile fotoPrincipal;
 
     private MultipartFile file;
 
     private MultipartFile file2;
 
     private MultipartFile file3;
+
+    public MultipartFile getFotoPrincipal() {
+        return fotoPrincipal;
+    }
+
+    public void setFotoPrincipal(MultipartFile fotoPrincipal) {
+        this.fotoPrincipal = fotoPrincipal;
+    }
 
     public String getNome() {
         return nome;
@@ -50,11 +59,11 @@ public class ProdutoTO {
         this.descricao = descricao;
     }
 
-    public Double getPreco() {
+    public String getPreco() {
         return preco;
     }
 
-    public void setPreco(Double preco) {
+    public void setPreco(String preco) {
         this.preco = preco;
     }
 

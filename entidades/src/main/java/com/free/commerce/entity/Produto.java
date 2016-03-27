@@ -29,8 +29,35 @@ public class Produto {
 
     private Date registrado;
 
-    @OneToMany(mappedBy = "produto",targetEntity = Foto.class)
+    @OneToMany(targetEntity = Foto.class,cascade = CascadeType.PERSIST)
     private List<Foto> fotos;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Foto fotoPrincipal;
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", descricaoTetcnica='" + descricaoTetcnica + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", preco=" + preco +
+                ", identificadorDoProduto='" + identificadorDoProduto + '\'' +
+                ", loja=" + loja +
+                ", registrado=" + registrado +
+                ", fotos=" + fotos +
+                ", fotoPrincipal=" + fotoPrincipal +
+                '}';
+    }
+
+    public Foto getFotoPrincipal() {
+        return fotoPrincipal;
+    }
+
+    public void setFotoPrincipal(Foto fotoPrincipal) {
+        this.fotoPrincipal = fotoPrincipal;
+    }
 
     public Long getId() {
         return id;

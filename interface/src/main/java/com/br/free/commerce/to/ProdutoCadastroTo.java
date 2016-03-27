@@ -20,7 +20,17 @@ public class ProdutoCadastroTo {
     @NotBlank
     private Double preco;
 
+    private Foto fotoPrincipal;
+
     private List<Foto> fotos;
+
+    public Foto getFotoPrincipal() {
+        return fotoPrincipal;
+    }
+
+    public void setFotoPrincipal(Foto fotoPrincipal) {
+        this.fotoPrincipal = fotoPrincipal;
+    }
 
     public String getNome() {
         return nome;

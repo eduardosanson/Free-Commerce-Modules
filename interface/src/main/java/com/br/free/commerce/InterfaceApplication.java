@@ -26,5 +26,10 @@ public class InterfaceApplication extends WebMvcConfigurerAdapter{
 		};
 	}
 
+	@Override
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/upload-dir/**")
+				.addResourceLocations("/upload-dir/", "file:upload-dir/");
+	}
 
 }

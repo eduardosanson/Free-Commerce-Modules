@@ -23,11 +23,6 @@ public class Foto {
 
     private Date registrado;
 
-    @ManyToOne
-    @JoinColumn(name = "id_produto",insertable = true,updatable = true)
-    @Cascade(CascadeType.SAVE_UPDATE)
-    private Produto produto;
-
     public Long getId() {
         return id;
     }

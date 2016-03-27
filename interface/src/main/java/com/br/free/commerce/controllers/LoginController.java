@@ -3,6 +3,7 @@ package com.br.free.commerce.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 
@@ -32,6 +33,12 @@ public class LoginController {
         session.invalidate();
 
         return "redirect:/";
+    }
+
+    @RequestMapping(params = "error")
+    public String loginError(@RequestParam("error") String login, Model model){
+        model.addAttribute("loginError",true);
+        return loginPage(model);
     }
 
 }

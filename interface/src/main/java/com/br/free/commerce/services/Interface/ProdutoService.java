@@ -1,5 +1,6 @@
 package com.br.free.commerce.services.Interface;
 
+import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
@@ -10,4 +11,6 @@ import com.free.commerce.entity.Produto;
 public interface ProdutoService {
 
     Produto cadastrarProduto(Loja loja, ProdutoTO produtoTO);
+
+    ProdutoPage recuperarProdutosDeLoja(Loja loja);
 }

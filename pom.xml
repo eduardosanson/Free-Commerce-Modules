@@ -11,7 +11,7 @@
 
     <modules>
         <module>entidades</module>
-        <module>CadastroApp</module>
+        <module>LojaApp</module>
         <module>interface</module>
     </modules>
 

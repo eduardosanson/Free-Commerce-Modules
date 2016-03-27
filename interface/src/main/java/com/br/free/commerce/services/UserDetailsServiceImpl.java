@@ -3,6 +3,7 @@ package com.br.free.commerce.services;
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.free.commerce.entity.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,12 +32,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UserServiceImpl userService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws AuthenticationServiceException {
 
         Optional<UserLogin> userLogin = Optional.ofNullable(userService.recuperarPorEmail(username));
 
         if(!userLogin.isPresent()){
-            throw new UsernameNotFoundException("Usuário ou senha não encontrados");
+            throw new AuthenticationServiceException("Usuário não encontrado");
         }
         UserDetails user = createUserDetails(userLogin.get());
 
@@ -57,8 +58,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     private UserDetails processarUsuarioGenerico(Function<UserLogin, UserDetails> metodo, UserLogin userLogin) {
-        System.out.println("xxxxx");
-        System.out.println("yyyyyy");
         UserDetails userDetails = metodo.apply(userLogin);
         //grava no banco
         return userDetails;

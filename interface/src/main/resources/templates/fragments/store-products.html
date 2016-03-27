@@ -22,7 +22,8 @@
                     </div>
                 </div>
             </div>
-            <table class="table table-bordered">
+            <div id="resultProduct">
+            <table class="table table-bordered" >
                 <thead>
                 <tr>
                     <th><input id="checkAll" type="checkbox" /></th>
@@ -34,13 +35,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td><input type="checkbox"/></td>
+                <tr th:each="produto  : ${produtoPage.produtos}">
+                    <td><input type="checkbox" /></td>
                     <td><img alt="" class="thumb-img img-responsive"
-                             src="img/products/product-6.jpg"
-                             th:src="@{/img/products/product-6.jpg}"/></td>
+                             src="${produto.fotoPrincipal.path}"
+                             th:src="'/'+${produto.fotoPrincipal.path}"/></td>
                     <td>
-                        <div class="item-title"><a href="detail.html" target="_blank"><strong>Samsung Tab 3 V 116</strong></a></div>
+                        <div class="item-title"><a href="detail.html" target="_blank"><strong th:text="${produto.nome}"></strong></a></div>
                         <div class="item-meta">
                             <ul>
                                 <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
@@ -49,34 +50,7 @@
                             </ul>
                         </div>
                     </td>
-                    <td><strong>$50</strong></td>
-                    <td>Active</td>
-                    <td>
-                        <ul class="actions-table">
-                            <li><a class="label label-success"><i class="fa fa-pencil"></i> edit</a></li>
-                            <li><a class="label label-warning"><i class="fa fa-close"></i> disable</a></li>
-                            <li><a href="#" class="label label-danger" onclick="return confirm('Remove this item?')"><i class="fa fa-trash"></i> delete</a></li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="checkbox"/></td>
-                    <td><img alt="" class="thumb-img img-responsive"
-                             src="img/products/item-1.jpg"
-                             th:src="@{/img/products/item-1.jpg}"/></td>
-                    <td>
-                        <div class="item-title">
-                            <a href="detail.html" target="_blank"><strong>Laptop Lenovo Thinkpad Core i3</strong></a>
-                        </div>
-                        <div class="item-meta">
-                            <ul>
-                                <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                            </ul>
-                        </div>
-                    </td>
-                    <td><strong>$300</strong></td>
+                    <td><strong th:text="'R$ ' + ${produto.preco}"></strong></td>
                     <td>Active</td>
                     <td>
                         <ul class="actions-table">
@@ -88,25 +62,32 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="row">
-                <div class="col-xs-3">
-                    <select class="form-control">
-                        <option selected="">Bulk Action</option>
-                        <option>Block</option>
-                        <option>Delete</option>
-                    </select>
-                </div>
-                <div class="col-xs-9 text-right">
-                    <ul class="pagination table-pagination">
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li class="active"><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                    </ul>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <select class="form-control">
+                            <option selected="">Bulk Action</option>
+                            <option>Block</option>
+                            <option>Delete</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-9 text-right">
+                        <ul class="pagination table-pagination"  th:each="i : ${page.primeiraMetade}">
+                            <li ><input th:class="${i}==${page.paginaAtual}?'btn btn-default active disabled' : 'btn'" type="button" onclick="showProductPage(this.value)" th:value="${i}"/></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script type="text/javascript">
+
+        function showProductPage(page) {
+            var url = '/store/menu/showMyProductsPage/';
+
+            $("#resultProduct").load(url+page);
+        }
+
+    </script>
 
 </div>
