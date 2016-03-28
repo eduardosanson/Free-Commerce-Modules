@@ -64,7 +64,21 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     }
 
+    @Override
+    public Produto buscarPorId(Long id) {
 
+        Produto produto = null;
+
+        try{
+            produto = repository.findOne(id);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+
+            return produto;
+        }
+    }
 
     private Produto criarProduto(ProdutoTO produtoTO) {
         Produto produto = new Produto();

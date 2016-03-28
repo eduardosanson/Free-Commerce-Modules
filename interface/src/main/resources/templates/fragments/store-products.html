@@ -35,13 +35,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="produto  : ${produtoPage.produtos}">
+                <tr th:each="produto  : ${produtoPage.produtos}" >
                     <td><input type="checkbox" /></td>
                     <td><img alt="" class="thumb-img img-responsive"
                              src="${produto.fotoPrincipal.path}"
                              th:src="'/'+${produto.fotoPrincipal.path}"/></td>
                     <td>
-                        <div class="item-title"><a href="detail.html" target="_blank"><strong th:text="${produto.nome}"></strong></a></div>
+                        <div class="item-title"><a th:href="@{/produto/detail/} + ${produto.id}" target="_blank"><strong th:text="${produto.nome}"></strong></a></div>
                         <div class="item-meta">
                             <ul>
                                 <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>

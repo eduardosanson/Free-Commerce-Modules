@@ -1,17 +1,18 @@
 package com.br.free.commerce.services;
 
 import com.br.free.commerce.InterfaceApplication;
+import com.br.free.commerce.config.ProdutoSettings;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.to.ProdutoCadastroTo;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
 import com.br.free.commerce.util.FileName;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.free.commerce.entity.Foto;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import org.apache.log4j.Logger;
-import org.springframework.data.domain.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.client.RestTemplate;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,9 +37,13 @@ public class ProdutoServiceImpl implements ProdutoService{
     private static String url ="http://";
     private static String ip ="localhost";
     private static String port =":8090";
-    private static String service = url+ip+port;
-    private static String cadastrar ="/v1/produto?lojaId=";
-    private static String buscarProdutos ="/v1/produto?lojaId=";
+    private static String serviceTemp = url+ip+port;
+
+    private static String cadastrarTemp ="/v1/produto?lojaId=";
+    private static String buscarProdutosTemp ="/v1/produto?lojaId=";
+
+    @Autowired
+    private ProdutoSettings settings;
 
     private static Logger logger = Logger.getLogger(ProdutoServiceImpl.class);
 
@@ -53,13 +57,10 @@ public class ProdutoServiceImpl implements ProdutoService{
     }
 
     @Override
-    public ProdutoPage recuperarProdutosDeLoja(Loja loja) {
-        String page ="0";
-        String request = service +"/v1/produto?lojaId="+loja.getId()+"&firstIndice=0&lastIndice=4";
-        String requestTeste = service + buscarProdutos + loja.getId()+"&page=" + page;
+    public ProdutoPage recuperarProdutosDeLoja(Loja loja,int page,int size) {
+        String request = serviceTemp +"/v1/produto?lojaId="+loja.getId()+"&page="+page+"&size="+size;
         ProdutoPage produtoPage=null;
         try{
-
 
             produtoPage = restTemplate.getForObject(request,ProdutoPage.class);
             logger.info(produtoPage);
@@ -68,6 +69,25 @@ public class ProdutoServiceImpl implements ProdutoService{
             e.printStackTrace();
         }
         return produtoPage;
+    }
+
+    @Override
+    public Produto buscarProdutoPorId(String id) {
+        Produto produto = null;
+        try{
+            logger.info("chamando buscar produto: "+ settings.buscarProdutoPorId(id));
+
+            produto = restTemplate.getForObject(settings.buscarProdutoPorId(id),Produto.class);
+
+            logger.info("sucesso ao buscarProduto");
+
+        }catch (Exception e){
+            logger.error("Erro ao buscar produto: " + e.getMessage());
+        }finally {
+
+            return produto;
+        }
+
     }
 
     private ProdutoCadastroTo criarProdutoDeCadastroTo(Loja loja,ProdutoTO produtoTO) {
@@ -99,7 +119,7 @@ public class ProdutoServiceImpl implements ProdutoService{
 
     private Produto cadastrar(Loja loja,ProdutoCadastroTo produtoCadastroTo) {
         try {
-            String requestUrl = url+ip+port+ cadastrar +loja.getId();
+            String requestUrl = url+ip+port+ cadastrarTemp +loja.getId();
             logger.info("Iniciando cadastro de Produto Url: " + requestUrl);
             Map<String,ProdutoCadastroTo> produtoCadastroToMap = new HashMap<String,ProdutoCadastroTo>();
             produtoCadastroToMap.put("ProdutoTO",produtoCadastroTo);

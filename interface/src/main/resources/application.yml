@@ -1,0 +1,17 @@
+#logging:
+  #level: DEBUG
+
+
+
+#Servidores de recurso free-commerce
+
+produto:
+    service: http://localhost:8090
+    version: /v1
+    context: /produto
+    cadastrar: ?lojaId=
+    buscarProdutoPorId: ?produtoId=
+    buscarProdutosPorLoja: /produto?lojaId={0}&page={1}&size={2}
+
+
+

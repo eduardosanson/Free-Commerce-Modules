@@ -7,12 +7,14 @@ import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.ProdutoPage;
 import com.free.commerce.to.ProdutoTO;
 import com.wordnik.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import scala.util.parsing.combinator.testing.Str;
 
@@ -51,10 +53,10 @@ public class ProdutoController {
         return new ResponseEntity<Page<Produto>>(produtos ,HttpStatus.OK);
     }
 
-    @RequestMapping(params = {"lojaId","firstIndice","lastIndice"},method = RequestMethod.GET)
+    @RequestMapping(params = {"lojaId","page","size"},method = RequestMethod.GET)
     public ResponseEntity<ProdutoPage> recuperarProdutosQuery(@RequestParam("lojaId") String lojaId,
-                                                                    @RequestParam("firstIndice") String first,
-                                                                    @RequestParam("lastIndice") String last){
+                                                                    @RequestParam("page") String first,
+                                                                    @RequestParam("size") String last){
 
         Loja loja = lojaService.recuperarPorId(Long.parseLong(lojaId));
         Page<Produto> produtos = produtoService.recuperarProdutoPorLoja(loja,pegarPagina(first,last));
@@ -66,6 +68,20 @@ public class ProdutoController {
         produtoPage.setNumberOfElements(produtos.getNumberOfElements());
 
         return new ResponseEntity<ProdutoPage>(produtoPage ,HttpStatus.OK);
+    }
+
+    @RequestMapping(params = "produtoId")
+    public ResponseEntity<Produto> buscarProdutoPorId(@RequestParam("produtoId") Long id){
+
+        Produto produto = null;
+
+        produto = produtoService.buscarPorId(id);
+
+        if (produto==null){
+            return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Produto>(produto,HttpStatus.OK);
     }
 
     private Pageable pegarPagina(String page,String limite){

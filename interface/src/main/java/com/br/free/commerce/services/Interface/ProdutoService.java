@@ -12,5 +12,7 @@ public interface ProdutoService {
 
     Produto cadastrarProduto(Loja loja, ProdutoTO produtoTO);
 
-    ProdutoPage recuperarProdutosDeLoja(Loja loja);
+    ProdutoPage recuperarProdutosDeLoja(Loja loja,int itemPorPagina,int pagina);
+
+    Produto buscarProdutoPorId(String id);
 }

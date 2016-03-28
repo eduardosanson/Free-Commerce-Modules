@@ -58,8 +58,9 @@ public class LojaController {
     private static final String FRAGMENT_CHANGE_ADDRESS ="store-change-address";
     private static final String PAGE_CHANGE_REGISTRATION ="store-change-registration";
     private static final String FRAGMENT_CHANGE_REGISTRATION ="store-change-registration";
-    private static final String  PAGE_PRODUCT ="productStorePage";
-    private static final String  FRAGMENT_PRODUCT ="storeProductPage";
+    private static final String PAGE_PRODUCT ="productStorePage";
+    private static final String FRAGMENT_PRODUCT ="storeProductPage";
+    private static final Integer quantidadeDeProdutoPorPagina=5;
 
     @Autowired
     private StoreService storeService;
@@ -113,7 +114,8 @@ public class LojaController {
         model.addAttribute(MENU_NAME,MENU_NAME_HOME);
         model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
 
-        ProdutoPage produtos = produtoService.recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja());
+        ProdutoPage produtos = produtoService.recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja(),
+                0,quantidadeDeProdutoPorPagina);
 
         Page page = criarPagina("1", produtos);
 
@@ -134,7 +136,9 @@ public class LojaController {
     @RequestMapping(value = "/menu/showMyProducts/{pageNumber}")
     public String showMyProducts(@PathVariable String pageNumber, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
 
-        ProdutoPage produtos = produtoService.recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja());
+        ProdutoPage produtos = produtoService.
+                recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja(),
+                Integer.parseInt(pageNumber)-1,quantidadeDeProdutoPorPagina);
 
         Page page = criarPagina(pageNumber, produtos);
 
@@ -147,7 +151,9 @@ public class LojaController {
     @RequestMapping(value = "/menu/showMyProductsPage/{pageNumber}")
     public String showMyProductsPage(@PathVariable String pageNumber, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
 
-        ProdutoPage produtos = produtoService.recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja());
+        ProdutoPage produtos = produtoService.
+                recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja(),
+                        Integer.parseInt(pageNumber)-1,quantidadeDeProdutoPorPagina);
 
         Page page = criarPagina(pageNumber, produtos);
 

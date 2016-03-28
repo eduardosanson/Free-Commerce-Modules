@@ -19,5 +19,7 @@ public interface ProdutoService {
 
     Produto CadastrarProduto(ProdutoTO produtoTO,Long lojaId);
 
+    Produto buscarPorId(Long id);
+
 
 }
