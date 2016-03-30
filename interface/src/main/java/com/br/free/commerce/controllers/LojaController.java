@@ -60,7 +60,7 @@ public class LojaController {
     private static final String FRAGMENT_CHANGE_REGISTRATION ="store-change-registration";
     private static final String PAGE_PRODUCT ="productStorePage";
     private static final String FRAGMENT_PRODUCT ="storeProductPage";
-    private static final Integer quantidadeDeProdutoPorPagina=5;
+    private static final String quantidadeDeProdutoPorPagina="5";
 
     @Autowired
     private StoreService storeService;
@@ -115,7 +115,7 @@ public class LojaController {
         model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
 
         ProdutoPage produtos = produtoService.recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja(),
-                0,quantidadeDeProdutoPorPagina);
+                "1",quantidadeDeProdutoPorPagina);
 
         Page page = criarPagina("1", produtos);
 
@@ -138,7 +138,7 @@ public class LojaController {
 
         ProdutoPage produtos = produtoService.
                 recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja(),
-                Integer.parseInt(pageNumber)-1,quantidadeDeProdutoPorPagina);
+                pageNumber,quantidadeDeProdutoPorPagina);
 
         Page page = criarPagina(pageNumber, produtos);
 
@@ -153,7 +153,7 @@ public class LojaController {
 
         ProdutoPage produtos = produtoService.
                 recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja(),
-                        Integer.parseInt(pageNumber)-1,quantidadeDeProdutoPorPagina);
+                        pageNumber,quantidadeDeProdutoPorPagina);
 
         Page page = criarPagina(pageNumber, produtos);
 
@@ -195,8 +195,6 @@ public class LojaController {
         model.addAttribute(MENU_FRAGMENT,FRAGMENT_CREATE_PRODUCT);
 
         Produto produto = produtoService.cadastrarProduto(customUserDetails.getUserlogin().getLoja(),produtoTO);
-
-
 
         return INDEX;
     }

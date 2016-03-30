@@ -11,7 +11,7 @@ produto:
     context: /produto
     cadastrar: ?lojaId=
     buscarProdutoPorId: ?produtoId=
-    buscarProdutosPorLoja: /produto?lojaId={0}&page={1}&size={2}
+    buscarProdutosPorLoja: /produto?lojaId=%s&page=%s&size=%s
 
 
 

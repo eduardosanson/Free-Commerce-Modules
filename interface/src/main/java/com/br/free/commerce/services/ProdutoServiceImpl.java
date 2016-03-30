@@ -12,7 +12,6 @@ import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.client.RestTemplate;
@@ -30,20 +29,15 @@ import java.util.*;
  * Created by pc on 21/03/2016.
  */
 @Service
-public class ProdutoServiceImpl implements ProdutoService{
+public class ProdutoServiceImpl implements ProdutoService {
 
     private RestTemplate restTemplate = new RestTemplate();
 
-    private static String url ="http://";
-    private static String ip ="localhost";
-    private static String port =":8090";
-    private static String serviceTemp = url+ip+port;
-
-    private static String cadastrarTemp ="/v1/produto?lojaId=";
-    private static String buscarProdutosTemp ="/v1/produto?lojaId=";
+    private static String PATH_DEFAULT_DE_PRODUTO = "img/products/";
+    private static String FOTO_NOME_DEFAULT = "semfoto.jpg";
 
     @Autowired
-    private ProdutoSettings settings;
+    private ProdutoSettings produtoControlerApiConfig;
 
     private static Logger logger = Logger.getLogger(ProdutoServiceImpl.class);
 
@@ -51,21 +45,29 @@ public class ProdutoServiceImpl implements ProdutoService{
     public Produto cadastrarProduto(Loja loja, ProdutoTO produtoTO) {
         ProdutoCadastroTo produtoCadastroTo;
 
-        produtoCadastroTo = criarProdutoDeCadastroTo(loja,produtoTO);
+        produtoCadastroTo = criarProdutoDeCadastroTo(loja, produtoTO);
 
-        return cadastrar(loja,produtoCadastroTo);
+        return cadastrar(loja, produtoCadastroTo);
     }
 
     @Override
-    public ProdutoPage recuperarProdutosDeLoja(Loja loja,int page,int size) {
-        String request = serviceTemp +"/v1/produto?lojaId="+loja.getId()+"&page="+page+"&size="+size;
-        ProdutoPage produtoPage=null;
-        try{
+    public ProdutoPage recuperarProdutosDeLoja(Loja loja, String page, String size) {
+        Integer pageIdice = new Integer(page)- 1;
+        Integer pageSize = new Integer(size)- 1;
 
-            produtoPage = restTemplate.getForObject(request,ProdutoPage.class);
+
+        logger.info(produtoControlerApiConfig.buscarProdutosPorLojaPaginandoOReTornoUrl(loja.getId().toString(),
+                    pageIdice.toString(),pageSize.toString()));
+        ProdutoPage produtoPage = null;
+        try {
+
+            produtoPage = restTemplate.getForObject(produtoControlerApiConfig.
+                                buscarProdutosPorLojaPaginandoOReTornoUrl(loja.getId().toString(),
+                                    pageIdice.toString(),pageSize.toString()), ProdutoPage.class);
+
             logger.info(produtoPage);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return produtoPage;
@@ -74,31 +76,41 @@ public class ProdutoServiceImpl implements ProdutoService{
     @Override
     public Produto buscarProdutoPorId(String id) {
         Produto produto = null;
-        try{
-            logger.info("chamando buscar produto: "+ settings.buscarProdutoPorId(id));
+        try {
+            logger.info("chamando buscar produto: " + produtoControlerApiConfig.buscarProdutoPorId(id));
 
-            produto = restTemplate.getForObject(settings.buscarProdutoPorId(id),Produto.class);
+            produto = restTemplate.getForObject(produtoControlerApiConfig.buscarProdutoPorId(id), Produto.class);
 
             logger.info("sucesso ao buscarProduto");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("Erro ao buscar produto: " + e.getMessage());
-        }finally {
+        } finally {
 
             return produto;
         }
 
     }
 
-    private ProdutoCadastroTo criarProdutoDeCadastroTo(Loja loja,ProdutoTO produtoTO) {
-       String nomePastaFoto = "loja/" + String.valueOf(loja.getId());
+    private ProdutoCadastroTo criarProdutoDeCadastroTo(Loja loja, ProdutoTO produtoTO) {
+        String nomePastaFoto = "loja/" + String.valueOf(loja.getId());
 
         ProdutoCadastroTo produtoCadastroTo = new ProdutoCadastroTo();
         produtoCadastroTo.setPreco(Double.parseDouble(produtoTO.getPreco()));
         produtoCadastroTo.setDescricao(produtoTO.getDescricao());
         produtoCadastroTo.setDescricaoTetcnica(produtoTO.getDescricao());
         produtoCadastroTo.setNome(produtoTO.getNome());
-        produtoCadastroTo.setFotoPrincipal(imageProcessor(nomePastaFoto,criarNomeCriarNomeDeImagem(),produtoTO.getFotoPrincipal()));
+
+        if (produtoTO.getFotoPrincipal().isEmpty()) {
+            Foto foto = new Foto();
+            foto.setPath(PATH_DEFAULT_DE_PRODUTO +FOTO_NOME_DEFAULT);
+            foto.setRegistrado(new Date());
+            foto.setNomeDoArquivo(FOTO_NOME_DEFAULT);
+            produtoCadastroTo.setFotoPrincipal(foto);
+        }else {
+
+            produtoCadastroTo.setFotoPrincipal(imageProcessor(nomePastaFoto, criarNomeCriarNomeDeImagem(), produtoTO.getFotoPrincipal()));
+        }
 
         List<Foto> fotos = new ArrayList<Foto>();
         List<MultipartFile> files = new ArrayList<MultipartFile>();
@@ -106,9 +118,9 @@ public class ProdutoServiceImpl implements ProdutoService{
         files.add(produtoTO.getFile2());
         files.add(produtoTO.getFile3());
 
-        for (MultipartFile f: files) {
+        for (MultipartFile f : files) {
             String nomeDoArquivo = criarNomeCriarNomeDeImagem();
-            fotos.add(imageProcessor(nomePastaFoto,nomeDoArquivo,f));
+            fotos.add(imageProcessor(nomePastaFoto, nomeDoArquivo, f));
 
         }
         produtoCadastroTo.setFotos(fotos);
@@ -117,27 +129,29 @@ public class ProdutoServiceImpl implements ProdutoService{
         return produtoCadastroTo;
     }
 
-    private Produto cadastrar(Loja loja,ProdutoCadastroTo produtoCadastroTo) {
+    private Produto cadastrar(Loja loja, ProdutoCadastroTo produtoCadastroTo) {
         try {
-            String requestUrl = url+ip+port+ cadastrarTemp +loja.getId();
-            logger.info("Iniciando cadastro de Produto Url: " + requestUrl);
-            Map<String,ProdutoCadastroTo> produtoCadastroToMap = new HashMap<String,ProdutoCadastroTo>();
-            produtoCadastroToMap.put("ProdutoTO",produtoCadastroTo);
+            logger.info("Iniciando cadastro de Produto Url: " +  produtoControlerApiConfig.
+                                                        cadastrarProduto(loja.getId().toString()));
 
-            Produto produto = restTemplate.postForObject(requestUrl,produtoCadastroTo,Produto.class,produtoCadastroToMap);
+            Map<String, ProdutoCadastroTo> produtoCadastroToMap = new HashMap<String, ProdutoCadastroTo>();
+            produtoCadastroToMap.put("ProdutoTO", produtoCadastroTo);
+
+            Produto produto = restTemplate.postForObject(
+                    produtoControlerApiConfig.cadastrarProduto(loja.getId().toString()),
+                    produtoCadastroTo, Produto.class, produtoCadastroToMap);
             logger.info("produto cadastrado com sucesso: " + produto.getId());
             return produto;
 
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
             logger.info("erro ao cadastrar: Motivo: " + e.getMessage());
             return null;
         }
     }
 
     private Foto imageProcessor(String nomePasta, String nomeArquivo, MultipartFile file) {
-        String nomeDaPasta = InterfaceApplication.ROOT + "/" +nomePasta +"/";
-        FileName fileName = new FileName(file.getOriginalFilename(),'/','.');
+        String nomeDaPasta = InterfaceApplication.ROOT + "/" + nomePasta + "/";
+        FileName fileName = new FileName(file.getOriginalFilename(), '/', '.');
         String pathCompleto = nomeDaPasta + nomeArquivo + "." + fileName.extension();
         Foto foto = new Foto();
 
@@ -145,7 +159,7 @@ public class ProdutoServiceImpl implements ProdutoService{
             try {
                 File pasta = new File(nomeDaPasta);
                 Path path = Paths.get(nomeDaPasta);
-                if (Files.notExists(path)){
+                if (Files.notExists(path)) {
                     pasta.mkdirs();
                 }
 
@@ -159,24 +173,22 @@ public class ProdutoServiceImpl implements ProdutoService{
                 foto.setNomeDoArquivo(nomeArquivo);
                 foto.setPath(pathCompleto);
                 return foto;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
-        }
-        else {
+        } else {
             return null;
         }
     }
 
-    private String criarNomeCriarNomeDeImagem(){
+    private String criarNomeCriarNomeDeImagem() {
         Random r = new Random();
 
         int valorInteiro = r.nextInt(10000000);
         String valor = null;
 
-        if (valorInteiro<0){
+        if (valorInteiro < 0) {
             valorInteiro = valorInteiro * -1;
         }
 
