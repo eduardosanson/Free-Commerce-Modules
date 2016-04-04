@@ -84,7 +84,21 @@ public class ProdutoSettings {
         this.buscarProdutosPorLoja = buscarProdutosPorLoja;
     }
 
-    public String buscarProdutoPorId(String id){
-        return service+version+context+buscarProdutoPorId+id;
+    private String getUrlCompleta(){
+        return service+version+context;
     }
+
+    public String buscarProdutoPorId(String id){
+        return getUrlCompleta()+buscarProdutoPorId+id;
+    }
+
+    public String buscarProdutosPorLojaPaginandoOReTornoUrl(String lojaId,String pagina,String qtdItemPorPagina){
+        return String.format(getUrlCompleta()+buscarProdutosPorLoja,lojaId,pagina,qtdItemPorPagina);
+    }
+
+    public String cadastrarProduto(String lojaId){
+        return getUrlCompleta()+cadastrar + lojaId;
+    }
+
+
 }
