@@ -2,6 +2,7 @@ package com.free.commerce.controller;
 
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
+import com.free.commerce.service.interfaces.AutorizacaoService;
 import com.free.commerce.service.interfaces.LoginService;
 import com.free.commerce.service.interfaces.LojaService;
 import com.free.commerce.to.StoreForm;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +34,9 @@ public class LojaController extends WebMvcConfigurerAdapter {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private AutorizacaoService autorizacaoService;
 
     private MessageSource messageSource;
 
@@ -70,5 +75,19 @@ public class LojaController extends WebMvcConfigurerAdapter {
 
         return new ResponseEntity<UserLogin>(userLogin,HttpStatus.OK);
    }
+
+    @RequestMapping(value = "/pendente",method = RequestMethod.GET)
+    public ResponseEntity<List<Loja>> buscarLojasPendentesDeAutorizacao(){
+
+        List<Loja> lojas = new ArrayList<Loja>();
+        lojas = autorizacaoService.buscarLojasPendentesDeAutorizacao();
+
+        if (lojas==null || lojas.isEmpty()){
+            return new ResponseEntity<List<Loja>>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Loja>>(lojas,HttpStatus.FOUND);
+
+    }
 
 }

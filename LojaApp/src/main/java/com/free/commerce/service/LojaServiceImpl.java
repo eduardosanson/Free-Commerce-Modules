@@ -32,11 +32,13 @@ public class LojaServiceImpl implements LojaService {
     @Autowired
     private LojaRepository repository;
 
+    @Autowired
+    private AutorizacaoService autorizacaoService;
+
     private static final Logger logger = Logger.getLogger(LojaServiceImpl.class);
 
     @Override
     public Loja realizarCadastroCompleto(StoreForm storeForm) {
-        CadastroResponse response = new CadastroResponse();
         Endereco endereco = criaEndereco(storeForm);
         Loja loja = criarLoja(storeForm);
         UserLogin login = criarLogin(storeForm);
@@ -49,6 +51,7 @@ public class LojaServiceImpl implements LojaService {
         try {
 
             loja = repository.save(loja);
+            autorizacaoService.solicitarAutorizacao(String.valueOf(loja.getId()));
 
         }catch (Exception e){
 
@@ -70,6 +73,11 @@ public class LojaServiceImpl implements LojaService {
     @Override
     public Loja recuperarPorId(Long id) {
         return repository.findOne(id);
+    }
+
+    @Override
+    public Loja buscarLojasPendentesDeAutorizacao() {
+        return null;
     }
 
     private UserLogin criarLogin(StoreForm storeForm) {

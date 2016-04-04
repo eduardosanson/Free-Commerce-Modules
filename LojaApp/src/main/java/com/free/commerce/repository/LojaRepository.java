@@ -14,33 +14,7 @@ import java.util.List;
  */
 public interface LojaRepository extends CrudRepository<Loja,Long> {
 
-    @Override
-    Loja findOne(Long aLong);
-
-    @Override
-    boolean exists(Long aLong);
-
-    @Override
-    Iterable<Loja> findAll();
-
-    @Override
-    Iterable<Loja> findAll(Iterable<Long> iterable);
-
-    @Override
-    long count();
-
-    @Override
-    void delete(Long aLong);
-
-    @Override
-    void delete(Loja loja);
-
-    @Override
-    void delete(Iterable<? extends Loja> iterable);
-
-    @Override
-    void deleteAll();
-
     @Query("select l from Loja l where l.userLogin = :#{#userLogin} ")
     Loja recuperarLojaPeloUserLogin(@Param("userLogin") UserLogin login);
+
 }

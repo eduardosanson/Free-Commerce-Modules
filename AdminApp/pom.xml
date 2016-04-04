@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.free.commerce.cadastro</groupId>
-	<artifactId>LojaApp</artifactId>
+	<groupId>com.free.commerce.adm</groupId>
+	<artifactId>AdminApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>LojaApp</name>
+	<name>AdminApp</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -116,7 +116,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<jvmArguments>
-						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5007
+						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5006
 					</jvmArguments>
 				</configuration>
 			</plugin>

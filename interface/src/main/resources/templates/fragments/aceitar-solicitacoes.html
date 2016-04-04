@@ -1,0 +1,85 @@
+<div th:fragment="aceitar-solicitacoes">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">Lojas Solicitantes</h4>
+        </div>
+        <div class="panel-body">
+            <div class="before-table">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <!--<a href="/" class="btn btn-custom"><i class="fa fa-plus"></i> New Ads</a>-->
+                    </div>
+                    <div class="col-xs-6">
+                        <form class="form-inline pull-right">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" name="q" placeholder="Type keyword ..." class="form-control"/>
+                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="resultProduct">
+                <table class="table table-bordered" >
+                    <thead>
+                    <tr>
+                        <th><input id="checkAll" type="checkbox" /></th>
+                        <th>Nome da Empresa</th>
+                        <th>Opções</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="loja  : ${lojas}" >
+                        <td><input type="checkbox" /></td>
+                        <!--<td><img alt="" class="thumb-img img-responsive"-->
+                                 <!--src="${produto.fotoPrincipal.path}"-->
+                                 <!--th:src="'/'+${produto.fotoPrincipal.path}"/></td>-->
+                        <td>
+                            <div class="item-title"><a th:href="@{/loja/detail/} + ${loja.id}" target="_blank"><strong th:text="${loja.nome}"></strong></a></div>                            <div class="item-meta">
+                                <ul>
+                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
+                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
+                                    <li class="item-type"><i class="fa fa-bookmark"></i> Used</li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <ul class="actions-table">
+                                <li><a class="label label-success" th:href="@{/admin/menu/autorizarSolicitacao/} + ${loja.id}"><i class="fa fa-pencil"></i>Autorizar</a></li>
+                                <li><a class="label label-warning" th:href="@{/admin/menu/cancelarSolicitacao/} + ${loja.id}"><i class="fa fa-close"></i>Cancelar</a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--<div class="row">-->
+                    <!--<div class="col-xs-3">-->
+                        <!--<select class="form-control">-->
+                            <!--<option selected="">Bulk Action</option>-->
+                            <!--<option>Block</option>-->
+                            <!--<option>Delete</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-9 text-right">-->
+                        <!--<ul class="pagination table-pagination"  th:each="i : ${page.primeiraMetade}">-->
+                            <!--<li ><input th:class="${i}==${page.paginaAtual}?'btn btn-default active disabled' : 'btn'" type="button" onclick="showProductPage(this.value)" th:value="${i}"/></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+
+
+    <script type="text/javascript">
+
+        function showProductPage(page) {
+            var url = '/store/menu/showMyProductsPage/';
+
+            $("#resultProduct").load(url+page);
+        }
+
+    </script>
+
+</div>

@@ -7,6 +7,7 @@ import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.ClienteRepository;
 import com.free.commerce.repository.LojaRepository;
+import com.free.commerce.service.interfaces.AutorizacaoService;
 import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
@@ -48,7 +49,7 @@ public class CadastroAppApplication {
 	}
 
     @Bean
-    public CommandLineRunner demo(LojaRepository repository) {
+    public CommandLineRunner demo(LojaRepository repository, AutorizacaoService autorizacaoService) {
         return (args) -> {
             // save a couple of customers
 
@@ -75,7 +76,10 @@ public class CadastroAppApplication {
             loja.setTelefone("219855531620");
             loja.setUserLogin(login);
 
-            repository.save(loja);
+            Loja loja1 = repository.save(loja);
+
+            autorizacaoService.solicitarAutorizacao(String.valueOf(loja1.getId()));
+
 
             // fetch all customers
             log.info("Customers found with findAll():");

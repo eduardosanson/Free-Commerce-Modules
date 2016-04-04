@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -28,13 +29,16 @@ import java.util.Set;
  */
 @Configuration
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter implements AuthenticationSuccessHandler {
+public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 
     @Autowired
     private UserDetailsService UserDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationSuccessHandlerImpl authenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,11 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
                 permitAll()
         .and().
                 authorizeRequests().
-                antMatchers("/store/menu").
-                fullyAuthenticated()
+                antMatchers("/store/menu").hasAnyAuthority("ROLE_" + Role.STORE)
+        .and().
+                authorizeRequests().
+                antMatchers("/admin/menu").hasAnyAuthority("ROLE_" + Role.STORE,"ROLE_" + Role.ADMIN)
         .and().
                 formLogin().
-            loginPage("/public/login");
+            loginPage("/public/login").successHandler(authenticationSuccessHandler);
 //                .defaultSuccessUrl("/")
 //                .permitAll()
 //        .and().exceptionHandling().accessDeniedPage("");
@@ -64,21 +70,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Auth
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
-    }
-
-
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
-                                        HttpServletResponse httpServletResponse,
-                                        Authentication authentication) throws IOException, ServletException {
-        Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
-        if(roles.contains("ROLE_STORE")){
-            httpServletResponse.sendRedirect("/store/menu");
-            return;
-        }
-        httpServletResponse.sendRedirect("/client/menu");
-
-
     }
 
 }

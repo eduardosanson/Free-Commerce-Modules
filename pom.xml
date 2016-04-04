@@ -13,6 +13,7 @@
         <module>entidades</module>
         <module>LojaApp</module>
         <module>interface</module>
+		<module>AdminApp</module>
     </modules>
 
 
