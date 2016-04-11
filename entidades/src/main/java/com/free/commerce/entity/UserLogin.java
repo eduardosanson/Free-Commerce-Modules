@@ -1,6 +1,7 @@
 package com.free.commerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.free.commerce.entity.Enums.Administrador;
 import com.free.commerce.entity.Enums.Role;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class UserLogin {
     @OneToOne(mappedBy ="userLogin")
     private Loja loja;
 
+    @OneToOne
+    private Administrador administrador;
+
     @Override
     public String toString() {
         return "UserLogin{" +
@@ -36,6 +40,14 @@ public class UserLogin {
                 ", login='" + login + '\'' +
                 ", senha='" + senha + '\'' +
                 '}';
+    }
+
+    public Administrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Administrador administrador) {
+        this.administrador = administrador;
     }
 
     public Loja getLoja() {

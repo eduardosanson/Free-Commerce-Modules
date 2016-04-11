@@ -89,7 +89,7 @@ public class AdminController {
     }
 
     @RequestMapping("/menu/novasSolicitacoes")
-    public String showCreateProduct(Model model){
+    public String mostrarSolicitacoes(Model model){
         logger.info("usando ajax de create product");
 
         List<Loja> lojas = autorizacaoLojaService.buscarLojasPendentes();
@@ -100,7 +100,9 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/menu/criarCategoria")
-    public String showMyProducts(@PathVariable String pageNumber, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    public String criarCategoria (Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
+
+        logger.info("Menu de criação de categoria");
 
 
         return PAGE_CREATE_CATEGORY + " :: " + FRAGMENT_CREATE_CATEGORY;

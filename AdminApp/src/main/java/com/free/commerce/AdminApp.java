@@ -4,10 +4,9 @@ import com.free.commerce.entity.Cor;
 import com.free.commerce.entity.Marca;
 import com.free.commerce.entity.TamanhoLetra;
 import com.free.commerce.entity.TamanhoNumero;
-import com.free.commerce.repository.CorRepository;
-import com.free.commerce.repository.MarcaRepository;
-import com.free.commerce.repository.TamanhoLetraRepository;
-import com.free.commerce.repository.TamanhoNumeroRepository;
+import com.free.commerce.repository.*;
+import com.free.commerce.service.AdminServiceImpl;
+import com.free.commerce.to.AdministradorTO;
 import com.mangofactory.swagger.plugin.EnableSwagger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +47,36 @@ public class AdminApp {
 			tamanhoNumero.setNome("40");
 
 
+
+
 			try {
 
 				marcaRepository.save(marca);
 				tamanhoLetraRepository.save(tamanhoLetra);
 				corRepository.save(cor);
 				tamanhoNumeroRepository.save(tamanhoNumero);
+			}catch (Exception e){
+				log.error(e.getMessage());
+			}
+
+
+		};
+	}
+
+	@Bean
+	public CommandLineRunner adm(AdminServiceImpl adminService) {
+		return (args) -> {
+
+			AdministradorTO administradorTO = new AdministradorTO();
+			administradorTO.setMatricula("321642132as1d35");
+			administradorTO.setLogin("admin@gmail.com");
+			administradorTO.setSenha("123");
+			administradorTO.setNome("Admin");
+
+			try {
+
+				adminService.criarAdm(administradorTO);
+
 			}catch (Exception e){
 				log.error(e.getMessage());
 			}
