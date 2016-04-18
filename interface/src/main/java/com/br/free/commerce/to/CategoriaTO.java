@@ -1,4 +1,4 @@
-package com.free.commerce.to;
+package com.br.free.commerce.to;
 
 import org.hibernate.validator.constraints.NotBlank;
 

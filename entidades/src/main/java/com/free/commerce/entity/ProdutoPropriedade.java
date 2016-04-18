@@ -17,9 +17,6 @@ public class ProdutoPropriedade {
     private Produto produto;
 
     @OneToOne
-    private TipoProduto tipoProduto;
-
-    @OneToOne
     private Cor cor;
 
     @OneToOne
@@ -32,6 +29,9 @@ public class ProdutoPropriedade {
     private Marca marca;
 
     private Integer quantidade;
+
+    @OneToOne
+    private Categoria categoria;
 
     public Integer getQuantidade() {
         return quantidade;
@@ -55,14 +55,6 @@ public class ProdutoPropriedade {
 
     public void setProduto(Produto produto) {
         this.produto = produto;
-    }
-
-    public TipoProduto getTipoProduto() {
-        return tipoProduto;
-    }
-
-    public void setTipoProduto(TipoProduto tipoProduto) {
-        this.tipoProduto = tipoProduto;
     }
 
     public Cor getCor() {
@@ -95,5 +87,13 @@ public class ProdutoPropriedade {
 
     public void setMarca(Marca marca) {
         this.marca = marca;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

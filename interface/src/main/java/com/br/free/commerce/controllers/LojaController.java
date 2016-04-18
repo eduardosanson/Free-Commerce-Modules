@@ -1,12 +1,14 @@
 package com.br.free.commerce.controllers;
 
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
 import com.br.free.commerce.to.StoreForm;
 import com.br.free.commerce.util.Page;
+import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
@@ -74,6 +76,9 @@ public class LojaController {
     @Autowired
     private ProdutoService produtoService;
 
+    @Autowired
+    private CategoriaService categoriaService;
+
     private Logger logger = Logger.getLogger(LojaController.class);
 
     @RequestMapping(method = RequestMethod.GET)
@@ -128,6 +133,8 @@ public class LojaController {
     @RequestMapping("/menu/createProduct")
     public String showCreateProduct(Model model,ProdutoTO produtoTO){
         logger.info("usando ajax de create product");
+        List<Categoria> categoriasPrincipais = categoriaService.buscarCategoriasPrincipais();
+        model.addAttribute("categoriasPrincipais",categoriasPrincipais);
 
 
         return PAGE_CREATE_PRODUCT +" :: " + FRAGMENT_CREATE_PRODUCT;

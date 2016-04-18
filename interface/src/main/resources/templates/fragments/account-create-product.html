@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" lang="en">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      lang="en">
 <head></head>
 <body>
     <div th:fragment="account-create-product">
@@ -9,7 +11,7 @@
                 <h4 class="panel-title"> <a href="#collapseB1" data-toggle="collapse"> Novo Produto </a> </h4>
             </div>
 
-            <form id="productForm" accept-charset="utf-8" method="post" enctype="multipart/form-data" th:action="@{/produto}" th:object="${produtoTO}" class="form-horizontal">
+            <form id="categoriaPricipal" accept-charset="utf-8" method="post" enctype="multipart/form-data" th:action="@{/produto}" th:object="${produtoTO}" class="form-horizontal">
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Name</label>
@@ -58,6 +60,47 @@
                             <span class="help-block"></span>
                         </div>
                     </div>
+                    <div class="col-md-3">
+
+                        <form name="categoriaPricipal">
+                            <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
+                                <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(1)"></option>
+                            </select>
+                            <!--<input type="submit" />-->
+                        </form>
+
+                    </div>
+
+                    <div class="col-md-3">
+                        <div id="resultBlock2">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div id="resultBlock3">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div id="resultBlock4">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="resultBlock5">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="resultBlock6">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="resultBlock7">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div id="resultBlock8">
+                        </div>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
@@ -68,13 +111,14 @@
                     </div>
                 </div>
             </form>
+
         </div>
     </div>
 
 </body>
     <script type="text/javascript">
                     (function($){
-                          var $form = $('#productForm');
+                          var $form = $('#categoriaPricipal');
                           $form.on('submit', function(e) {
                             e.preventDefault();
                             $.ajax({

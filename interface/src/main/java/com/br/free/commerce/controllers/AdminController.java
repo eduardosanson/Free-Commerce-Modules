@@ -2,12 +2,15 @@ package com.br.free.commerce.controllers;
 
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.AutorizacaoLojaService;
+import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.services.Interface.StoreService;
+import com.br.free.commerce.to.CategoriaTO;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
 import com.br.free.commerce.to.StoreForm;
 import com.br.free.commerce.util.Page;
+import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,11 +54,10 @@ public class AdminController {
     private static final String MENU_FRAGMENT_HOME="aceitar-solicitacoes";
     private static final String PAGE_ACCOUNT = "admin-posts";
     private static final String PAGE_ACCOUNT_FRAGMENT = "admin-posts";
-    private static final String PAGE_CREATE_CATEGORY ="fragments/cadastrar-categoria";
+    private static final String PAGE_CREATE_CATEGORY ="cadastrar-categoria";
     private static final String FRAGMENT_CREATE_CATEGORY ="cadastrar-categoria";
-
-    @Autowired
-    private StoreService storeService;
+    private static final String RESULT_BLOCK = "resultBlock";
+    private static final String BUTTON_ENVIAR_CATEGORIA = "enviarCategoria";
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -67,6 +70,9 @@ public class AdminController {
 
     @Autowired
     private AutorizacaoLojaService autorizacaoLojaService;
+
+    @Autowired
+    private CategoriaService categoriaService;
 
     private Logger logger = Logger.getLogger(AdminController.class);
 
@@ -100,12 +106,31 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/menu/criarCategoria")
-    public String criarCategoria (Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    public String showCategoria (Model model, CategoriaTO categoriaTO){
 
         logger.info("Menu de criação de categoria");
+        int qtdSubcategorias=0;
 
+        List<Categoria> categoriasPrincipais = categoriaService.buscarCategoriasPrincipais();
 
-        return PAGE_CREATE_CATEGORY + " :: " + FRAGMENT_CREATE_CATEGORY;
+        model.addAttribute("categoriasPrincipais",categoriasPrincipais);
+
+        return "fragments/"+PAGE_CREATE_CATEGORY + " :: " + FRAGMENT_CREATE_CATEGORY;
+    }
+
+    @RequestMapping(value = "/criarCategoriaPrincipal",method = RequestMethod.POST)
+    public String cadastrarCategoria(@Valid CategoriaTO categoriaTO,BindingResult bindingResult,Model model,@AuthenticationPrincipal CustomUserDetails customUserDetails){
+
+        categoriaTO.setPrincipal(true);
+        categoriaService.cadastrarCategoria(categoriaTO);
+
+        model.addAttribute(PAGE_NAME,PAGE_CREATE_CATEGORY);
+        model.addAttribute(PAGE_FRAGMENT,FRAGMENT_CREATE_CATEGORY);
+
+        model.addAttribute(MENU_NAME,PAGE_CREATE_CATEGORY);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENT_CREATE_CATEGORY);
+
+        return "index";
     }
 
     @RequestMapping("/menu/autorizarSolicitacao/{lojaId}")
@@ -126,5 +151,50 @@ public class AdminController {
 
         return "redirect:/admin/menu";
     }
+
+    @RequestMapping(value = "menu/subCategoria", params ={"passoAtual","nextBlock","idCategoriaPai"} )
+    public String mostrarSubCAtegoria(@RequestParam("passoAtual") int passoAtual,
+                                      @RequestParam("nextBlock") int nextBlock,
+                                      @RequestParam("idCategoriaPai") Long idCategoriaPai, Model model){
+
+
+        Categoria categoriaPai = categoriaService.buscarPorId(idCategoriaPai);
+        model.addAttribute("categorias",categoriaPai.getCategorias());
+        model.addAttribute("nextBlock",nextBlock);
+        model.addAttribute("passoAtual",passoAtual);
+
+        return "fragments/"+PAGE_CREATE_CATEGORY +" :: " + RESULT_BLOCK+nextBlock;
+    }
+
+    @RequestMapping(value = "cadastrarCategoriasFilhas", params = {"catPaiId","categoriaNova","blockAtual"})
+    public String cadastrarCategoriasFilhas(@RequestParam("catPaiId") Long catPaiId,
+                                            @RequestParam("categoriaNova") String categoriaNova,
+                                            @RequestParam("blockAtual") int blockAtual,Model model){
+        CategoriaTO categoriaTO = new CategoriaTO();
+
+        categoriaTO.setNome(categoriaNova);
+        categoriaTO.setCategoriaPaiId(String.valueOf(catPaiId));
+        categoriaTO.setPrincipal(false);
+
+        try {
+            Categoria categoria = categoriaService.buscarPorNome(categoriaNova);
+            if (categoria!=null){
+                model.addAttribute("message","Categoria já foi cadastrada");
+                return "fragments/"+PAGE_CREATE_CATEGORY +" :: " + "categoriaModal";
+            }
+            categoriaService.cadastrarCategoria(categoriaTO);
+            Categoria categoriaPai = categoriaService.buscarPorId(catPaiId);
+            model.addAttribute("categorias",categoriaPai.getCategorias());
+
+
+            return "fragments/"+PAGE_CREATE_CATEGORY +" :: " + RESULT_BLOCK+blockAtual;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return "falha";
+
+        }
+    }
+
 
 }

@@ -1,14 +1,200 @@
-<div th:fragment="cadastra-categoria">
+<div th:fragment="cadastrar-categoria">
 
-    <form action="form_action.asp">
-        <select name="cars" multiple>
-            <option value="volvo">Volvo</option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="audi">Audi</option>
-            <option value="audi">Audi</option>
+
+
+        <div class="panel panel-default">
+            <div class="row">
+
+                <div class="col-md-4">
+                    <p>Criar Categoria</p>
+                    <form id="categoriaForm" name="categoriaForm" th:object="${categoriaTO}" th:action="@{/admin/criarCategoriaPrincipal}" method="post">
+                        <input type="text" th:field="*{nome}" required="required" placeholder="Nova categoria" size="20"/>
+                        <button onclick="enviar()" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+                        <br/>
+                        <div th:if="${#fields.hasErrors('nome')}"
+                             class="alert alert-danger form-control input-md" th:errors="*{nome}" role="alert"></div><br/>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+
+                    <form name="categoriaPricipal">
+                        <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
+                            <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(1)"></option>
+                        </select>
+                        <!--<input type="submit" />-->
+                    </form>
+
+                </div>
+
+                <div class="col-md-3">
+                    <div id="resultBlock2">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div id="resultBlock3">
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div id="resultBlock4">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="resultBlock5">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="resultBlock6">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="resultBlock7">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="resultBlock8">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+</div>
+
+<div th:fragment="resultBlock2">
+
+    <form name="block2">
+
+        <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block2" multiple="multiple" size="8" style="width: 90%">
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(2)"></option>
         </select>
-        <input type="submit">
+
     </form>
 
+    <div id="button2" sec:authorize="hasRole('ROLE_ADMIN')">
+        <input id="cat2" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <button onclick="cadastrarCategoriaAtrelada(2)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+    </div>
+
+</div>
+
+<div th:fragment="resultBlock3">
+
+    <form name="block3">
+        <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block3" multiple="multiple" size="8" style="width: 90%">
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(3)"></option>
+        </select>
+    </form>
+
+    <div id="button3" sec:authorize="hasRole('ROLE_ADMIN')">
+            <input id="cat3" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+            <button onclick="cadastrarCategoriaAtrelada(3)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+    </div>
+</div>
+
+<div th:fragment="resultBlock4">
+
+    <form name="block4" >
+        <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block4" multiple="multiple" size="8" style="width: 90%">
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(4)"></option>
+        </select>
+    </form>
+
+    <div id="button4" sec:authorize="hasRole('ROLE_ADMIN')">
+        <input id="cat4" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <button onclick="cadastrarCategoriaAtrelada(4)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+    </div>
+</div>
+
+<div th:fragment="resultBlock5" >
+
+    <form name="block5">
+        <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block5" multiple="multiple" size="8" style="width: 90%">
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(5)"></option>
+        </select>
+    </form>
+
+    <div id="button5" sec:authorize="hasRole('ROLE_ADMIN')">
+        <input id="cat5" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <button onclick="cadastrarCategoriaAtrelada(5)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+    </div>
+</div>
+
+<div th:fragment="resultBlock6">
+
+    <form name="block6">
+        <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block6" multiple="multiple" size="8" style="width: 90%">
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(6)"></option>
+        </select>
+    </form>
+
+    <div id="button6" sec:authorize="hasRole('ROLE_ADMIN')">
+        <input id="cat6" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <button onclick="cadastrarCategoriaAtrelada(6)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+    </div>
+</div>
+
+<div th:fragment="resultBlock7">
+
+    <form name="block7">
+        <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block7" multiple="multiple" size="8" style="width: 90%">
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(7)"></option>
+        </select>
+    </form>
+
+    <div id="button7" sec:authorize="hasRole('ROLE_ADMIN')">
+        <input id="cat7" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <button onclick="cadastrarCategoriaAtrelada(7)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+    </div>
+</div>
+
+<div th:fragment="resultBlock8">
+
+    <form name="block8">
+        <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block8" multiple="multiple" size="8" style="width: 90%">
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(8)"></option>
+        </select>
+    </form>
+
+    <div id="button8" sec:authorize="hasRole('ROLE_ADMIN')">
+        <input id="cat8" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <button onclick="cadastrarCategoriaAtrelada(8)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
+    </div>
+</div>
+
+<div th:fragment="categoriaModal">
+    <div class="modal fade" id="categoriaModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title" id="lineModalLabel">Ooops algo aconteceu</h3>
+                </div>
+                <div class="modal-body">
+
+                    <p th:text="${message}"></p>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group btn-group-justified" role="group" aria-label="group button">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"  role="button">Ok</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script  th:inline="javascript">
+         $('#categoriaModal').modal('show');
+    </script>
 </div>

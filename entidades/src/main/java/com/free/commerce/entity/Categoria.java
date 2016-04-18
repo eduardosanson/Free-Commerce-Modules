@@ -1,5 +1,7 @@
 package com.free.commerce.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,8 +18,12 @@ public class Categoria {
     @Column(unique = true)
     private String nome;
 
-    @OneToMany
-    private List<TipoProduto> tipoProdutos;
+    @ManyToMany(targetEntity = Categoria.class)
+    private List<Categoria> categorias;
+
+    @Type(type = "true_false")
+    @Column(name = "principal")
+    private boolean principal;
 
     public String getNome() {
         return nome;
@@ -35,11 +41,23 @@ public class Categoria {
         this.id = id;
     }
 
-    public List<TipoProduto> getTipoProdutos() {
-        return tipoProdutos;
+    public List<Categoria> getCategorias() {
+        return categorias;
     }
 
-    public void setTipoProdutos(List<TipoProduto> tipoProdutos) {
-        this.tipoProdutos = tipoProdutos;
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public boolean getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
     }
 }
