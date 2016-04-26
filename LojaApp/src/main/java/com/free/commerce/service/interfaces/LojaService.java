@@ -16,4 +16,6 @@ public interface LojaService {
     Loja recuperarPorId(Long id);
 
     Loja buscarLojasPendentesDeAutorizacao();
+
+    Loja recuperarPorIdDeProduto(String id);
 }

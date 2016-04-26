@@ -4,6 +4,7 @@ import com.free.commerce.entity.Foto;
 import com.free.commerce.entity.Loja;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import scala.util.parsing.combinator.testing.Str;
 
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -22,12 +23,22 @@ public class ProdutoTO {
 
     private String descricao;
 
-    @NotBlank
-    private Double preco;
-
     private List<Foto> fotos;
 
     private Foto fotoPrincipal;
+
+    @NotBlank
+    private Double preco;
+
+    private String categoriaId;
+
+    public String getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
+    }
 
     public Foto getFotoPrincipal() {
         return fotoPrincipal;

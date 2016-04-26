@@ -25,9 +25,6 @@ public class Endereco {
     private String cidade;
 
     @Column(nullable = false)
-    private String pais;
-
-    @Column(nullable = false)
     private String numero;
 
     private String complemento;
@@ -71,14 +68,6 @@ public class Endereco {
 
     public void setCidade(String cidade) {
         this.cidade = cidade;
-    }
-
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
     }
 
     public String getNumero() {

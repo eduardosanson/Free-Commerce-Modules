@@ -19,6 +19,16 @@ public class ProdutoTO {
 
     private String descricao;
 
+    private String categoriaId;
+
+    public String getCategoriaId() {
+        return categoriaId;
+    }
+
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
     private MultipartFile fotoPrincipal;
 
     private MultipartFile file;

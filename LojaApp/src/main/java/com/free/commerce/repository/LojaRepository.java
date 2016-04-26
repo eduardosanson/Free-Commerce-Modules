@@ -1,6 +1,7 @@
 package com.free.commerce.repository;
 
 import com.free.commerce.entity.Loja;
+import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,5 +17,9 @@ public interface LojaRepository extends CrudRepository<Loja,Long> {
 
     @Query("select l from Loja l where l.userLogin = :#{#userLogin} ")
     Loja recuperarLojaPeloUserLogin(@Param("userLogin") UserLogin login);
+
+    @Query("select l from Produto p inner join p.loja l  where p = :#{#produto} ")
+    Loja recuperarLojaPeloProduto(@Param("produto")Produto produto);
+
 
 }

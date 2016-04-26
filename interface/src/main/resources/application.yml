@@ -12,6 +12,7 @@ produto:
     cadastrar: ?lojaId=
     buscarProdutoPorId: ?produtoId=
     buscarProdutosPorLoja: /produto?lojaId=%s&page=%s&size=%s
+    buscarPorNomeParecido: ?page=%s&size=%s&produtoNome=%s
 
 
 

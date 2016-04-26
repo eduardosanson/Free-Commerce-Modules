@@ -24,6 +24,16 @@ public class ProdutoCadastroTo {
 
     private List<Foto> fotos;
 
+    private String CategoriaId;
+
+    public String getCategoriaId() {
+        return CategoriaId;
+    }
+
+    public void setCategoriaId(String categoriaId) {
+        CategoriaId = categoriaId;
+    }
+
     public Foto getFotoPrincipal() {
         return fotoPrincipal;
     }

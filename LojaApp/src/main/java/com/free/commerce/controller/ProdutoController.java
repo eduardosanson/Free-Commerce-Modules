@@ -61,11 +61,18 @@ public class ProdutoController {
         Loja loja = lojaService.recuperarPorId(Long.parseLong(lojaId));
         Page<Produto> produtos = produtoService.recuperarProdutoPorLoja(loja,pegarPagina(first,last));
 
-        ProdutoPage produtoPage = new ProdutoPage();
-        produtoPage.setProdutos(produtos.getContent());
-        produtoPage.setTotalElements(produtos.getNumberOfElements());
-        produtoPage.setTotalPages(produtos.getTotalPages());
-        produtoPage.setNumberOfElements(produtos.getNumberOfElements());
+        ProdutoPage produtoPage = criarProdutoPage(produtos);
+
+        return new ResponseEntity<ProdutoPage>(produtoPage ,HttpStatus.OK);
+    }
+
+    @RequestMapping(params = {"page","size","produtoNome"})
+    public ResponseEntity<ProdutoPage> buscarProdutos(@RequestParam("page") String page,
+                                                      @RequestParam("size") String size,
+                                                      @RequestParam("produtoNome") String produtoNome){
+        Page<Produto> produtos = produtoService.buscarProdutosParecidosPorNome(produtoNome,pegarPagina(page,size));
+
+        ProdutoPage produtoPage = criarProdutoPage(produtos);
 
         return new ResponseEntity<ProdutoPage>(produtoPage ,HttpStatus.OK);
     }
@@ -82,6 +89,15 @@ public class ProdutoController {
         }
 
         return new ResponseEntity<Produto>(produto,HttpStatus.OK);
+    }
+
+    private ProdutoPage criarProdutoPage(Page<Produto> produtos) {
+        ProdutoPage produtoPage = new ProdutoPage();
+        produtoPage.setProdutos(produtos.getContent());
+        produtoPage.setTotalElements(produtos.getNumberOfElements());
+        produtoPage.setTotalPages(produtos.getTotalPages());
+        produtoPage.setNumberOfElements(produtos.getNumberOfElements());
+        return produtoPage;
     }
 
     private Pageable pegarPagina(String page,String limite){

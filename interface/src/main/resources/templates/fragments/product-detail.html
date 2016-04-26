@@ -9,9 +9,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="breadcrumb pull-left">
-                                <li><a href="index.html">Home</a></li>
+                                <li><a href="/">Inicio</a></li>
                                 <li><a href="category.html">Category</a></li>
-                                <li>Detail Product</li>
+                                <li>Detalhe do Produto</li>
                             </ul>
                         </div>
                     </div>
@@ -27,6 +27,7 @@
                                         </div>
                                         <div class="post-title">
                                             <h2><p th:text="${produto.nome}"></p></h2>
+                                            <button th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" class="pull-right btn btn-custom">Adicionar ao carrinho  <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                         </div>
                                         <div class="post-meta">
                                             <ul>

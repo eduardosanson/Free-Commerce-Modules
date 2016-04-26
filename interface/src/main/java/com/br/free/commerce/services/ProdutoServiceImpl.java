@@ -92,6 +92,28 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     }
 
+    @Override
+    public ProdutoPage buscarPorNomeParecido(String nome, String pagina, String intemProPagina) {
+        Integer pageIdice = new Integer(pagina)-1;
+        Integer pageSize = new Integer(intemProPagina);
+
+
+        logger.info(produtoControlerApiConfig.buscarProdutosPorNomeParecido(
+                pageIdice.toString(),pageSize.toString(),nome));
+        ProdutoPage produtoPage = null;
+        try {
+
+            produtoPage = restTemplate.getForObject(produtoControlerApiConfig.buscarProdutosPorNomeParecido(
+                            pageIdice.toString(),pageSize.toString(),nome), ProdutoPage.class);
+
+            logger.info(produtoPage);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return produtoPage;
+    }
+
     private ProdutoCadastroTo criarProdutoDeCadastroTo(Loja loja, ProdutoTO produtoTO) {
         String nomePastaFoto = "loja/" + String.valueOf(loja.getId());
 
@@ -100,6 +122,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoCadastroTo.setDescricao(produtoTO.getDescricao());
         produtoCadastroTo.setDescricaoTetcnica(produtoTO.getDescricao());
         produtoCadastroTo.setNome(produtoTO.getNome());
+        produtoCadastroTo.setCategoriaId(produtoTO.getCategoriaId());
 
         if (produtoTO.getFotoPrincipal().isEmpty()) {
             Foto foto = new Foto();

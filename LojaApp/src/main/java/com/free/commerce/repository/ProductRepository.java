@@ -18,4 +18,9 @@ public interface ProductRepository extends CrudRepository<Produto, Long> {
     @Query("select p from Produto p where p.loja = :#{#loja}")
     Page<Produto> buscarProdutoPorLoja(@Param("loja") Loja loja, Pageable pageable);
 
+    @Query("select p from Produto p where p.nome LIKE CONCAT('%',:nome,'%')")
+    Page<Produto> buscarProdutoParecidosPorNome(@Param("nome") String nome, Pageable pageable);
+
+
+
 }

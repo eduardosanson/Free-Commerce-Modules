@@ -13,9 +13,12 @@ import java.util.List;
  */
 public interface CategoriaRepository extends CrudRepository<Categoria,Long> {
 
-    @Query("select c from Categoria c where c.nome = :#{#categoriaNome} ")
-    Categoria buscarPeloNome(@Param("categoriaNome") String categoriaNome);
+    @Query("select c from Categoria c where c.descricao = :#{#categoriaNome} ")
+    List<Categoria> buscarPeloNome(@Param("categoriaNome") String categoriaNome);
 
-    @Query("select c from Categoria c where c.principal = true ")
+    @Query("select c from Categoria c where c.pai = null ")
     List<Categoria> buscarPrincipais();
+
+    @Query("select c from Categoria c where c.pai = :#{#categoria} ")
+    List<Categoria> buscarCategoriasPorPorCategoriaPai(@Param("categoria") Categoria categoria);
 }

@@ -35,6 +35,12 @@ public class Produto {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Foto fotoPrincipal;
 
+    @OneToOne
+    private Categoria categoria;
+
+
+    private boolean novo;
+
     @Override
     public String toString() {
         return "Produto{" +
@@ -49,6 +55,35 @@ public class Produto {
                 ", fotos=" + fotos +
                 ", fotoPrincipal=" + fotoPrincipal +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Produto){
+            Produto p = (Produto) obj;
+
+            if (p.getId()!=null && p.getId()==this.id){
+                return true;
+            }else {
+                return false;
+            }
+
+        }else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.parseInt(String.valueOf(id));
+    }
+
+    public boolean isNovo() {
+        return novo;
+    }
+
+    public void setNovo(boolean novo) {
+        this.novo = novo;
     }
 
     public Foto getFotoPrincipal() {
@@ -129,5 +164,13 @@ public class Produto {
 
     public void setFotos(List<Foto> fotos) {
         this.fotos = fotos;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

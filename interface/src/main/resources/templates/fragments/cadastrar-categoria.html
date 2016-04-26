@@ -8,7 +8,9 @@
                 <div class="col-md-4">
                     <p>Criar Categoria</p>
                     <form id="categoriaForm" name="categoriaForm" th:object="${categoriaTO}" th:action="@{/admin/criarCategoriaPrincipal}" method="post">
-                        <input type="text" th:field="*{nome}" required="required" placeholder="Nova categoria" size="20"/>
+                        <input type="text" th:field="*{nome}" required="required" placeholder="Nova categoria" size="20"  onkeypress="return IsAlphaNumeric(event,1);" ondrop="return false;"
+                               onpaste="return false;"/>
+                        <span id="error1" style="color: Red; display: none">Catecters especiais não são aceitos</span>
                         <button onclick="enviar()" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
                         <br/>
                         <div th:if="${#fields.hasErrors('nome')}"
@@ -22,7 +24,7 @@
 
                     <form name="categoriaPricipal">
                         <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
-                            <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(1)"></option>
+                            <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(1)"></option>
                         </select>
                         <!--<input type="submit" />-->
                     </form>
@@ -74,13 +76,15 @@
     <form name="block2">
 
         <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block2" multiple="multiple" size="8" style="width: 90%">
-            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(2)"></option>
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(2)"></option>
         </select>
 
     </form>
 
     <div id="button2" sec:authorize="hasRole('ROLE_ADMIN')">
-        <input id="cat2" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <input id="cat2" type="text" required="required" placeholder="Categoria Atrelada" size="15" onkeypress="return IsAlphaNumeric(event,2);" ondrop="return false;"
+               onpaste="return false;"/>
+        <span id="error2" style="color: Red; display: none">Catecters especiais não são aceitos</span>
         <button onclick="cadastrarCategoriaAtrelada(2)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
     </div>
 
@@ -90,12 +94,14 @@
 
     <form name="block3">
         <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block3" multiple="multiple" size="8" style="width: 90%">
-            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(3)"></option>
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(3)"></option>
         </select>
     </form>
 
     <div id="button3" sec:authorize="hasRole('ROLE_ADMIN')">
-            <input id="cat3" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+            <input id="cat3" type="text" required="required" placeholder="Categoria Atrelada" size="15" onkeypress="return IsAlphaNumeric(event,3);" ondrop="return false;"
+                   onpaste="return false;" />
+        <span id="error3" style="color: Red; display: none">Catecters especiais não são aceitos</span>
             <button onclick="cadastrarCategoriaAtrelada(3)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
     </div>
 </div>
@@ -104,12 +110,14 @@
 
     <form name="block4" >
         <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block4" multiple="multiple" size="8" style="width: 90%">
-            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(4)"></option>
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(4)"></option>
         </select>
     </form>
 
     <div id="button4" sec:authorize="hasRole('ROLE_ADMIN')">
-        <input id="cat4" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <input id="cat4" type="text" required="required" placeholder="Categoria Atrelada" size="15" onkeypress="return IsAlphaNumeric(event,4);" ondrop="return false;"
+               onpaste="return false;"/>
+        <span id="error4" style="color: Red; display: none">Catecters especiais não são aceitos</span>
         <button onclick="cadastrarCategoriaAtrelada(4)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
     </div>
 </div>
@@ -118,12 +126,14 @@
 
     <form name="block5">
         <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block5" multiple="multiple" size="8" style="width: 90%">
-            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(5)"></option>
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(5)"></option>
         </select>
     </form>
 
     <div id="button5" sec:authorize="hasRole('ROLE_ADMIN')">
-        <input id="cat5" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <input id="cat5" type="text" required="required" placeholder="Categoria Atrelada" size="15" onkeypress="return IsAlphaNumeric(event,5);" ondrop="return false;"
+               onpaste="return false;"/>
+        <span id="error5" style="color: Red; display: none">Catecters especiais não são aceitos</span>
         <button onclick="cadastrarCategoriaAtrelada(5)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
     </div>
 </div>
@@ -132,12 +142,14 @@
 
     <form name="block6">
         <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block6" multiple="multiple" size="8" style="width: 90%">
-            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(6)"></option>
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(6)"></option>
         </select>
     </form>
 
     <div id="button6" sec:authorize="hasRole('ROLE_ADMIN')">
-        <input id="cat6" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <input id="cat6" type="text" required="required" placeholder="Categoria Atrelada" size="15" onkeypress="return IsAlphaNumeric(event,6);" ondrop="return false;"
+               onpaste="return false;"/>
+        <span id="error6" style="color: Red; display: none">Catecters especiais não são aceitos</span>
         <button onclick="cadastrarCategoriaAtrelada(6)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
     </div>
 </div>
@@ -146,12 +158,14 @@
 
     <form name="block7">
         <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block7" multiple="multiple" size="8" style="width: 90%">
-            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(7)"></option>
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(7)"></option>
         </select>
     </form>
 
     <div id="button7" sec:authorize="hasRole('ROLE_ADMIN')">
-        <input id="cat7" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <input id="cat7" type="text" required="required" placeholder="Categoria Atrelada" size="15" onkeypress="return IsAlphaNumeric(event,7);" ondrop="return false;"
+               onpaste="return false;"/>
+        <span id="error7" style="color: Red; display: none">Catecters especiais não são aceitos</span>
         <button onclick="cadastrarCategoriaAtrelada(7)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
     </div>
 </div>
@@ -160,12 +174,14 @@
 
     <form name="block8">
         <select th:if="${categorias!=null and not #lists.isEmpty(categorias)}" name="block8" multiple="multiple" size="8" style="width: 90%">
-            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(8)"></option>
+            <option th:each="categoria  : ${categorias}" th:value="${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(8)"></option>
         </select>
     </form>
 
     <div id="button8" sec:authorize="hasRole('ROLE_ADMIN')">
-        <input id="cat8" type="text" required="required" placeholder="Categoria Atrelada" size="15"/>
+        <input id="cat8" type="text" required="required" placeholder="Categoria Atrelada" size="15" onkeypress="return IsAlphaNumeric(event,8);" ondrop="return false;"
+               onpaste="return false;"/>
+        <span id="error8" style="color: Red; display: none">Catecters especiais não são aceitos</span>
         <button onclick="cadastrarCategoriaAtrelada(8)" class="btn btn-default"><span class="glyphicon glyphicon-floppy-save"></span></button>
     </div>
 </div>

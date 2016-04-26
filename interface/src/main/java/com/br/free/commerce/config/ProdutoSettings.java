@@ -24,6 +24,8 @@ public class ProdutoSettings {
 
     private String buscarProdutosPorLoja;
 
+    private String buscarPorNomeParecido;
+
     @Override
     public String toString() {
         return "ProdutoSettings{" +
@@ -33,7 +35,16 @@ public class ProdutoSettings {
                 ", cadastrar='" + cadastrar + '\'' +
                 ", buscarProdutoPorId='" + buscarProdutoPorId + '\'' +
                 ", buscarProdutosPorLoja='" + buscarProdutosPorLoja + '\'' +
+                ", buscarPorNomeParecido='" + buscarPorNomeParecido + '\'' +
                 '}';
+    }
+
+    public String getBuscarPorNomeParecido() {
+        return buscarPorNomeParecido;
+    }
+
+    public void setBuscarPorNomeParecido(String buscarPorNomeParecido) {
+        this.buscarPorNomeParecido = buscarPorNomeParecido;
     }
 
     public String getService() {
@@ -94,6 +105,10 @@ public class ProdutoSettings {
 
     public String buscarProdutosPorLojaPaginandoOReTornoUrl(String lojaId,String pagina,String qtdItemPorPagina){
         return String.format(getUrlCompleta()+buscarProdutosPorLoja,lojaId,pagina,qtdItemPorPagina);
+    }
+
+    public String buscarProdutosPorNomeParecido(String pagina,String qtdItemPorPagina,String nome){
+        return String.format(getUrlCompleta()+buscarPorNomeParecido, pagina,qtdItemPorPagina,nome);
     }
 
     public String cadastrarProduto(String lojaId){

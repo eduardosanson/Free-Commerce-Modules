@@ -1,10 +1,12 @@
 package com.free.commerce.service;
 
+import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.repository.FotoRepository;
 import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.repository.ProductRepository;
+import com.free.commerce.service.interfaces.CategoriaService;
 import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.ProdutoTO;
 import org.apache.log4j.Logger;
@@ -30,6 +32,9 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Autowired
     private FotoRepository fotoRepository;
 
+    @Autowired
+    private CategoriaService categoriaService;
+
     private static Logger logger = Logger.getLogger(ProdutoServiceImpl.class);
 
     @Override
@@ -50,6 +55,10 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         try{
             logger.info("iniciando persistencia de porduto: Produto: " + produto);
+            Categoria categoria = associarCategoria(produtoTO);
+
+            produto.setCategoria(categoria);
+
             Produto p = repository.save(produto);
 
             logger.info("produto persistido com sucesso " + produto.getId());
@@ -62,6 +71,18 @@ public class ProdutoServiceImpl implements ProdutoService {
             return null;
         }
 
+    }
+
+    private Categoria associarCategoria(ProdutoTO produtoTO) {
+
+        Categoria categoria = new Categoria();
+
+        if (produtoTO.getCategoriaId()!=null && produtoTO.getCategoriaId()!=""){
+            categoria = categoriaService.buscarPorId(Long.parseLong(produtoTO.getCategoriaId()));
+            return categoria;
+        }else {
+            return null;
+        }
     }
 
     @Override
@@ -78,6 +99,13 @@ public class ProdutoServiceImpl implements ProdutoService {
 
             return produto;
         }
+    }
+
+    @Override
+    public Page<Produto> buscarProdutosParecidosPorNome(String nome,Pageable pageable) {
+        Page<Produto> produtos = repository.buscarProdutoParecidosPorNome(nome,pageable);
+
+        return produtos;
     }
 
     private Produto criarProduto(ProdutoTO produtoTO) {

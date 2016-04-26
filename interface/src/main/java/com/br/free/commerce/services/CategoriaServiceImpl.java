@@ -109,4 +109,25 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         return categoria;
     }
+
+    @Override
+    public Categoria buscarPaiPeloFilho(String id) {
+        String url = " http://localhost:8089/v1/categoria?filho=" + id;
+
+        Categoria categoria = null;
+
+        logger.info("Buscando categorias principais para a url: " + url );
+
+        try{
+
+            categoria = restTemplate.getForObject(url, Categoria.class);
+
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return null;
+        }
+
+        return categoria;
+
+    }
 }

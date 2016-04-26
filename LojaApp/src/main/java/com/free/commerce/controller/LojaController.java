@@ -1,6 +1,7 @@
 package com.free.commerce.controller;
 
 import com.free.commerce.entity.Loja;
+import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.service.interfaces.AutorizacaoService;
 import com.free.commerce.service.interfaces.LoginService;
@@ -8,6 +9,7 @@ import com.free.commerce.service.interfaces.LojaService;
 import com.free.commerce.to.StoreForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -87,6 +89,32 @@ public class LojaController extends WebMvcConfigurerAdapter {
         }
 
         return new ResponseEntity<List<Loja>>(lojas,HttpStatus.FOUND);
+
+    }
+
+    @RequestMapping(params = {"produtoId"})
+    public ResponseEntity<Loja> buscarPorProduto(@RequestParam("produtoId") String produtoId){
+        Loja loja = null;
+
+        try {
+
+            if (produtoId==null || produtoId==""){
+                return new ResponseEntity<Loja>(HttpStatus.BAD_REQUEST);
+            }
+
+            loja = lojaService.recuperarPorIdDeProduto(produtoId);
+
+            if (loja==null){
+                return new ResponseEntity<Loja>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<Loja>(loja,HttpStatus.FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return new ResponseEntity<Loja>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 

@@ -1,8 +1,11 @@
 package com.free.commerce.entity;
 
-import org.hibernate.annotations.Type;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import java.util.List;
 
 /**
@@ -15,22 +18,27 @@ public class Categoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String nome;
+    @Column
+    @OrderBy(clause = "descricao desc")
+    private String descricao;
 
-    @ManyToMany(targetEntity = Categoria.class)
-    private List<Categoria> categorias;
+    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoria_pai",updatable = false)
+    @OrderBy(clause = "descricao asc")
+    private List<Categoria> filhos;
 
-    @Type(type = "true_false")
-    @Column(name = "principal")
-    private boolean principal;
+    @ManyToOne
+    @JoinColumn(name = "categoria_pai",nullable = true)
+    @org.hibernate.annotations.ForeignKey(name = "fk_categoria_categoria")
+    @JsonIgnore
+    private Categoria pai;
 
-    public String getNome() {
-        return nome;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Long getId() {
@@ -41,23 +49,19 @@ public class Categoria {
         this.id = id;
     }
 
-    public List<Categoria> getCategorias() {
-        return categorias;
+    public List<Categoria> getFilhos() {
+        return filhos;
     }
 
-    public void setCategorias(List<Categoria> categorias) {
-        this.categorias = categorias;
+    public void setFilhos(List<Categoria> filhos) {
+        this.filhos = filhos;
     }
 
-    public boolean isPrincipal() {
-        return principal;
+    public Categoria getPai() {
+        return pai;
     }
 
-    public boolean getPrincipal() {
-        return principal;
-    }
-
-    public void setPrincipal(boolean principal) {
-        this.principal = principal;
+    public void setPai(Categoria pai) {
+        this.pai = pai;
     }
 }

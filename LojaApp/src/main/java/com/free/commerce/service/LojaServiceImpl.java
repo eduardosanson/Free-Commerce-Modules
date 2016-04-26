@@ -3,6 +3,7 @@ package com.free.commerce.service;
 import com.free.commerce.entity.Endereco;
 import com.free.commerce.entity.Enums.Role;
 import com.free.commerce.entity.Loja;
+import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.EnderecoRepository;
 import com.free.commerce.repository.LojaRepository;
@@ -33,7 +34,12 @@ public class LojaServiceImpl implements LojaService {
     private LojaRepository repository;
 
     @Autowired
+    private ProdutoService produtoService;
+
+    @Autowired
     private AutorizacaoService autorizacaoService;
+
+
 
     private static final Logger logger = Logger.getLogger(LojaServiceImpl.class);
 
@@ -80,6 +86,25 @@ public class LojaServiceImpl implements LojaService {
         return null;
     }
 
+    @Override
+    public Loja recuperarPorIdDeProduto(String id) {
+        Produto produto = null;
+        Loja loja = null;
+
+        try{
+
+            produto = produtoService.buscarPorId(Long.parseLong(id));
+            if (produto!=null){
+
+                loja = repository.recuperarLojaPeloProduto(produto);
+            }
+        }catch (Exception e){
+            logger.warn(e.getMessage());
+        }
+
+        return loja;
+    }
+
     private UserLogin criarLogin(StoreForm storeForm) {
         UserLogin login = new UserLogin();
         login.setLogin(storeForm.getEmail());
@@ -105,7 +130,6 @@ public class LojaServiceImpl implements LojaService {
         endereco.setCidade(storeForm.getCidade());
         endereco.setComplemento(storeForm.getComplemento());
         endereco.setNome(storeForm.getNomeDaRua());
-        endereco.setPais(storeForm.getPais());
         endereco.setNumero(storeForm.getNumero());
         return endereco;
     }

@@ -4,24 +4,13 @@ import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.AutorizacaoLojaService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
-import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.to.CategoriaTO;
-import com.br.free.commerce.to.ProdutoPage;
-import com.br.free.commerce.to.ProdutoTO;
-import com.br.free.commerce.to.StoreForm;
-import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Loja;
-import com.free.commerce.entity.Produto;
-import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -159,7 +145,7 @@ public class AdminController {
 
 
         Categoria categoriaPai = categoriaService.buscarPorId(idCategoriaPai);
-        model.addAttribute("categorias",categoriaPai.getCategorias());
+        model.addAttribute("categorias",categoriaPai.getFilhos());
         model.addAttribute("nextBlock",nextBlock);
         model.addAttribute("passoAtual",passoAtual);
 
@@ -184,7 +170,7 @@ public class AdminController {
             }
             categoriaService.cadastrarCategoria(categoriaTO);
             Categoria categoriaPai = categoriaService.buscarPorId(catPaiId);
-            model.addAttribute("categorias",categoriaPai.getCategorias());
+            model.addAttribute("categorias",categoriaPai.getFilhos());
 
 
             return "fragments/"+PAGE_CREATE_CATEGORY +" :: " + RESULT_BLOCK+blockAtual;

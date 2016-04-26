@@ -106,12 +106,11 @@ public class CategoriaController {
             return new ResponseEntity<Categoria>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @RequestMapping(params = {"nome"})
-    public ResponseEntity<Categoria> buscarPeloNome(@PathParam("nome") String nome){
+    @RequestMapping(params = {"filho"})
+    public ResponseEntity<Categoria> buscarCategoriaPorIdDaCategoriaFilha(@RequestParam("filho") Long id){
         Categoria categoria =null;
         try {
-            categoria = categoriaService.buscarPorNome(nome);
+            categoria = categoriaService.buscarCategoriaPorId(id).getPai();
             if (categoria==null){
                 return new ResponseEntity<Categoria>(HttpStatus.NOT_FOUND);
             }else {
@@ -121,6 +120,23 @@ public class CategoriaController {
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<Categoria>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(params = {"nome"})
+    public ResponseEntity<List<Categoria>> buscarPeloNome(@PathParam("nome") String nome){
+        List<Categoria> categorias =null;
+        try {
+            categorias = categoriaService.buscarPorNome(nome);
+            if (categorias==null || categorias.isEmpty()){
+                return new ResponseEntity<List<Categoria>>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<List<Categoria>>(categorias,HttpStatus.FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<List<Categoria>>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

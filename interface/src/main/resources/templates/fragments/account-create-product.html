@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      lang="en">
-<head></head>
-<body>
+
+
     <div th:fragment="account-create-product">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -12,6 +7,7 @@
             </div>
 
             <form id="categoriaPricipal" accept-charset="utf-8" method="post" enctype="multipart/form-data" th:action="@{/produto}" th:object="${produtoTO}" class="form-horizontal">
+                <input id="categoriaProduto" type="hidden" th:field="*{categoriaId}"/>
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Name</label>
@@ -62,12 +58,10 @@
                     </div>
                     <div class="col-md-3">
 
-                        <form name="categoriaPricipal">
                             <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
-                                <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.nome}" onclick="subCategoria(1)"></option>
+                                <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(1)"></option>
                             </select>
-                            <!--<input type="submit" />-->
-                        </form>
+
 
                     </div>
 
@@ -105,8 +99,9 @@
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col-sm-offset-3 col-sm-9">
-                            <button type="submit" class="btn btn-custom"><i class="fa fa-save"></i> Publish</button>
-                            <button type="submit" class="btn btn-default"><i class="fa fa-close"></i> Cancel</button>
+                            <button type="button" class="btn btn-custom" onclick="enviarFomularioDeProduto()"><i class="fa fa-save"></i> Publish</button>
+                            <!--<button type="submit" class="btn btn-custom"><i class="fa fa-save"></i> Publish</button>-->
+                            <button type="button" class="btn btn-default"><i class="fa fa-close"></i> Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -115,7 +110,7 @@
         </div>
     </div>
 
-</body>
+
     <script type="text/javascript">
                     (function($){
                           var $form = $('#categoriaPricipal');
@@ -140,4 +135,3 @@
                         }(jQuery));     
         
     </script>
-</html>

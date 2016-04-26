@@ -28,9 +28,16 @@ public class CategoriaServiceImpl implements CategoriaService{
     public Categoria cadastrarCategoria(CategoriaTO categoriaTO) throws RegraDeNegocioException {
         Categoria categoria = criarCategoria(categoriaTO);
 
+        List<Categoria> categoriasCatastradas = categoriaRepository.buscarPeloNome(categoria.getDescricao());
 
-        if (categoriaRepository.buscarPeloNome(categoria.getNome())!=null){
-            throw new RegraDeNegocioException(RegraDeNegocioEnum.VALOR_JA_CADASTRADO);
+
+        for (Categoria categoriaCatastrada:categoriasCatastradas) {
+
+            if (categoriaCatastrada!=null && categoriaCatastrada.getPai()!=null && categoriaCatastrada.getPai().getId()==Long.parseLong(categoriaTO.getCategoriaPaiId())){
+                throw new RegraDeNegocioException(RegraDeNegocioEnum.VALOR_JA_CADASTRADO);
+            }else if (categoriaCatastrada.getPai()==null){
+                throw new RegraDeNegocioException(RegraDeNegocioEnum.VALOR_JA_CADASTRADO);
+            }
         }
 
         categoria = categoriaRepository.save(categoria);
@@ -42,21 +49,20 @@ public class CategoriaServiceImpl implements CategoriaService{
 
     private void associarCategoriaPai(CategoriaTO categoriaTO,Categoria categoria) {
         Categoria categoriaPai =null;
-        List<Categoria> categorias = new ArrayList<>();
 
         if (categoriaTO.getCategoriaPaiId()!=null && categoriaTO.getCategoriaPaiId()!=""
                 &&!categoriaTO.getCategoriaPaiId().isEmpty()){
             categoriaPai = categoriaRepository.findOne(Long.parseLong(categoriaTO.getCategoriaPaiId()));
-            categoriaPai.getCategorias().add(categoria);
-            categoriaRepository.save(categoriaPai);
+            categoriaPai.getFilhos().add(categoria);
+            categoria.setPai(categoriaRepository.save(categoriaPai));
+            categoriaRepository.save(categoria);
 
         }
     }
 
     private Categoria criarCategoria(CategoriaTO categoriaTO) {
         Categoria categoria = new Categoria();
-        categoria.setNome(categoriaTO.getNome());
-        categoria.setPrincipal(categoriaTO.isPrincipal());
+        categoria.setDescricao(categoriaTO.getNome());
 
         return categoria;
     }
@@ -82,8 +88,8 @@ public class CategoriaServiceImpl implements CategoriaService{
     }
 
     @Override
-    public Categoria buscarPorNome(String nome) {
-        Categoria categoria=null;
+    public List<Categoria> buscarPorNome(String nome) {
+        List<Categoria> categoria=null;
 
         categoria = categoriaRepository.buscarPeloNome(nome);
 

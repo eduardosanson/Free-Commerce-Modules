@@ -15,4 +15,6 @@ public interface ProdutoService {
     ProdutoPage recuperarProdutosDeLoja(Loja loja,String pagina,String itemPorPagina);
 
     Produto buscarProdutoPorId(String id);
+
+    ProdutoPage buscarPorNomeParecido(String nome,String pagina ,String intemProPagina);
 }

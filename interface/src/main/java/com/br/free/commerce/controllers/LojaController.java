@@ -170,6 +170,7 @@ public class LojaController {
         return "fragments/"+PAGE_PRODUCT + " :: " + FRAGMENT_PRODUCT;
     }
 
+
     private Page criarPagina(String pagina, ProdutoPage produtos) {
         Page page = new Page();
         page.setQtdElementosPorPagina(produtos.getNumberOfElements());

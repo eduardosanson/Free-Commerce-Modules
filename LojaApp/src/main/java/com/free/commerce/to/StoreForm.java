@@ -61,8 +61,7 @@ public class StoreForm {
     @NotBlank
     private  String cidade;
 
-    @NotBlank
-    private String pais;
+
 
     @Override
     public String toString() {
@@ -81,7 +80,6 @@ public class StoreForm {
                 ", complemento='" + complemento + '\'' +
                 ", uf='" + uf + '\'' +
                 ", cidade='" + cidade + '\'' +
-                ", pais='" + pais + '\'' +
                 '}';
     }
 
@@ -197,11 +195,4 @@ public class StoreForm {
         this.cidade = cidade;
     }
 
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
 }

@@ -21,5 +21,7 @@ public interface ProdutoService {
 
     Produto buscarPorId(Long id);
 
+    Page<Produto> buscarProdutosParecidosPorNome(String nome,Pageable pageable);
+
 
 }

@@ -62,7 +62,6 @@ public class CadastroAppApplication {
             endereco.setCep("20780190");
             endereco.setCidade("Rio de Janeiro");
             endereco.setNumero("150");
-            endereco.setPais("Brasil");
 
             login.setLogin("eduardo@gmail.com");
             login.setSenha("123");
