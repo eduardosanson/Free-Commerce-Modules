@@ -2,6 +2,7 @@ package com.br.free.commerce.controllers;
 
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.services.Interface.CarrinhoService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.to.BuscarProdutoTO;
@@ -17,11 +18,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,10 @@ public class ProdutoController {
     private CategoriaService categoriaService;
 
     @Autowired
-    private Carrinho carrinho;
+    public Carrinho carrinho;
+
+    @Autowired
+    private CarrinhoService carrinhoService;
 
     @RequestMapping(method = RequestMethod.POST)
     public String cadastrarProduto(@Valid ProdutoTO produtoTO, BindingResult bindingResult,
@@ -76,7 +79,7 @@ public class ProdutoController {
         Produto produto = produtoService.buscarProdutoPorId(id);
 
         model.addAttribute("produto",produto);
-        model.addAttribute("carrinho",carrinho);
+//        model.addAttribute("carrinho",carrinho);
 
         return INDEX;
     }
@@ -148,13 +151,24 @@ public class ProdutoController {
     @RequestMapping(value = "/addAoCarrrinho",params = {"produtoId","quantidade"})
     public String addProduto(@RequestParam("produtoId") String produtoId,
                              @RequestParam("quantidade") String quantidade,
-                             Model model){
+                             Model model, HttpServletRequest request){
         Produto produto = produtoService.buscarProdutoPorId(produtoId);
+        String cookieId="";
 
         carrinho.addProduto(produto,Integer.parseInt(quantidade));
 
 
-        model.addAttribute("carrinho",carrinho);
+        Cookie[] cookies = request.getCookies();
+
+        for (Cookie cookie: cookies) {
+
+            if ("JSESSIONID".equalsIgnoreCase(cookie.getName())){
+                cookieId = cookie.getValue();
+            }
+
+        }
+
+        carrinhoService.SalvarCarrinhoDeComprasDosProdutos(cookieId,produto.getId(),Integer.parseInt(quantidade));
 
         return "fragments/"+ CARRINHO_HEADER_PAGE + " :: " + CARRINHO_HEADER_PFRAGMENT;
     }

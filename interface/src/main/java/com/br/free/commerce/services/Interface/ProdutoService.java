@@ -2,8 +2,11 @@ package com.br.free.commerce.services.Interface;
 
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
+import com.free.commerce.entity.CarrinhoDeCompras;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
+
+import java.util.List;
 
 /**
  * Created by pc on 21/03/2016.
@@ -17,4 +20,6 @@ public interface ProdutoService {
     Produto buscarProdutoPorId(String id);
 
     ProdutoPage buscarPorNomeParecido(String nome,String pagina ,String intemProPagina);
+
+
 }

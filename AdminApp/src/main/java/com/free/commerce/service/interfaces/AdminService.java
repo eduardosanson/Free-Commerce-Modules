@@ -1,6 +1,6 @@
 package com.free.commerce.service.interfaces;
 
-import com.free.commerce.entity.Enums.Administrador;
+import com.free.commerce.entity.Administrador;
 import com.free.commerce.to.AdministradorTO;
 
 /**

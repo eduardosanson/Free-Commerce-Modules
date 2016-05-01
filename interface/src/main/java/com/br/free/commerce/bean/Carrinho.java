@@ -1,5 +1,6 @@
 package com.br.free.commerce.bean;
 
+import com.br.free.commerce.services.Interface.ProdutoService;
 import com.free.commerce.entity.Produto;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -19,6 +20,8 @@ public class Carrinho {
 
     private Map<Produto,Integer> conteudo = new HashMap<Produto,Integer>();
 
+    private ProdutoService produtoService;
+
     public void addProduto(Produto produto,Integer quantidade){
         if(conteudo.containsKey(produto)){
             conteudo.put(produto,conteudo.get(produto)+quantidade);
@@ -26,6 +29,7 @@ public class Carrinho {
         }else {
             conteudo.put(produto,quantidade);
         }
+
     }
 
     public Set<Produto> getProdutos(){

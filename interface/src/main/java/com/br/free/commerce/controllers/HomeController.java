@@ -20,15 +20,10 @@ public class HomeController {
     private static final String PAGE_FRAGMENT="home";
     private static final String HOME_URL="/";
 
-    @Autowired
-    private Carrinho carrinho;
-
-
     @RequestMapping(value = HOME_URL, method = RequestMethod.GET)
     public String showHome(Model model, BuscarProdutoTO buscarProdutoTO){
         model.addAttribute("pageName", PAGE_NAME);
         model.addAttribute("pageFragment", PAGE_FRAGMENT);
-        model.addAttribute("carrinho",carrinho);
 
         return "index";
     }

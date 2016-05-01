@@ -15,16 +15,12 @@ public class Endereco {
     @Column(nullable = false)
     private String cep;
 
-    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
     private String bairro;
 
-    @Column(nullable = false)
     private String cidade;
 
-    @Column(nullable = false)
     private String numero;
 
     private String complemento;

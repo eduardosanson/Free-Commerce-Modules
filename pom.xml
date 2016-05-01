@@ -14,6 +14,7 @@
         <module>LojaApp</module>
         <module>interface</module>
 		<module>AdminApp</module>
+        <module>ClienteApp</module>
     </modules>
 
 

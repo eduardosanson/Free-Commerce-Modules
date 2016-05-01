@@ -53,52 +53,58 @@ public class CadastroAppApplication {
         return (args) -> {
             // save a couple of customers
 
-            Loja loja = new Loja();
-            UserLogin login = new UserLogin();
-            Endereco endereco = new Endereco();
+            try{
+                Loja loja = new Loja();
+                UserLogin login = new UserLogin();
+                Endereco endereco = new Endereco();
 
-            endereco.setNome("Rua Capitão Resende");
-            endereco.setBairro("Cachambi");
-            endereco.setCep("20780190");
-            endereco.setCidade("Rio de Janeiro");
-            endereco.setNumero("150");
+                endereco.setNome("Rua Capitão Resende");
+                endereco.setBairro("Cachambi");
+                endereco.setCep("20780190");
+                endereco.setCidade("Rio de Janeiro");
+                endereco.setNumero("150");
 
-            login.setLogin("eduardo@gmail.com");
-            login.setSenha("123");
-            login.setPermissao(Role.STORE);
+                login.setLogin("eduardo@gmail.com");
+                login.setSenha("123");
+                login.setPermissao(Role.STORE);
 
-            loja.setCnpjOuCpf("10468330739");
-            loja.setEmail("eduardo@gmail.com");
-            loja.setEndereco(endereco);
-            loja.setNome("OAS");
-            loja.setNomeEmpresa("Grupo Empreiteira LTDA");
-            loja.setTelefone("219855531620");
-            loja.setUserLogin(login);
+                loja.setCnpjOuCpf("10468330739");
+                loja.setEmail("eduardo@gmail.com");
+                loja.setEndereco(endereco);
+                loja.setNome("OAS");
+                loja.setNomeEmpresa("Grupo Empreiteira LTDA");
+                loja.setTelefone("219855531620");
+                loja.setUserLogin(login);
 
-            Loja loja1 = repository.save(loja);
+                Loja loja1 = repository.save(loja);
 
-            autorizacaoService.solicitarAutorizacao(String.valueOf(loja1.getId()));
+                autorizacaoService.solicitarAutorizacao(String.valueOf(loja1.getId()));
 
 
-            // fetch all customers
-            log.info("Customers found with findAll():");
-            log.info("-------------------------------");
-            for (Loja customer : repository.findAll()) {
+                // fetch all customers
+                log.info("Customers found with findAll():");
+                log.info("-------------------------------");
+                for (Loja customer : repository.findAll()) {
+                    log.info(customer.toString());
+                }
+                log.info("");
+
+                // fetch an individual customer by ID
+                Loja customer = repository.findOne(1L);
+                log.info("Customer found with findOne(1L):");
+                log.info("--------------------------------");
                 log.info(customer.toString());
+                log.info("");
+
+                // fetch customers by last name
+                log.info("--------------------------------------------");
+
+                log.info("");
+
+            }catch (Exception e){
+
             }
-            log.info("");
 
-            // fetch an individual customer by ID
-            Loja customer = repository.findOne(1L);
-            log.info("Customer found with findOne(1L):");
-            log.info("--------------------------------");
-            log.info(customer.toString());
-            log.info("");
-
-            // fetch customers by last name
-            log.info("--------------------------------------------");
-
-            log.info("");
         };
     }
 }

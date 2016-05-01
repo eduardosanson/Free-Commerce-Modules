@@ -1,6 +1,6 @@
 package com.free.commerce.to;
 
-import com.free.commerce.entity.Enums.Administrador;
+import com.free.commerce.entity.Administrador;
 
 /**
  * Created by pc on 11/04/2016.

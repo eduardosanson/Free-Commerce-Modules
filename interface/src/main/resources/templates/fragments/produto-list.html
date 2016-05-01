@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-sm-12">
             <!--{highlight-ads} -> os mais vendidos fica amarelo-->
-            <div  th:if="${#lists.isEmpty(produtoPage.produtos)}">
+            <div  th:if="${#lists.isEmpty(produtoPage.produto)}">
                 <p> Nenhum Resultado encontrado</p>
             </div>
-            <div class="item-ads" th:each="produto : ${produtoPage.produtos}">
+            <div class="item-ads" th:each="produto : ${produtoPage.produto}">
 
                 <div class="row">
 

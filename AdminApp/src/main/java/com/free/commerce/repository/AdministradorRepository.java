@@ -1,6 +1,6 @@
 package com.free.commerce.repository;
 
-import com.free.commerce.entity.Enums.Administrador;
+import com.free.commerce.entity.Administrador;
 import org.springframework.data.repository.CrudRepository;
 
 /**

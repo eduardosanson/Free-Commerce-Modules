@@ -1,0 +1,173 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--Jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+    integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body id="main_body" >
+
+
+
+	<div class="container">
+
+		<h1><a>Untitled Form</a></h1>
+
+
+		<form action="#" th:action="@{/}" th:object="${cadastroForm}" method="post">
+            <fieldset>
+            <div class="form-group">
+                    <div class="col-md-4">
+                        <div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Error</div>
+                        <input th:field="*{nome}" name="textinput"
+                               type="text" placeholder="telefone" class="form-control input-md"/>
+
+                    </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <div th:if="${#fields.hasErrors('sobreNome')}" th:errors="*{sobreNome}">Error</div>
+                    <input th:field="*{sobreNome}" name="textinput"
+                           type="text" placeholder="telefone" class="form-control input-md"/>
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <div class="col-md-4">
+                    <div th:if="${#fields.hasErrors('cpfOuCnpj')}" th:errors="*{cpfOuCnpj}">Error</div>
+                    <input th:field="*{cpfOuCnpj}" name="textinput"
+                           type="text" placeholder="telefone" class="form-control input-md"/>
+
+                </div>
+            </div>
+						<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+                        <div th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}">Error</div>
+						<input th:field="*{telefone}" name="textinput"
+                               type="text" placeholder="telefone" class="form-control input-md"/>
+
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+                        <div th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}">Error</div>
+						<input name="cep" th:field="*{cep}" type="text"
+                               placeholder="CEP" class="form-control"/>
+
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('rua')}" th:errors="*{rua}">Error</div>
+						<input name="rua" th:field="*{rua}" type="text"
+							   placeholder="Rua" class="form-control input-md" />
+
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('bairro')}" th:errors="*{bairro}">Error</div>
+						<input th:field="*{bairro}" name="bairro" type="text"
+							   placeholder="Bairro" class="form-control input-md"/>
+
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}">Error</div>
+						<input th:field="*{cidade}" name="cidade" type="text"
+							   placeholder="Cidade" class="form-control input-md" />
+
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}">Error</div>
+						<input name="pais" th:field="*{pais}" type="text"
+							   placeholder="Pais" class="form-control input-md" />
+
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('numero')}" th:errors="*{numero}">Error</div>
+						<input th:field="*{numero}" name="numero" type="text"
+							   placeholder="Número" class="form-control input-md"/>
+
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('complemento')}" th:errors="*{complemento}">Error</div>
+						<input th:field="*{complemento}" name="complemento" type="text"
+							   placeholder="Complemento" class="form-control input-md"/>
+
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Error</div>
+						<input name="login" th:field="*{login}" type="text"
+							   placeholder="Login" class="form-control input-md" />
+
+					</div>
+				</div>
+
+				<!-- Password input-->
+				<div class="form-group">
+					<div class="col-md-4">
+						<div th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}">Error</div>
+						<input th:field="*{senha}" type="password"
+							   placeholder="Senha" class="form-control input-md"/>
+
+					</div>
+				</div>
+
+				<!-- Button (Double) -->
+				<div class="form-group">
+					<div class="col-md-8">
+						<input type="reset" class="btn btn-danger"/>
+                        <input type="submit" class="btn btn-success"/>
+                    </div>
+				</div>
+
+			</fieldset>
+		</form>
+
+	</div>
+
+	</body>
+</html>

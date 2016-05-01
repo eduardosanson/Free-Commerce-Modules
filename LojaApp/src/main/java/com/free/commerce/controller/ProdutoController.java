@@ -1,9 +1,12 @@
 package com.free.commerce.controller;
 
+import com.free.commerce.entity.CarrinhoDeCompras;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
+import com.free.commerce.service.interfaces.CarrinhoService;
 import com.free.commerce.service.interfaces.LojaService;
 import com.free.commerce.service.interfaces.ProdutoService;
+import com.free.commerce.to.CarrinhoDeComprasTO;
 import com.free.commerce.to.ProdutoPage;
 import com.free.commerce.to.ProdutoTO;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -32,6 +35,9 @@ public class ProdutoController {
 
     @Autowired
     private LojaService lojaService;
+
+    @Autowired
+    private CarrinhoService carrinhoService;
 
     @RequestMapping(params = "lojaId", method = RequestMethod.POST)
     @ApiOperation(httpMethod = "POST", value = "Say Hello To World using Swagger")
@@ -103,4 +109,6 @@ public class ProdutoController {
     private Pageable pegarPagina(String page,String limite){
         return new PageRequest(Integer.parseInt(page),Integer.parseInt(limite));
     }
+
+
 }

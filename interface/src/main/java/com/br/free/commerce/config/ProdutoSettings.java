@@ -26,6 +26,11 @@ public class ProdutoSettings {
 
     private String buscarPorNomeParecido;
 
+    private String salvarCarrinhoDeCompras;
+
+    private String buscarCarrinhoDeCompras;
+
+
     @Override
     public String toString() {
         return "ProdutoSettings{" +
@@ -36,7 +41,25 @@ public class ProdutoSettings {
                 ", buscarProdutoPorId='" + buscarProdutoPorId + '\'' +
                 ", buscarProdutosPorLoja='" + buscarProdutosPorLoja + '\'' +
                 ", buscarPorNomeParecido='" + buscarPorNomeParecido + '\'' +
+                ", salvarCarrinhoDeCompras='" + salvarCarrinhoDeCompras + '\'' +
+                ", buscarCarrinhoDeCompras='" + buscarCarrinhoDeCompras + '\'' +
                 '}';
+    }
+
+    public String getSalvarCarrinhoDeCompras() {
+        return salvarCarrinhoDeCompras;
+    }
+
+    public void setSalvarCarrinhoDeCompras(String salvarCarrinhoDeCompras) {
+        this.salvarCarrinhoDeCompras = salvarCarrinhoDeCompras;
+    }
+
+    public String getBuscarCarrinhoDeCompras() {
+        return buscarCarrinhoDeCompras;
+    }
+
+    public void setBuscarCarrinhoDeCompras(String buscarCarrinhoDeCompras) {
+        this.buscarCarrinhoDeCompras = buscarCarrinhoDeCompras;
     }
 
     public String getBuscarPorNomeParecido() {
@@ -113,6 +136,14 @@ public class ProdutoSettings {
 
     public String cadastrarProduto(String lojaId){
         return getUrlCompleta()+cadastrar + lojaId;
+    }
+
+    public String salvarCarrinhoDeCompras(){
+        return getUrlCompleta() + salvarCarrinhoDeCompras;
+    }
+
+    public String buscarCarrinhoDeCompras(String cookieId){
+        return String.format(getUrlCompleta() + buscarCarrinhoDeCompras,cookieId);
     }
 
 

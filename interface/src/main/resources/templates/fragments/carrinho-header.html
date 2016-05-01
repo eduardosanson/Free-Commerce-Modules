@@ -5,7 +5,7 @@
         <li  th:each="produtoMap : ${carrinho.getConteudo()}">
                       <span class="item">
                         <span class="item-left">
-                            <img th:src="'/' + ${produtoMap.key.fotoPrincipal.path}" alt="" width="40%"/>
+                            <img th:src="'/' + ${produtoMap.key.fotoPrincipal.path}" alt="" class="thumb-img img-responsive"/>
                             <span class="item-info">
                                 <span th:text="${produtoMap.key.nome}"></span>
                                 <span th:text=" 'R$ ' + ${produtoMap.key.preco}"></span>
@@ -19,6 +19,6 @@
         </li>
 
         <li class="divider"></li>
-        <li><a class="text-center" href="">View Cart</a></li>
+        <li><a class="text-center" href="/carrinho">View Cart</a></li>
     </ul>
 </li>

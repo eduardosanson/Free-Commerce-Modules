@@ -1,4 +1,4 @@
-package com.free.commerce.entity.Enums;
+package com.free.commerce.entity;
 
 import javax.persistence.*;
 

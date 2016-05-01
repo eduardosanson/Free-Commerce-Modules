@@ -15,4 +15,12 @@ produto:
     buscarPorNomeParecido: ?page=%s&size=%s&produtoNome=%s
 
 
+carrinho:
+    service: http://localhost:8090
+    version: /v1
+    context: /carrinho
+    buscarCarrinhoDeCompras: ?cookieId=%s
+
+
+
 

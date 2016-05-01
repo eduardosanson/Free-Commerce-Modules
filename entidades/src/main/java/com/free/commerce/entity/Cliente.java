@@ -1,5 +1,7 @@
 package com.free.commerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 /**
@@ -12,24 +14,22 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String nome;
-
 
     private String sobrenome;
 
-    @Column(nullable = false,unique = true)
     private String cpf;
 
     private String telefone;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Endereco endereco;
 
     @OneToOne
     private Endereco enderecoEntrega;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private UserLogin userLogin;
 
     public Cliente() {

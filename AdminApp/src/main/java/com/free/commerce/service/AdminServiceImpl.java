@@ -1,7 +1,6 @@
 package com.free.commerce.service;
 
-import com.free.commerce.entity.Enums.Administrador;
-import com.free.commerce.entity.UserLogin;
+import com.free.commerce.entity.Administrador;
 import com.free.commerce.repository.AdministradorRepository;
 import com.free.commerce.service.interfaces.AdminService;
 import com.free.commerce.service.interfaces.UserLoginService;

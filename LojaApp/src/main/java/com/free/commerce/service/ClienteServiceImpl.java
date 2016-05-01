@@ -2,6 +2,7 @@ package com.free.commerce.service;
 
 import com.free.commerce.entity.Cliente;
 import com.free.commerce.service.interfaces.ClienteService;
+import com.free.commerce.to.CadastrarClienteTO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Service;
 public class ClienteServiceImpl implements ClienteService{
 
     @Override
-    public void cadastrarCliente(Cliente cliente) {
-
+    public Cliente realizarCadastroCompleto(CadastrarClienteTO cadastrarClienteTO) {
+        return null;
     }
+
+
 }
+
