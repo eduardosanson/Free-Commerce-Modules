@@ -199,10 +199,10 @@ public class AdminApp {
 //				categoriaTO.setNome("Eletrônicos Áudio e Video");
 //				categoria = categoriaService.cadastrarCategoria(categoriaTO);
 
-				marcaRepository.save(marca);
-				tamanhoLetraRepository.save(tamanhoLetra);
-				corRepository.save(cor);
-				tamanhoNumeroRepository.save(tamanhoNumero);
+//				marcaRepository.save(marca);
+//				tamanhoLetraRepository.save(tamanhoLetra);
+//				corRepository.save(cor);
+//				tamanhoNumeroRepository.save(tamanhoNumero);
 			}catch (Exception e){
 				log.error(e.getMessage());
 			}

@@ -10,12 +10,14 @@ import com.free.commerce.service.interfaces.PedidoService;
 import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.RegistrarPedidoTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 /**
  * Created by pc on 02/05/2016.
  */
+@Service
 public class PedidoServiceImpl implements PedidoService {
 
     @Autowired
