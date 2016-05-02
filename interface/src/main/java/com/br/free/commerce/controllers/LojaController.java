@@ -2,10 +2,12 @@ package com.br.free.commerce.controllers;
 
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.CategoriaService;
+import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
+import com.br.free.commerce.to.RegistrarPedidoTO;
 import com.br.free.commerce.to.StoreForm;
 import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Categoria;
@@ -78,6 +80,9 @@ public class LojaController {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private PedidoService pedidoService;
 
     private Logger logger = Logger.getLogger(LojaController.class);
 
@@ -218,5 +223,19 @@ public class LojaController {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping("/registrarPedido")
+    public String registrarSolicitacao(RegistrarPedidoTO registrarPedidoTO,Model model){
+
+        try {
+            pedidoService.registrarPedido(registrarPedidoTO);
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+
+        return null;
     }
 }

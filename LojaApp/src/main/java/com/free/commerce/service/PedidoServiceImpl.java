@@ -30,7 +30,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public void registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
-        Pedido pedido = criarPedido(registrarPedidoTO);
+        Pedido pedido = new Pedido();
         List<ItemPedido> itemPedidos = new ArrayList<>();
         Map<String,String> produtoMap = registrarPedidoTO.getProdutoQuantidade();
         Double valorTotal=0.;
@@ -54,11 +54,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         pedidoRepository.save(pedido);
 
-    }
 
-    private Pedido criarPedido(RegistrarPedidoTO registrarPedidoTO) {
-
-        return null;
     }
 
     private ItemPedido criarItemPedido(Produto produto,String quantidade){
