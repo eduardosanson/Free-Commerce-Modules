@@ -6,6 +6,7 @@ import com.free.commerce.service.interfaces.AdminService;
 import com.free.commerce.service.interfaces.UserLoginService;
 import com.free.commerce.to.AdministradorTO;
 import com.free.commerce.to.UserLoginTO;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +22,20 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     private UserLoginService userLoginService;
 
+    private static final Logger LOGGER = Logger.getLogger(AdminServiceImpl.class);
+
     @Override
     public Administrador criarAdm(AdministradorTO administradorTO) {
 
         Administrador administrador = criarAdministrador(administradorTO);
 
-        administrador = repository.save(administrador);
 
         UserLoginTO userLoginTO = new UserLoginTO();
         userLoginTO.setLogin(administradorTO.getLogin());
         userLoginTO.setSenha(administradorTO.getSenha());
         userLoginTO.setAdministrador(administrador);
 
+        LOGGER.info("iniciando adesao do userLogin");
         userLoginService.inserirLoginAdm(userLoginTO);
 
         return administrador;
