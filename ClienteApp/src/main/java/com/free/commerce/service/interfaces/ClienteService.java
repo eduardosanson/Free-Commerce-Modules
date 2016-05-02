@@ -13,5 +13,7 @@ public interface ClienteService {
 
     Cliente realizarCadastroCompleto(CadastrarClienteTO cadastrarClienteTO);
 
+    Cliente recuperarProID(Long id);
+
 
 }

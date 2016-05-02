@@ -31,7 +31,7 @@ public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuc
 
         }
         if (roles.contains("ROLE_" + Role.CLIENT.name())){
-            response.sendRedirect("/client/menu");
+            response.sendRedirect("/cliente/menu");
 
         }
 

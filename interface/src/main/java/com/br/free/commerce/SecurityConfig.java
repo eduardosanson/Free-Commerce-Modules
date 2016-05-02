@@ -47,10 +47,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
                 permitAll()
         .and().
                 authorizeRequests().
-                antMatchers("/store/menu").hasAnyAuthority("ROLE_" + Role.STORE)
+                antMatchers("/store/menu/**").hasAnyAuthority("ROLE_" + Role.STORE)
         .and().
                 authorizeRequests().
-                antMatchers("/admin/menu").hasAnyAuthority("ROLE_" + Role.ADMIN)
+                antMatchers("/admin/menu/**").hasAnyAuthority("ROLE_" + Role.ADMIN)
+        .and().
+                authorizeRequests().
+                antMatchers("/cliente/menu/**").hasAnyAuthority("ROLE_" + Role.CLIENT)
         .and().
                 formLogin().
                 loginPage("/public/login").successHandler(authenticationSuccessHandler)

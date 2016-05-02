@@ -4,6 +4,7 @@ import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.AutorizacaoLojaService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
+import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.CategoriaTO;
 import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Loja;

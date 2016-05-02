@@ -1,5 +1,6 @@
 package com.br.free.commerce.controllers;
 
+import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ClienteService;
@@ -12,6 +13,7 @@ import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,58 +33,22 @@ import javax.validation.Valid;
 @RequestMapping("/cliente")
 public class ClienteController {
 
-    private static final String INDEX="index";
-    public static final String MENU="/store/menu";
+
     private static final String PAGE_NAME="pageName";
     private static final String PAGE_FRAGMENT="pageFragment";
+    private static final String PAGE_CLIENTE="pagina-cliente";
+    private static final String HOME_URL="/";
+    private static final String INDEX="index";
+    public static final String MENU="/store/menu";
     private static final String PAGE_REGISTRATION="registration";
     private static final String REGISTRATION_FRAGMENT="registration";
     private static final String MENU_NAME="MENU_NAME";
     private static final String MENU_FRAGMENT="MENU_FRAGMENT";
     private static final String MENU_FRAGMENT_HOME="cliente-pagina-inicial";
     private static final String MENU_NAME_HOME="cliente-pagina-inicial";
-    private static final String PAGE_CLIENTE="pagina-cliente";
 
     @Autowired
-    private ClienteService clienteService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private ProdutoService produtoService;
-
-    @Autowired
-    private CategoriaService categoriaService;
-
-    private Logger logger = Logger.getLogger(LojaController.class);
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String showForm(Model model, StoreForm storeForm){
-        model.addAttribute(PAGE_NAME,PAGE_REGISTRATION);
-        model.addAttribute(PAGE_FRAGMENT,REGISTRATION_FRAGMENT);
-        return INDEX;
-    }
-
-    @RequestMapping(value = "/form",method = RequestMethod.POST)
-    public String singUp(@Valid CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult, Model model, HttpServletRequest request){
-        model.addAttribute(PAGE_NAME,PAGE_REGISTRATION);
-        model.addAttribute(PAGE_FRAGMENT,REGISTRATION_FRAGMENT);
-
-
-        if (bindingResult.hasErrors()){
-            System.out.println("ocorreu um erro");
-            return INDEX;
-        }
-        UserLogin user = clienteService.cadastrarCliente(cadastrarClienteTO);
-
-
-            return INDEX;
-
-    }
+    private Carrinho carrinho;
 
     @RequestMapping("/menu")
     public String login(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
@@ -95,7 +61,14 @@ public class ClienteController {
         model.addAttribute(MENU_NAME,MENU_NAME_HOME);
         model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
 
-
         return INDEX;
     }
+
+    @RequestMapping("/menu/finalizarCompras")
+    public String finalizarCompras(){
+
+        return null;
+    }
+
+
 }

@@ -59,6 +59,11 @@ public class ClienteServiceImpl implements ClienteService{
         return cliente;
     }
 
+    @Override
+    public Cliente recuperarProID(Long id) {
+        return repository.findOne(id);
+    }
+
     private UserLogin criarLogin(CadastrarClienteTO cadastrarClienteTO) {
         UserLogin userLogin = new UserLogin();
         userLogin.setLogin(cadastrarClienteTO.getLogin());

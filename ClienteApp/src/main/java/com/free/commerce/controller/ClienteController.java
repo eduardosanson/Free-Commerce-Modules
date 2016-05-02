@@ -63,4 +63,9 @@ public class ClienteController {
 
         return new ResponseEntity<UserLogin>(userLogin,HttpStatus.OK);
     }
+
+    @RequestMapping(path = "/{id}")
+    public ResponseEntity<Cliente> buscarPorId(@PathVariable("id") Long Id){
+        return new ResponseEntity<Cliente>(HttpStatus.OK);
+    }
 }
