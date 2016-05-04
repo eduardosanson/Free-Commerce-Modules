@@ -3,6 +3,8 @@ package com.br.free.commerce;
 import com.free.commerce.entity.Enums.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,14 @@ import java.util.Set;
 @Service
 public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuccessHandler {
 
+    private RedirectStrategy strategy = new DefaultRedirectStrategy();
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+
         if(roles.contains("ROLE_" + Role.STORE.name())){
             response.sendRedirect("/store/menu");
 
@@ -32,9 +38,10 @@ public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuc
         }
         if (roles.contains("ROLE_" + Role.CLIENT.name())){
             response.sendRedirect("/cliente/menu");
-
         }
 
         super.onAuthenticationSuccess(request, response, authentication);
     }
+
+
 }

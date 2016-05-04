@@ -25,6 +25,16 @@ public class Endereco {
 
     private String complemento;
 
+    private String uf;
+
+
+    public String getUf() {
+        return uf;
+    }
+
+    public void setUf(String uf) {
+        this.uf = uf;
+    }
 
     public Long getId() {
         return id;

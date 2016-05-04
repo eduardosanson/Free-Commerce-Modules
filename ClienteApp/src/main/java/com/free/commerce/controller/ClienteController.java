@@ -6,6 +6,7 @@ import com.free.commerce.entity.UserLogin;
 import com.free.commerce.service.interfaces.ClienteService;
 import com.free.commerce.service.interfaces.LoginService;
 import com.free.commerce.to.CadastrarClienteTO;
+import com.free.commerce.to.FinalizarCadastroTO;
 import com.free.commerce.to.StoreForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,21 @@ public class ClienteController {
     @RequestMapping(path = "/{id}")
     public ResponseEntity<Cliente> buscarPorId(@PathVariable("id") Long Id){
         return new ResponseEntity<Cliente>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.PATCH)
+    @ResponseBody
+    public ResponseEntity<Cliente> concluirCadastro(@Valid @RequestBody FinalizarCadastroTO cadastrarClienteTO, BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            logger.info(cadastrarClienteTO);
+
+            return new ResponseEntity<Cliente>(HttpStatus.BAD_REQUEST);
+        }else{
+
+            Cliente cliente = clienteService.concluirCadastro(cadastrarClienteTO);
+
+            return new ResponseEntity<Cliente>(cliente,HttpStatus.OK);
+        }
     }
 }

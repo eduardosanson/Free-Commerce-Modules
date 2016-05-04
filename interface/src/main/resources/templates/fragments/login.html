@@ -16,6 +16,7 @@
                                     <input id="username" name="username" type="text"
                                            placeholder="Email or Username" class="form-control input-lg"/>
                                 </div>
+                                <!--<input type="hidden" name="UrlNegada" th:value="${#httpServletRequest.getAttribute('UrlNegada')}"/>-->
                                 <div class="form-group">
                                     <input type="password" id="password" name="password"
                                            placeholder="Password" class="form-control input-lg"/>
@@ -40,6 +41,7 @@
             </div>
         </div>
     </section>
+    <input type="hidden" th:value="${#httpServletRequest.setAttribute('UrlNegada',#httpServletRequest.getAttribute('UrlNegada'))}"/>
 
 
 <script type="text/javascript">

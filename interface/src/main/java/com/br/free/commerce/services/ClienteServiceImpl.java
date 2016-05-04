@@ -4,13 +4,20 @@ import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.to.BuscarClienteTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
+import com.br.free.commerce.to.FinalizarCadastroTO;
 import com.br.free.commerce.to.StoreForm;
 import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +63,48 @@ public class ClienteServiceImpl implements ClienteService {
 
         return user;
     }
+
+    @Override
+    public Cliente concluirCadastro(FinalizarCadastroTO cadastroTO) {
+        logger.info("Concluindo cadastro do cliente : " + cadastroTO.getEmail());
+        String requestUrl;
+        Map<String, FinalizarCadastroTO> map = new HashMap<String, FinalizarCadastroTO>();
+
+        Cliente cliente= null;
+        try{
+            requestUrl = "http://localhost:8085/v1/cliente";
+            logger.info("Chamando a url: " + requestUrl);
+
+            URI uri = new URI(requestUrl);
+
+//            template.setRequestFactory(criarRequestFactory(1000,1000));
+
+            HttpEntity<FinalizarCadastroTO> finalizarCadastroTOHttpEntity = new HttpEntity<>(cadastroTO);
+
+            ResponseEntity responseEntity = template.exchange(uri, HttpMethod.PATCH,finalizarCadastroTOHttpEntity,ResponseEntity.class);
+
+            cliente = (Cliente) responseEntity.getBody();
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+            logger.info("erro na comunicação");
+
+        }
+
+        return cliente;
+    }
+
+//    private HttpComponentsClientHttpRequestFactory criarRequestFactory(int connectTimeOut, int readTimeOut){
+//
+////        HttpComponentsAsyncClientHttpRequestFactory requestFactory = new HttpComponentsAsyncClientHttpRequestFactory();
+////        requestFactory.setConnectTimeout(connectTimeOut);
+////        requestFactory.setReadTimeout(readTimeOut);
+//
+//        return requestFactory;
+
+//    }
+
 
     @Override
     public Cliente buscarCliente(BuscarClienteTO buscarClienteTO) {

@@ -81,9 +81,6 @@ public class LojaController {
     @Autowired
     private CategoriaService categoriaService;
 
-    @Autowired
-    private PedidoService pedidoService;
-
     private Logger logger = Logger.getLogger(LojaController.class);
 
     @RequestMapping(method = RequestMethod.GET)
@@ -225,17 +222,4 @@ public class LojaController {
         }
     }
 
-    @RequestMapping("/registrarPedido")
-    public String registrarSolicitacao(RegistrarPedidoTO registrarPedidoTO,Model model){
-
-        try {
-            pedidoService.registrarPedido(registrarPedidoTO);
-
-        }catch (Exception e){
-            e.printStackTrace();
-
-        }
-
-        return null;
-    }
 }

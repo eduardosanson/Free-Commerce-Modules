@@ -1,5 +1,7 @@
 package com.br.free.commerce.controllers;
 
+import com.br.free.commerce.entity.CustomUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,12 +30,12 @@ public class LoginController {
         return LOGIN;
     }
 
-    @RequestMapping("/logout")
-    public String logout(HttpSession session,Model model){
-        session.invalidate();
-
-        return "redirect:/";
-    }
+//    @RequestMapping("/logout")
+//    public String logout(HttpSession session, @AuthenticationPrincipal CustomUserDetails customUserDetails, Model model){
+//        session.invalidate();
+//
+//        return "redirect:/";
+//    }
 
     @RequestMapping(params = "error")
     public String loginError(@RequestParam("error") String login, Model model){

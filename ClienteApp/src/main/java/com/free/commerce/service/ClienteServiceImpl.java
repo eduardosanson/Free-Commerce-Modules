@@ -9,6 +9,7 @@ import com.free.commerce.repository.ClienteRepository;
 import com.free.commerce.repository.UserRepository;
 import com.free.commerce.service.interfaces.ClienteService;
 import com.free.commerce.to.CadastrarClienteTO;
+import com.free.commerce.to.FinalizarCadastroTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,30 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
+    public Cliente concluirCadastro(FinalizarCadastroTO cadastroTO) {
+        Cliente cliente = criarCliente(cadastroTO);
+        Endereco endereco = criaEndereco(cadastroTO);
+
+        Cliente clienteBD = userRepository.getLoginPorEmail(cadastroTO.getEmail()).getCliente();
+
+        cliente.setEnderecoEntrega(endereco);
+        clienteBD = merge(cliente,clienteBD);
+
+        clienteBD = repository.save(clienteBD);
+
+
+        return clienteBD;
+    }
+
+    private Cliente merge(Cliente cliente, Cliente clienteBD) {
+        clienteBD.setCpf(cliente.getCpf());
+        clienteBD.setNome(cliente.getNome());
+        clienteBD.setSobrenome(cliente.getSobrenome());
+        clienteBD.setTelefone(cliente.getTelefone());
+        return clienteBD;
+    }
+
+    @Override
     public Cliente recuperarProID(Long id) {
         return repository.findOne(id);
     }
@@ -82,6 +107,15 @@ public class ClienteServiceImpl implements ClienteService{
         return cliente;
     }
 
+    private Cliente criarCliente(FinalizarCadastroTO cadastrarClienteTO) {
+        Cliente cliente = new Cliente();
+        cliente.setNome(cadastrarClienteTO.getNome());
+        cliente.setCpf(cadastrarClienteTO.getCpf());
+        cliente.setTelefone(cadastrarClienteTO.getTelefone());
+        cliente.setSobrenome(cadastrarClienteTO.getSobreNome());
+        return cliente;
+    }
+
 
     private Endereco criaEndereco(CadastrarClienteTO cadastrarClienteTO) {
         Endereco endereco = new Endereco();
@@ -91,6 +125,18 @@ public class ClienteServiceImpl implements ClienteService{
         endereco.setComplemento(cadastrarClienteTO.getComplemento());
         endereco.setNome(cadastrarClienteTO.getNomeDaRua());
         endereco.setNumero(cadastrarClienteTO.getNumero());
+        return endereco;
+    }
+
+    private Endereco criaEndereco(FinalizarCadastroTO cadastrarClienteTO) {
+        Endereco endereco = new Endereco();
+        endereco.setCep(cadastrarClienteTO.getCep());
+        endereco.setBairro(cadastrarClienteTO.getBairro());
+        endereco.setCidade(cadastrarClienteTO.getCidade());
+        endereco.setComplemento(cadastrarClienteTO.getComplemento());
+        endereco.setNome(cadastrarClienteTO.getNomeDaRua());
+        endereco.setNumero(cadastrarClienteTO.getNumero());
+        endereco.setUf(cadastrarClienteTO.getUf());
         return endereco;
     }
 
