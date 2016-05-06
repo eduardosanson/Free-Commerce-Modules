@@ -40,7 +40,7 @@ public class FinalizarCadastroTO {
     @NotBlank
     @NotNull
     @NotEmpty
-    private String nomeDaRua;
+    private String rua;
 
     @NotBlank
     @NotNull
@@ -67,6 +67,9 @@ public class FinalizarCadastroTO {
     @NotEmpty
     private  String cidade;
 
+    @NotNull
+    @NotBlank
+    @NotEmpty
     private String email;
 
     public FinalizarCadastroTO() {
@@ -78,7 +81,7 @@ public class FinalizarCadastroTO {
         this.sobreNome = sobreNome;
         this.cpf = cpf;
         this.cep = cep;
-        this.nomeDaRua = nomeDaRua;
+        this.rua = nomeDaRua;
         this.bairro = bairro;
         this.numero = numero;
         this.complemento = complemento;
@@ -134,12 +137,12 @@ public class FinalizarCadastroTO {
         this.cep = cep;
     }
 
-    public String getNomeDaRua() {
-        return nomeDaRua;
+    public String getRua() {
+        return rua;
     }
 
-    public void setNomeDaRua(String nomeDaRua) {
-        this.nomeDaRua = nomeDaRua;
+    public void setRua(String rua) {
+        this.rua = rua;
     }
 
     public String getBairro() {

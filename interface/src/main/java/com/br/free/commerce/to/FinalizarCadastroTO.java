@@ -86,6 +86,24 @@ public class FinalizarCadastroTO {
         this.cidade = cidade;
     }
 
+    @Override
+    public String toString() {
+        return "FinalizarCadastroTO{" +
+                "\"telefone\":\"" + telefone + "\", /n" +
+                "\"nome\":\"" + nome + "\", /n" +
+                "\"sobreNome\":\"" + sobreNome + "\", /n" +
+                "\"cpf\":\"" + cpf + "\", /n" +
+                "\"cep\":\"" + cep + "\", /n" +
+                "\"rua\":\"" + rua + "\", /n" +
+                "\"bairro\":\"" + bairro + "\", /n" +
+                "\"numero\":\"" + numero + "\", /n" +
+                "\"complemento\":\"" + complemento + "\", /n" +
+                "\"uf\":\"" + uf + "\", /n" +
+                "\"cidade\":\"" + cidade + "\", /n" +
+                "\"email\":\"" + email + "\", /n" +
+                '}';
+    }
+
     public String getEmail() {
         return email;
     }

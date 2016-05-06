@@ -25,7 +25,7 @@ public class Cliente {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Endereco endereco;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Endereco enderecoEntrega;
 
     @OneToOne(cascade = CascadeType.PERSIST)

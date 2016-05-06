@@ -68,22 +68,13 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente concluirCadastro(FinalizarCadastroTO cadastroTO) {
         logger.info("Concluindo cadastro do cliente : " + cadastroTO.getEmail());
         String requestUrl;
-        Map<String, FinalizarCadastroTO> map = new HashMap<String, FinalizarCadastroTO>();
 
         Cliente cliente= null;
         try{
-            requestUrl = "http://localhost:8085/v1/cliente";
+            requestUrl = "http://localhost:8085/v1/cliente/concluirCadastro";
             logger.info("Chamando a url: " + requestUrl);
 
-            URI uri = new URI(requestUrl);
-
-//            template.setRequestFactory(criarRequestFactory(1000,1000));
-
-            HttpEntity<FinalizarCadastroTO> finalizarCadastroTOHttpEntity = new HttpEntity<>(cadastroTO);
-
-            ResponseEntity responseEntity = template.exchange(uri, HttpMethod.PATCH,finalizarCadastroTOHttpEntity,ResponseEntity.class);
-
-            cliente = (Cliente) responseEntity.getBody();
+            cliente = template.postForObject(requestUrl,cadastroTO,Cliente.class);
 
         }catch (Exception e){
 

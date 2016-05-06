@@ -3,7 +3,6 @@ package com.free.commerce.service;
 import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Endereco;
 import com.free.commerce.entity.Enums.Role;
-import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.ClienteRepository;
 import com.free.commerce.repository.UserRepository;
@@ -81,6 +80,7 @@ public class ClienteServiceImpl implements ClienteService{
         clienteBD.setNome(cliente.getNome());
         clienteBD.setSobrenome(cliente.getSobrenome());
         clienteBD.setTelefone(cliente.getTelefone());
+        clienteBD.setEnderecoEntrega(cliente.getEnderecoEntrega());
         return clienteBD;
     }
 
@@ -134,7 +134,7 @@ public class ClienteServiceImpl implements ClienteService{
         endereco.setBairro(cadastrarClienteTO.getBairro());
         endereco.setCidade(cadastrarClienteTO.getCidade());
         endereco.setComplemento(cadastrarClienteTO.getComplemento());
-        endereco.setNome(cadastrarClienteTO.getNomeDaRua());
+        endereco.setNome(cadastrarClienteTO.getRua());
         endereco.setNumero(cadastrarClienteTO.getNumero());
         endereco.setUf(cadastrarClienteTO.getUf());
         return endereco;

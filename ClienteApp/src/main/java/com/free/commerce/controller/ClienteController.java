@@ -70,9 +70,9 @@ public class ClienteController {
         return new ResponseEntity<Cliente>(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PATCH)
+    @RequestMapping(method = RequestMethod.POST,value = "/concluirCadastro")
     @ResponseBody
-    public ResponseEntity<Cliente> concluirCadastro(@Valid @RequestBody FinalizarCadastroTO cadastrarClienteTO, BindingResult bindingResult){
+    public ResponseEntity<Cliente> concluirCadastro(@Valid @RequestBody FinalizarCadastroTO cadastrarClienteTO ,BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
             logger.info(cadastrarClienteTO);

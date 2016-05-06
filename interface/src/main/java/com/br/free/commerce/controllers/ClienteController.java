@@ -45,6 +45,8 @@ public class ClienteController {
     private static final String MENU_NAME_HOME="carrinho";
     private static final String FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS ="cliente-cadastro-dados-principais" ;
     private static final String MENU_CADASTRO_DADOS_PRINCIPAIS = "cliente-cadastro-dados-principais";
+    private static final String MENU_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS = "dados-principais-finalizar-compra";
+    private static final String FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS = "dados-principais-finalizar-compra";
 
     @Autowired
     private Carrinho carrinho;
@@ -82,17 +84,22 @@ public class ClienteController {
         model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
 
         if (cliente !=null){
-            if (cliente.getCpf()==null||cliente.getEnderecoEntrega()==null){
+            if (cliente.getNome()==null||cliente.getTelefone()==null||cliente.getCpf()==null||cliente.getEnderecoEntrega()==null){
 
-                return "redirect:/cliente/menu/cadastrarDadosPrincipais";
+                return "redirect:/cliente/menu/finalizarCadastro/paraCompra";
 
+            }else {
+                model.addAttribute(MENU_NAME,MENU_NAME_HOME);
+                model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
             }
-            model.addAttribute("cadastroTO",cadastroTO);
 
+            model.addAttribute("cadastroTO",cadastroTO);
         }else {
 
             model.addAttribute(MENU_NAME,MENU_NAME_HOME);
             model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
+
+
         }
 
 
@@ -132,7 +139,6 @@ public class ClienteController {
     @RequestMapping(value = "/menu/finalizarCadastro",method = RequestMethod.POST)
     public String finalizarCadastro(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, FinalizarCadastroTO cadastroTO){
 
-        cadastroTO = inserirDadosDoBanco(userDetails,cadastroTO);
 
         model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
         model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
@@ -141,8 +147,45 @@ public class ClienteController {
         model.addAttribute("cadastroTO",cadastroTO);
 
         try {
+            cadastroTO.setEmail(userDetails.getUserlogin().getLogin());
+            userDetails.getUserlogin().setCliente(clienteService.concluirCadastro(cadastroTO));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-            clienteService.concluirCadastro(cadastroTO);
+        return INDEX;
+    }
+
+    @RequestMapping(value = "/menu/finalizarCadastro/paraCompra",method = RequestMethod.GET)
+    public String finalizarCadastroEFinalizarCompragetformulario(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, FinalizarCadastroTO cadastroTO){
+
+        cadastroTO = inserirDadosDoBanco(userDetails,cadastroTO);
+
+        model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
+
+        model.addAttribute(MENU_NAME,MENU_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS);
+        model.addAttribute("cadastroTO",cadastroTO);
+
+
+
+        return INDEX;
+    }
+
+    @RequestMapping(value = "/menu/finalizarCadastro/paraCompra",method = RequestMethod.POST)
+    public String finalizarCadastroEFinalizarCompra(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, FinalizarCadastroTO cadastroTO){
+
+
+        model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
+        model.addAttribute(MENU_NAME,MENU_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS);
+        model.addAttribute("cadastroTO",cadastroTO);
+
+        try {
+            cadastroTO.setEmail(userDetails.getUserlogin().getLogin());
+            userDetails.getUserlogin().setCliente(clienteService.concluirCadastro(cadastroTO));
         }catch (Exception e){
             e.printStackTrace();
         }
