@@ -1,14 +1,12 @@
 package com.br.free.commerce.controllers;
 
+import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.services.Interface.StoreService;
-import com.br.free.commerce.to.ProdutoPage;
-import com.br.free.commerce.to.ProdutoTO;
-import com.br.free.commerce.to.RegistrarPedidoTO;
-import com.br.free.commerce.to.StoreForm;
+import com.br.free.commerce.to.*;
 import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Produto;
@@ -53,7 +51,6 @@ public class LojaController {
     private static final String MENU_NAME_HOME="store-products";
     private static final String MENU_FRAGMENT_HOME="store-products";
     private static final String PAGE_ACCOUNT = "account-posts";
-    private static final String PAGE_ACCOUNT_FRAGMENT = "account-posts";
     private static final String PAGE_CREATE_PRODUCT ="fragments/account-create-product";
     private static final String FRAGMENT_CREATE_PRODUCT ="account-create-product";
     private static final String PAGE_CHANGE_PASSWORD ="store-change-password";
@@ -80,6 +77,12 @@ public class LojaController {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private PedidoService pedidoService;
+
+    @Autowired
+    private Carrinho carrinho;
 
     private Logger logger = Logger.getLogger(LojaController.class);
 
@@ -113,8 +116,6 @@ public class LojaController {
     @RequestMapping("/menu")
     public String login(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
 
-        //customUserDetails.getUserlogin();
-
         model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
         model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
 
@@ -137,7 +138,6 @@ public class LojaController {
         logger.info("usando ajax de create product");
         List<Categoria> categoriasPrincipais = categoriaService.buscarCategoriasPrincipais();
         model.addAttribute("categoriasPrincipais",categoriasPrincipais);
-
 
         return PAGE_CREATE_PRODUCT +" :: " + FRAGMENT_CREATE_PRODUCT;
     }
@@ -220,6 +220,36 @@ public class LojaController {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping("/solicitarPedido")
+    public String criarPedido(@AuthenticationPrincipal CustomUserDetails userDetails){
+
+        if (carrinho.getConteudo()!=null){
+            RegistrarPedidoTO registrarPedidoTO = CriarRegistrarPedido();
+            registrarPedidoTO.setClienteId(String.valueOf(userDetails.getUserlogin().getCliente().getId()));
+            pedidoService.registrarPedido(registrarPedidoTO);
+        }
+
+
+        return "redirect:../cliente/menu";
+    }
+
+    private RegistrarPedidoTO CriarRegistrarPedido() {
+        RegistrarPedidoTO registrarPedidoTO = new RegistrarPedidoTO();
+        List<ProdutoPedido> produtosPedidos = new ArrayList<>();
+        Map<Produto,Integer> produtoEQuantidade = carrinho.getConteudo();
+        for (Produto produto:produtoEQuantidade.keySet()) {
+            ProdutoPedido produtoPedido = new ProdutoPedido();
+            Integer quatidade = produtoEQuantidade.get(produto);
+            produtoPedido.setProdutoId(String.valueOf(produto.getId()));
+            produtoPedido.setQuatidade(String.valueOf(quatidade));
+            produtosPedidos.add(produtoPedido);
+        }
+        registrarPedidoTO.setProdutoPedido(produtosPedidos);
+
+        return registrarPedidoTO;
+
     }
 
 }

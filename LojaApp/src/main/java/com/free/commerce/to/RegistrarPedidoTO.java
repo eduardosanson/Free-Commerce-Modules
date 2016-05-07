@@ -1,5 +1,6 @@
 package com.free.commerce.to;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -7,16 +8,16 @@ import java.util.Map;
  */
 public class RegistrarPedidoTO {
 
-    private Map<String,String> produtoQuantidade;
+    private List<ProdutoPedido> produtoPedido;
 
     private String clienteId;
 
-    public Map<String, String> getProdutoQuantidade() {
-        return produtoQuantidade;
+    public List<ProdutoPedido> getProdutoPedido() {
+        return produtoPedido;
     }
 
-    public void setProdutoQuantidade(Map<String, String> produtoQuantidade) {
-        this.produtoQuantidade = produtoQuantidade;
+    public void setProdutoPedido(List<ProdutoPedido> produtoPedido) {
+        this.produtoPedido = produtoPedido;
     }
 
     public String getClienteId() {

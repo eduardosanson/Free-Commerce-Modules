@@ -8,6 +8,7 @@ import com.free.commerce.repository.PedidoRepository;
 import com.free.commerce.service.interfaces.ClienteService;
 import com.free.commerce.service.interfaces.PedidoService;
 import com.free.commerce.service.interfaces.ProdutoService;
+import com.free.commerce.to.ProdutoPedido;
 import com.free.commerce.to.RegistrarPedidoTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,28 +35,22 @@ public class PedidoServiceImpl implements PedidoService {
     public void registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
         Pedido pedido = new Pedido();
         List<ItemPedido> itemPedidos = new ArrayList<>();
-        Map<String,String> produtoMap = registrarPedidoTO.getProdutoQuantidade();
         Double valorTotal=0.;
 
-        Iterator<String> produtoIdIterator =produtoMap.keySet().iterator();
-
-        do{
+        for (ProdutoPedido produtoPedido:registrarPedidoTO.getProdutoPedido()) {
             ItemPedido itemPedido;
-            String produtoId = produtoIdIterator.next();
-            String quantidade = produtoMap.get(produtoId);
-            Produto produto = produtoService.buscarPorId(Long.parseLong(produtoId));
-            itemPedido = criarItemPedido(produto,quantidade);
+            Produto produto = produtoService.buscarPorId(Long.parseLong(produtoPedido.getProdutoId()));
+            itemPedido = criarItemPedido(produto,produtoPedido.getQuatidade());
             itemPedidos.add(itemPedido);
-            valorTotal = valorTotal + (produto.getPreco()* Integer.parseInt(quantidade));
-        }while (produtoIdIterator.hasNext());
+            valorTotal = valorTotal + (produto.getPreco()* Integer.parseInt(produtoPedido.getQuatidade()));
+        }
 
-        pedido.getItemPedido().addAll(itemPedidos);
+        pedido.setItemPedido(itemPedidos);
         pedido.setValor(valorTotal);
         pedido.setRegistrado(new Date());
         pedido.setCliente(clienteService.recuperarProID(Long.parseLong(registrarPedidoTO.getClienteId())));
 
         pedidoRepository.save(pedido);
-
 
     }
 

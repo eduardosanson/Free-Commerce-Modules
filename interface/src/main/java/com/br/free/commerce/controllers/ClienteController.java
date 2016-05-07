@@ -89,11 +89,9 @@ public class ClienteController {
                 return "redirect:/cliente/menu/finalizarCadastro/paraCompra";
 
             }else {
-                model.addAttribute(MENU_NAME,MENU_NAME_HOME);
-                model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
+                return "redirect:../../store/solicitarPedido";
             }
 
-            model.addAttribute("cadastroTO",cadastroTO);
         }else {
 
             model.addAttribute(MENU_NAME,MENU_NAME_HOME);

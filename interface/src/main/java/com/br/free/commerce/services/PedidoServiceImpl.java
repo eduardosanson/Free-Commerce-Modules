@@ -18,7 +18,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public void registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
-        String url = "http://localhost:8090/v1/controller";
+        String url = "http://localhost:8090/v1/pedido";
 
         try {
 

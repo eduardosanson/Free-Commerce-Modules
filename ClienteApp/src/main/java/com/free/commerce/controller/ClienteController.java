@@ -34,7 +34,6 @@ public class ClienteController {
     private static final Logger logger =Logger.getLogger(ClienteController.class);
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<UserLogin> cadastraLoja(@Valid @RequestBody CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
@@ -66,8 +65,8 @@ public class ClienteController {
     }
 
     @RequestMapping(path = "/{id}")
-    public ResponseEntity<Cliente> buscarPorId(@PathVariable("id") Long Id){
-        return new ResponseEntity<Cliente>(HttpStatus.OK);
+    public ResponseEntity<Cliente> buscarPorId(@PathVariable("id") Long id){
+        return new ResponseEntity<Cliente>(clienteService.recuperarProID(id),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/concluirCadastro")

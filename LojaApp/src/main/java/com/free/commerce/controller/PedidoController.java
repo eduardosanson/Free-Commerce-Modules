@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by pc on 02/05/2016.
  */
 @RestController
-@RequestMapping("/controller")
+@RequestMapping("/pedido")
 public class PedidoController {
 
     @Autowired
