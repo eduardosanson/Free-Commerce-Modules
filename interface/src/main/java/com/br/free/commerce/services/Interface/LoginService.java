@@ -1,6 +1,7 @@
 package com.br.free.commerce.services.Interface;
 
 
+import com.br.free.commerce.exception.RegraDeNegocioException;
 import com.free.commerce.entity.UserLogin;
 
 /**
@@ -8,5 +9,5 @@ import com.free.commerce.entity.UserLogin;
  */
 public interface LoginService {
 
-    UserLogin recuperarPorEmail(String email);
+    UserLogin recuperarPorEmail(String email) throws RegraDeNegocioException;
 }

@@ -1,6 +1,7 @@
 package com.br.free.commerce.services;
 
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.exception.RegraDeNegocioException;
 import com.free.commerce.entity.UserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -34,7 +35,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws AuthenticationServiceException {
 
-        Optional<UserLogin> userLogin = Optional.ofNullable(userService.recuperarPorEmail(username));
+        Optional<UserLogin> userLogin = null;
+        try {
+            userLogin = Optional.ofNullable(userService.recuperarPorEmail(username));
+        } catch (RegraDeNegocioException e) {
+            e.printStackTrace();
+        }
 
         if(!userLogin.isPresent()){
             throw new AuthenticationServiceException("Usuário não encontrado");

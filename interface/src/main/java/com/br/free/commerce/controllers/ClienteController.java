@@ -2,26 +2,33 @@ package com.br.free.commerce.controllers;
 
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.exception.RegraDeNegocioException;
+import com.br.free.commerce.exception.enuns.RegraDeNegocioEnum;
+import com.br.free.commerce.security.CustomAuthenticationManager;
 import com.br.free.commerce.services.Interface.*;
+import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.*;
-import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Endereco;
 import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -61,6 +68,15 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private LoginService loginService;
+
+    @Autowired
+    private CustomAuthenticationManager customAuthenticationManager;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
 
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
@@ -211,6 +227,58 @@ public class ClienteController {
 
         return INDEX;
 
+    }
+
+    @RequestMapping(value = "/form",method = RequestMethod.POST)
+    public String singUp(@Valid CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult,
+                         Model model, HttpServletRequest request,RedirectAttributes redirectAttrs){
+        model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
+
+        model.addAttribute(MENU_NAME,MENU_NAME_HOME);
+        model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
+
+
+        if (bindingResult.hasErrors()){
+            System.out.println("ocorreu um erro");
+            return INDEX;
+        }
+
+        UserLogin user = null;
+        try {
+            user = loginService.recuperarPorEmail(cadastrarClienteTO.getLogin());
+        } catch (RegraDeNegocioException e) {
+            if (e.getTipoErro().equals(RegraDeNegocioEnum.NAO_ENCONTRADO)){
+                user = clienteService.cadastrarCliente(cadastrarClienteTO);
+                redirectAttrs.addAttribute("username",user.getLogin());
+                redirectAttrs.addAttribute("password",user.getSenha());
+            }
+
+            login(request,user.getLogin(),user.getSenha());
+            return "redirect:/cliente/menu";
+        }
+
+        if (user!=null){
+            redirectAttrs.addFlashAttribute("quickSingErro",true).
+                    addFlashAttribute("errorMessage","Email já cadastrado");
+        }
+        return "redirect:/";
+
+    }
+
+    public void login(HttpServletRequest request, String userName, String password)
+    {
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userName, password);
+
+        // Authenticate the user
+        Authentication authentication = customAuthenticationManager.authenticate(authRequest);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+        authentication.getDetails();
+
+        // Create a new session and add the security context.
+        HttpSession session = request.getSession(true);
+        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
     }
 
     private FinalizarCadastroTO inserirDadosDoBanco(CustomUserDetails userDetails, FinalizarCadastroTO cadastroTO) {

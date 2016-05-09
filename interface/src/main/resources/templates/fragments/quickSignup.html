@@ -3,6 +3,7 @@
         <h3>Quick Signup</h3>
     </div>
     <div class="widget-body">
+        <p th:if="${quickSingErro}" th:text="${errorMessage}"> Senha ou Login não conferem</p>
         <form th:action="@{/cliente/form}" th:object="${cadastrarClienteTO}" method="post">
             <div class="form-group">
                 <input th:field="*{nome}" type="text" class="form-control input-lg" placeholder="Name"/>

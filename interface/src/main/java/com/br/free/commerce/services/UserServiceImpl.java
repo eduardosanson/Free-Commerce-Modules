@@ -1,7 +1,10 @@
 package com.br.free.commerce.services;
 
+import com.br.free.commerce.exception.RegraDeNegocioException;
+import com.br.free.commerce.exception.enuns.RegraDeNegocioEnum;
 import com.br.free.commerce.services.Interface.LoginService;
 import com.free.commerce.entity.UserLogin;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -15,18 +18,19 @@ public class UserServiceImpl implements LoginService{
     private RestTemplate loginService;
 
     @Override
-    public UserLogin recuperarPorEmail(String email) {
+    public UserLogin recuperarPorEmail(String email) throws RegraDeNegocioException {
         loginService = new RestTemplate();
-        UserLogin userLogin;
+        UserLogin userLogin = null;
 
         try{
             System.out.println("http://localhost:8090/v1/loja?login="+ email);
             userLogin = loginService.getForObject("http://localhost:8090/v1/loja?login="+ email,UserLogin.class);
             System.out.println(userLogin);
 
-        }catch (HttpClientErrorException e){
-            e.printStackTrace();
-            return null;
+        }catch (Exception e){
+            if (e.getMessage().contains(HttpStatus.NOT_FOUND.toString())){
+             throw new RegraDeNegocioException(RegraDeNegocioEnum.NAO_ENCONTRADO);
+            }
         }
 
         return userLogin;

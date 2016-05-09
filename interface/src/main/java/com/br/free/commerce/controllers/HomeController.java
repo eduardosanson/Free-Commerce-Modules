@@ -34,9 +34,6 @@ public class HomeController {
     private static final String PAGE_NAME="home";
     private static final String PAGE_FRAGMENT="home";
 
-    private static final String PAGE_NAME_ATTR="pageName";
-    private static final String PAGE_FRAGMENT_ATTR="pageFragment";
-
     private static final String HOME_URL="/";
     private static final String INDEX="index";
     private static final String MENU_NAME="MENU_NAME";
@@ -72,27 +69,6 @@ public class HomeController {
 
         return "index";
     }
-
-    @RequestMapping(value = "/cliente/form",method = RequestMethod.POST)
-    public String singUp(@Valid CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult, Model model, HttpServletRequest request){
-        model.addAttribute(PAGE_NAME_ATTR,PAGE_CLIENTE);
-        model.addAttribute(PAGE_FRAGMENT_ATTR,PAGE_CLIENTE);
-
-        model.addAttribute(MENU_NAME,MENU_NAME_HOME);
-        model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
-
-
-        if (bindingResult.hasErrors()){
-            System.out.println("ocorreu um erro");
-            return INDEX;
-        }
-        UserLogin user = clienteService.cadastrarCliente(cadastrarClienteTO);
-
-
-        return INDEX;
-
-    }
-
 
 
 }
