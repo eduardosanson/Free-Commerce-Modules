@@ -32,6 +32,17 @@ public class Cliente {
     @JsonIgnore
     private UserLogin userLogin;
 
+    @OneToOne
+    private Foto perfil;
+
+    public Foto getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Foto perfil) {
+        this.perfil = perfil;
+    }
+
     public Cliente() {
 
     }

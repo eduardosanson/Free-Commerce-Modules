@@ -1,9 +1,11 @@
 package com.free.commerce.service;
 
+import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Enums.ItemPedidoStatus;
 import com.free.commerce.entity.ItemPedido;
 import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.Produto;
+import com.free.commerce.repository.ItemPedidoRepository;
 import com.free.commerce.repository.PedidoRepository;
 import com.free.commerce.service.interfaces.ClienteService;
 import com.free.commerce.service.interfaces.PedidoService;
@@ -31,27 +33,48 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private ItemPedidoRepository itemPedidoRepository;
+
     @Override
     public void registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
         Pedido pedido = new Pedido();
         List<ItemPedido> itemPedidos = new ArrayList<>();
         Double valorTotal=0.;
 
+        pedido.setRegistrado(new Date());
+        pedido.setCliente(clienteService.recuperarProID(Long.parseLong(registrarPedidoTO.getClienteId())));
+
+        pedido = pedidoRepository.save(pedido);
+
         for (ProdutoPedido produtoPedido:registrarPedidoTO.getProdutoPedido()) {
             ItemPedido itemPedido;
             Produto produto = produtoService.buscarPorId(Long.parseLong(produtoPedido.getProdutoId()));
             itemPedido = criarItemPedido(produto,produtoPedido.getQuatidade());
+            itemPedido.setStatus(ItemPedidoStatus.ABERTO);
+            itemPedido.setPedido(pedido);
             itemPedidos.add(itemPedido);
+            itemPedidoRepository.save(itemPedido);
+
             valorTotal = valorTotal + (produto.getPreco()* Integer.parseInt(produtoPedido.getQuatidade()));
         }
+        pedido.setValor(valorTotal);
 
         pedido.setItemPedido(itemPedidos);
-        pedido.setValor(valorTotal);
-        pedido.setRegistrado(new Date());
-        pedido.setCliente(clienteService.recuperarProID(Long.parseLong(registrarPedidoTO.getClienteId())));
 
         pedidoRepository.save(pedido);
 
+    }
+
+    @Override
+    public List<Pedido> buscarPedidoDeCliente(String clienteId) {
+        List<Pedido> pedidos=null;
+        try {
+            pedidos = pedidoRepository.buscarPedidosPorCliente(Long.parseLong(clienteId));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return pedidos;
     }
 
     private ItemPedido criarItemPedido(Produto produto,String quantidade){

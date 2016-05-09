@@ -232,7 +232,7 @@ public class LojaController {
         }
 
 
-        return "redirect:../cliente/menu";
+        return "redirect:../cliente/menu/meusPedidos";
     }
 
     private RegistrarPedidoTO CriarRegistrarPedido() {

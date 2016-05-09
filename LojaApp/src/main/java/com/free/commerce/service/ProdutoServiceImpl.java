@@ -117,6 +117,8 @@ public class ProdutoServiceImpl implements ProdutoService {
         produto.setRegistrado(new Date());
         produto.setFotos(produtoTO.getFotos());
         produto.setFotoPrincipal(produtoTO.getFotoPrincipal());
+        produto.setNovo(produtoTO.isNovo());
+        produto.setQuantidade(produtoTO.getQuantidade());
 
         return produto;
     }

@@ -38,8 +38,9 @@ public class Produto {
     @OneToOne
     private Categoria categoria;
 
-
     private boolean novo;
+
+    private Integer quantidade;
 
     @Override
     public String toString() {
@@ -54,6 +55,9 @@ public class Produto {
                 ", registrado=" + registrado +
                 ", fotos=" + fotos +
                 ", fotoPrincipal=" + fotoPrincipal +
+                ", categoria=" + categoria +
+                ", novo=" + novo +
+                ", quantidade=" + quantidade +
                 '}';
     }
 
@@ -88,6 +92,14 @@ public class Produto {
 
     public Foto getFotoPrincipal() {
         return fotoPrincipal;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 
     public void setFotoPrincipal(Foto fotoPrincipal) {

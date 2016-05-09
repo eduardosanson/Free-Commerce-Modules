@@ -18,6 +18,17 @@ public class Administrador {
     @Column(nullable = false)
     private String matricula;
 
+    @OneToOne
+    private Foto perfil;
+
+    public Foto getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Foto perfil) {
+        this.perfil = perfil;
+    }
+
     public Long getId() {
         return id;
     }

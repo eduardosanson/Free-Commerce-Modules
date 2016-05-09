@@ -1,60 +1,69 @@
 <div class="container" th:fragment="carrinho">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel">
-                <div class="panel-heading counter">
-                    <div class="panel-title">
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <h5><span class="glyphicon glyphicon-shopping-cart"></span> Carrinho de Compras</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    <div>
-
-                        <div class="row" th:each="produtoMap : ${carrinho.getConteudo()}">
-                            <div class="col-xs-2"><img class="img-responsive" th:src="'/' + ${produtoMap.key.fotoPrincipal.path}"/>
-                            </div>
-                            <div class="col-xs-4">
-                                <h4 class="product-name"><strong th:text="${produtoMap.key.nome}"></strong></h4><h4><small>Descrição</small></h4>
-                            </div>
-                            <div class="col-xs-6">
-                                <div class="col-xs-6 text-right">
-                                    <h6><strong th:text=" 'R$ ' + ${produtoMap.key.preco}"> <span class="text-muted">x</span></strong></h6>
-                                </div>
-                                <div class="col-xs-4">
-                                    <input th:value="${produtoMap.value}" class="form-control input-sm" readonly="readonly"/>
-                                </div>
-                                <div class="col-xs-2">
-                                    <button type="button" class="btn btn-link btn-xs">
-                                        <span class="glyphicon glyphicon-trash"> </span>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Carrinho de Compras</div>
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nome</th>
+                                <th>Quantidade</th>
+                                <th class="text-center">Preço unitário</th>
+                                <th class="text-center">SubTotal</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="produtoMap : ${carrinho.getConteudo()}">
+                                <td class="col-xs-2">
+                                    <img class="img-responsive" th:src="'/' + ${produtoMap.key.fotoPrincipal.path}"/>
+                                </td>
+                                <td class="col-md-4"><h5><strong th:text="${produtoMap.key.nome}"></strong></h5></td>
+                                <td class="col-md-2" style="text-align: center">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default btn-number" min="0" step="1" ng-click="minus()">
+                                                <i class="glyphicon glyphicon-minus"></i>
+                                            </button>
+                                        </span>
+                                        <input type="text"  th:value="${produtoMap.value}" class="form-control input-number" ng-change="change()" ng-model="qnt" required="required" readonly="readonly"/>
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-default btn-number" ng-click="plus()">
+                                                <i class="glyphicon glyphicon-plus"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="col-md-1 text-center"><strong th:text=" 'R$ ' + ${produtoMap.key.preco}"></strong></td>
+                                <td class="col-md-1 text-center"><strong th:text="'R$ ' + ${produtoMap.key.preco * produtoMap.value}"></strong></td>
+                                <td class="col-sm-1 col-md-1">
+                                    <button type="button" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
                                     </button>
-                                </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right"><h5>Valor Total</h5></td>
+                                <td class="text-center"><h5><strong th:text=" 'R$ ' + ${carrinho.custoTotal}"></strong></h5></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-md-9 col-md-offset-7">
+                                <a href="/" class="text-right"><button type="button" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-shopping-cart"></span> Continuar Comprando
+                                </button></a>
+                                <a href="/cliente/menu/finalizarCompras" class="btn btn-success text-center">
+                                    Finalizar Compras <span class="glyphicon glyphicon-play"></span>
+                                </a>
                             </div>
-                        </div>
-                        <hr/>
-                    </div>
-                </div>
-                <div class="panel-footer">
-                    <div class="row text-center">
-                        <div class="col-xs-6">
-                            <h4 class="text-right">Total <strong>$50.00</strong></h4>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="/cliente/menu/finalizarCompras">
-                                <button type="button" class="btn btn-success btn-block">
-                                    Finalizar Compras
-                                </button>
-                            </a>
-                        </div>
-                        <div class="col-xs-3">
-                            <a href="/">
-                                <button type="button" class="btn btn-success btn-block active">
-                                    <span class="glyphicon glyphicon-share-alt"></span> Continue Comprando
-                                </button>
-                            </a>
                         </div>
                     </div>
                 </div>

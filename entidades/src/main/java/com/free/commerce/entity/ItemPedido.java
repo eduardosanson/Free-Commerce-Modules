@@ -1,5 +1,6 @@
 package com.free.commerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.free.commerce.entity.Enums.ItemPedidoStatus;
 
 import javax.persistence.*;
@@ -25,6 +26,18 @@ public class ItemPedido {
     private Integer quantidade;
 
     private Date registrado;
+
+    @OneToOne
+    @JsonIgnore
+    private Pedido pedido;
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
 
     public Long getId() {
         return id;

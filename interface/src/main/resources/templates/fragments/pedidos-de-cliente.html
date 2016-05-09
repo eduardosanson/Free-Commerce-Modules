@@ -1,0 +1,53 @@
+<div th:fragment="pedidos-de-cliente" >
+    <div class="row" th:each="pedido : ${pedidos}" th:id="${'accordion'+pedido.id}">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading "><a data-toggle="collapse" th:attr="data-parent=${'#accordion'+pedido.id}, href=${'#' + pedido.id}">
+                            <strong th:text="'Pedido Nº ' + ${pedido.id} + ' Data: ' + ${#calendars.format(pedido.registrado,'dd MMMM yyyy HH:mm')}">
+                            </strong><span class="text-right text-success glyphicon glyphicon-ok"></span></a>
+                </div>
+                <div class="panel-body panel-collapse collapse" th:id="${pedido.id}">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Descrição</th>
+                            <th class="text-center">Preço Unitário</th>
+                            <th class="text-center">Subtotal</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="itemPedido : ${pedido.itemPedido}">
+                            <td class="col-sm-8 col-md-6">
+                                <div class="media">
+                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" th:src="'/' + ${itemPedido.produto.fotoPrincipal.path}" style="width: 72px; height: 72px;"/> </a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a th:href="'/produto/detail/'+ ${itemPedido.produto.id}"><strong th:text="${itemPedido.produto.nome}"></strong></a></h4>
+                                        <h5 class="media-heading"> Vendido Por: <a href="#"><strong th:text="${itemPedido.produto.loja.nome}"></strong></a></h5>
+                                    </div>
+                                </div></td>
+                            <td class="col-md-3"><h5><strong th:text="${itemPedido.produto.descricao}"></strong></h5></td>
+                            <td class="col-md-1 text-center" th:text="${itemPedido.produto.preco}"><strong></strong></td>
+                            <td class="col-md-1 text-center" th:text="${itemPedido.produto.preco * itemPedido.quantidade}"><strong></strong></td>
+                            <td class="col-sm-3 col-md-3">
+                                <div type="button" th:class="'alert ' +${itemPedido.status=='ABERTO' ? 'alert-warning' : itemPedido.status=='ENTREGUE'? 'alert-success' : 'alert-danger'}" >
+                                    <i th:class="${itemPedido.status=='ENTREGUE' ? 'glyphicon glyphicon-ok' : '' }"><strong th:text="${itemPedido.status}"></strong></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right"><h5>Total</h5></td>
+                            <td class="text-center"><h5><strong th:text="${pedido.valor}"></strong></h5></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

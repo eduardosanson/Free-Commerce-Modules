@@ -44,6 +44,25 @@ public class Loja {
     @OneToMany(mappedBy = "loja")
     private List<Produto> produtos;
 
+    @OneToOne
+    private Foto perfil;
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
+    public Foto getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Foto perfil) {
+        this.perfil = perfil;
+    }
+
     @Override
     public String toString() {
         return "Loja{" +

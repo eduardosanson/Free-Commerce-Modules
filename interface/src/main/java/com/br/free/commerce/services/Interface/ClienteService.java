@@ -4,7 +4,10 @@ import com.br.free.commerce.to.BuscarClienteTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
 import com.free.commerce.entity.Cliente;
+import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
+
+import java.util.List;
 
 /**
  * Created by pc on 01/05/2016.
@@ -16,4 +19,6 @@ public interface ClienteService {
     Cliente concluirCadastro(FinalizarCadastroTO cadastroTO);
 
     Cliente buscarCliente(BuscarClienteTO buscarClienteTO);
+
+    List<Pedido> meusPedidos(Long clienteId);
 }

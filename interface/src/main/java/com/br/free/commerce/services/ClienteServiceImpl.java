@@ -7,6 +7,7 @@ import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
 import com.br.free.commerce.to.StoreForm;
 import com.free.commerce.entity.Cliente;
+import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
@@ -19,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,19 +88,23 @@ public class ClienteServiceImpl implements ClienteService {
         return cliente;
     }
 
-//    private HttpComponentsClientHttpRequestFactory criarRequestFactory(int connectTimeOut, int readTimeOut){
-//
-////        HttpComponentsAsyncClientHttpRequestFactory requestFactory = new HttpComponentsAsyncClientHttpRequestFactory();
-////        requestFactory.setConnectTimeout(connectTimeOut);
-////        requestFactory.setReadTimeout(readTimeOut);
-//
-//        return requestFactory;
-
-//    }
-
-
     @Override
     public Cliente buscarCliente(BuscarClienteTO buscarClienteTO) {
         return null;
+    }
+
+    @Override
+    public List<Pedido> meusPedidos(Long clienteId) {
+        String url = "http://localhost:8090/v1/pedido/cliente?clienteId="+clienteId;
+        List<Pedido> pedidos=null;
+        try {
+            pedidos = template.getForObject(url,List.class);
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }finally {
+
+            return pedidos;
+        }
     }
 }

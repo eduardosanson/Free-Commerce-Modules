@@ -58,7 +58,7 @@ public class Carrinho {
     public double getCustoTotal ()  {
         double custoTotal =  0 ;
         for  ( Produto produto : conteudo.keySet ())  {
-            custoTotal += produto.getPreco();
+            custoTotal += produto.getPreco() * conteudo.get(produto);
         }
         return custoTotal;
     }
@@ -66,7 +66,7 @@ public class Carrinho {
     public Integer totalNoCarrinho(){
         Integer total=0;
         for  ( Produto produto : conteudo.keySet ())  {
-                total = conteudo.get(produto);
+                total =total+ conteudo.get(produto);
         }
 
         return total;

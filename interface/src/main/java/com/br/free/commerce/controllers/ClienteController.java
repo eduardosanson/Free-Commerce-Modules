@@ -7,6 +7,7 @@ import com.br.free.commerce.to.*;
 import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Endereco;
+import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by pc on 01/05/2016.
@@ -47,6 +49,9 @@ public class ClienteController {
     private static final String MENU_CADASTRO_DADOS_PRINCIPAIS = "cliente-cadastro-dados-principais";
     private static final String MENU_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS = "dados-principais-finalizar-compra";
     private static final String FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS = "dados-principais-finalizar-compra";
+    private static final String MENU_PEDIDOS_CLIENTE = "pedidos-de-cliente";
+    private static final String FRAGMENTO_PEDIDOS_CLIENTE = "pedidos-de-cliente";
+
 
     @Autowired
     private Carrinho carrinho;
@@ -60,15 +65,17 @@ public class ClienteController {
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
     @RequestMapping("/menu")
-    public String login(@AuthenticationPrincipal CustomUserDetails customUserDetails,Model model, FinalizarCadastroTO cadastroTO){
+    public String login(@AuthenticationPrincipal CustomUserDetails userDetails,Model model, FinalizarCadastroTO cadastroTO){
 
         //customUserDetails.getUserlogin();
 
         model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
         model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
 
-        model.addAttribute(MENU_NAME,MENU_NAME_HOME);
-        model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
+        model.addAttribute(MENU_NAME,MENU_PEDIDOS_CLIENTE);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENTO_PEDIDOS_CLIENTE);
+        List<Pedido> pedidos = clienteService.meusPedidos(userDetails.getUserlogin().getCliente().getId());
+        model.addAttribute("pedidos",pedidos);
 
         return INDEX;
     }
@@ -126,7 +133,7 @@ public class ClienteController {
         model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
         model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
 
-        model.addAttribute(MENU_NAME,MENU_CADASTRO_DADOS_PRINCIPAIS);
+        model.addAttribute(MENU_NAME,FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS);
         model.addAttribute(MENU_FRAGMENT,FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS);
         model.addAttribute("cadastroTO",cadastroTO);
 
@@ -188,7 +195,22 @@ public class ClienteController {
             e.printStackTrace();
         }
 
+        return "redirect:../../store/solicitarPedido";
+    }
+
+    @RequestMapping(value = "/menu/meusPedidos")
+    private String meusPedidos(@AuthenticationPrincipal CustomUserDetails userDetails, Model model){
+
+        model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
+        model.addAttribute(MENU_NAME,MENU_PEDIDOS_CLIENTE);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENTO_PEDIDOS_CLIENTE);
+
+        List<Pedido> pedidos = clienteService.meusPedidos(userDetails.getUserlogin().getCliente().getId());
+        model.addAttribute("pedidos",pedidos);
+
         return INDEX;
+
     }
 
     private FinalizarCadastroTO inserirDadosDoBanco(CustomUserDetails userDetails, FinalizarCadastroTO cadastroTO) {
