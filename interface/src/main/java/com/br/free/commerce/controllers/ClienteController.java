@@ -4,9 +4,7 @@ import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.exception.RegraDeNegocioException;
 import com.br.free.commerce.exception.enuns.RegraDeNegocioEnum;
-import com.br.free.commerce.security.CustomAuthenticationManager;
 import com.br.free.commerce.services.Interface.*;
-import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.*;
 import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Endereco;
@@ -14,12 +12,7 @@ import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -71,12 +63,6 @@ public class ClienteController {
 
     @Autowired
     private LoginService loginService;
-
-    @Autowired
-    private CustomAuthenticationManager customAuthenticationManager;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
@@ -254,7 +240,6 @@ public class ClienteController {
                 redirectAttrs.addAttribute("password",user.getSenha());
             }
 
-            login(request,user.getLogin(),user.getSenha());
             return "redirect:/cliente/menu";
         }
 
@@ -265,22 +250,6 @@ public class ClienteController {
         return "redirect:/";
 
     }
-
-    public void login(HttpServletRequest request, String userName, String password)
-    {
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userName, password);
-
-        // Authenticate the user
-        Authentication authentication = customAuthenticationManager.authenticate(authRequest);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-        authentication.getDetails();
-
-        // Create a new session and add the security context.
-        HttpSession session = request.getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-    }
-
     private FinalizarCadastroTO inserirDadosDoBanco(CustomUserDetails userDetails, FinalizarCadastroTO cadastroTO) {
         Cliente cliente = userDetails.getUserlogin().getCliente();
 
