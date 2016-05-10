@@ -67,12 +67,6 @@ public class LojaController {
     private StoreService storeService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private ProdutoService produtoService;
 
     @Autowired

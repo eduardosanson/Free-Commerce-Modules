@@ -23,7 +23,6 @@ import java.util.List;
 /**
  * Created by eduardo.sanson on 09/05/2016.
  */
-@Service
 public class CustomAuthenticationManager implements AuthenticationManager {
 
     @Autowired
@@ -54,11 +53,5 @@ public class CustomAuthenticationManager implements AuthenticationManager {
         listGrantAuthority.add(new SimpleGrantedAuthority("ROLE_" + usuario.getPermissao()));
         UserDetails user = new CustomUserDetails(usuario, passwordEncoder,listGrantAuthority);
         return user;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder;
     }
 }

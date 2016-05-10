@@ -47,9 +47,6 @@ public class AdminController {
     private static final String BUTTON_ENVIAR_CATEGORIA = "enviarCategoria";
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private ProdutoService produtoService;
 
     @Autowired

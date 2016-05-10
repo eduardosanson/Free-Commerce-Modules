@@ -47,12 +47,6 @@ public class HomeController {
     private ClienteService clienteService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private ProdutoService produtoService;
 
     @Autowired

@@ -72,11 +72,6 @@ public class ClienteController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired
-    private CustomAuthenticationManager customAuthenticationManager;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
@@ -254,7 +249,7 @@ public class ClienteController {
                 redirectAttrs.addAttribute("password",user.getSenha());
             }
 
-            login(request,user.getLogin(),user.getSenha());
+
             return "redirect:/cliente/menu";
         }
 
@@ -266,20 +261,6 @@ public class ClienteController {
 
     }
 
-    public void login(HttpServletRequest request, String userName, String password)
-    {
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userName, password);
-
-        // Authenticate the user
-        Authentication authentication = customAuthenticationManager.authenticate(authRequest);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-        authentication.getDetails();
-
-        // Create a new session and add the security context.
-        HttpSession session = request.getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
-    }
 
     private FinalizarCadastroTO inserirDadosDoBanco(CustomUserDetails userDetails, FinalizarCadastroTO cadastroTO) {
         Cliente cliente = userDetails.getUserlogin().getCliente();

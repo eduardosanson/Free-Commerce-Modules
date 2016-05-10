@@ -1,5 +1,7 @@
 package com.free.commerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +27,7 @@ public class Produto {
     private String identificadorDoProduto;
 
     @OneToOne
+    @JsonIgnore
     private Loja loja;
 
     private Date registrado;
