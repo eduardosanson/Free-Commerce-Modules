@@ -1,12 +1,20 @@
 function addAoCarrinho(produtoId,quantidade){
 var url = "/produto/addAoCarrrinho?produtoId="+produtoId + "&quantidade="+quantidade;
 
-$("#carrinho").load(url);
+    loadCarrinhoHeader(url);
+
+}
+
+function loadCarrinhoHeader(url){
+    $("#carrinho").load(url);
 }
 
 function CarrinhoMenos(produtoId){
 
+
     elementId = "value"+produtoId;
+    reduzir = "/carrinho/subtrair/"+produtoId;
+
 
     document.getElementById(elementId).value--
 
@@ -14,6 +22,7 @@ function CarrinhoMenos(produtoId){
         destroiProduto(produtoId);
 
     }else{
+        loadCarrinhoHeader(reduzir);
         subtrairValorTotalPorProduto(produtoId)
         subtrairValorTotal(produtoId);
     }
@@ -23,7 +32,9 @@ function CarrinhoMenos(produtoId){
 function destroiProduto(produtoId){
 
     produto = "produto"+produtoId
+    destroiUrl="/carrinho/remover/"+produtoId;
 
+    loadCarrinhoHeader(destroiUrl);
     subtrairValorTotal(produtoId);
     document.getElementById(produto).innerHTML="";
 
@@ -77,6 +88,9 @@ function somarValorTotal(produtoId){
 function CarrinhoMais(produtoId){
     elementId = "value"+produtoId;
 
+    somar = "/carrinho/somar/"+produtoId;
+
+    loadCarrinhoHeader(somar);
     document.getElementById(elementId).value++
 
     somarValorTotal(produtoId);

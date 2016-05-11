@@ -44,6 +44,28 @@ public class Carrinho {
         conteudo.remove(produto);
     }
 
+    public void diminuirQuantidadeProduto(Produto produto){
+
+        if(conteudo.containsKey(produto)){
+            int quantidade = conteudo.get(produto);
+
+            if (quantidade == 1){
+                this.removerProduto(produto);
+            }else {
+                conteudo.put(produto,quantidade-1);
+            }
+        }
+    }
+
+    public void somarQuantidadeProduto(Produto produto){
+
+        if(conteudo.containsKey(produto)){
+            int quantidade = conteudo.get(produto);
+
+            this.addProduto(produto,1);
+        }
+    }
+
     public void limparCarrinho(){
         conteudo.clear();
     }
