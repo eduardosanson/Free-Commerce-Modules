@@ -1,0 +1,214 @@
+<div th:fragment="quickSignupPrincipal">
+    <section class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-10 login-form">
+                    <div class="panel panel-default">
+                        <div class="panel-intro text-center">
+                            <h1 class="logo"><i class="fa fa-recycle"></i> Free-commerce</h1>
+                        </div>
+                        <div class="panel-body">
+                            <form role="form" action="#" th:action="@{/cliente/form}" th:object="${cadastrarClienteTO}" method="post">
+                                <h5>Login e senha:</h5>
+                                <hr size="3" color="#E6E9ED"/>
+
+                                <div class="row">
+                                    <div class="col-md-6 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input th:field="*{login}" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                                   placeholder="E-mail" class="form-control input-md"
+                                                   size="50"/>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('login')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{login}" role="alert">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                                   placeholder="Confirme o E-mail" class="form-control input-md"
+                                                   name="confirmEmail" size="50"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input type="password" placeholder="password" size="50"
+                                                   class="form-control input-md" th:field="*{senha}"/>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('senha')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{senha}" role="alert">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input type="password" placeholder="Confirme o password" size="50"
+                                                   class="form-control input-md" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <h5>Dados da Cadastrais</h5>
+                                <hr size="3" color="#E6E9ED"/>
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input th:field="*{nome}" type="text" class="form-control input-md" placeholder="Nome" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('nome')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{nome}" role="alert">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input th:field="*{sobreNome}" type="text" class="form-control input-md" placeholder="Nome" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('sobreNome')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{sobreNome}" role="alert">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input th:field="*{cpf}" type="text" placeholder="Cpf" class="form-control input-md"/>
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('cpf')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{cpf}" role="alert">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input type="tel" maxlength="15" th:field="*{telefone}"
+                                                   class="form-control input-md" placeholder="(99) 99-999-9999" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('telefone')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{telefone}" role="alert">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <h5>Endereço</h5>
+                                <hr size="3" color="#E6E9ED"/>
+
+                                <div class="row">
+
+                                    <div class="col-sm-2 col-xs-1 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input id="cep" th:field="*{cep}" type="text" placeholder="CEP" class="form-control input-md"  onblur="pesquisacep(this.value);" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('cep')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{cep}" role="alert">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input id="rua" th:field="*{nomeDaRua}" type="text"  class="form-control input-md" placeholder="Nome da Rua" size="50" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('nomeDaRua')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{nomeDaRua}" role="alert">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input id="bairro" th:field="*{bairro}" type="text"  class="form-control input-md" placeholder="Bairro" size="50" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('bairro')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{bairro}" role="alert">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input th:field="*{numero}" type="text"  class="form-control input-md" placeholder="Número" size="50" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('numero')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{numero}" role="alert">
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 form-group">
+                                        <div class="input-group">
+                                            <input th:field="*{complemento}" type="text"  class="form-control input-md" placeholder="Complemento" size="50" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('complemento')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{complemento}" role="alert">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-4 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input id="cidade" th:field="*{cidade}" type="text"  class="form-control input-md" placeholder="cidade" size="50" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('cidade')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{cidade}" role="alert">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-2 form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                                            <input id="uf" th:field="*{uf}" type="text"  class="form-control input-md" placeholder="UF" size="50" />
+                                        </div>
+                                        <div th:if="${#fields.hasErrors('uf')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{uf}" role="alert">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row container">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label for="terms" class="string optiona">
+                                                    <input type="checkbox" style="" id="terms"/>
+                                                    I Agree with Term and Conditions
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button class="btn btn-block btn-custom">Sign Up</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <p class="text-center pull-right"> <a href="login.html"> Have an account? </a> </p>
+                            <div style=" clear:both"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

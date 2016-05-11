@@ -54,6 +54,8 @@ public class ClienteController {
     private static final String FRAGMENTO_CADASTRO_DADOS_PRINCIPAIS_PARA_COMPRAS = "dados-principais-finalizar-compra";
     private static final String MENU_PEDIDOS_CLIENTE = "pedidos-de-cliente";
     private static final String FRAGMENTO_PEDIDOS_CLIENTE = "pedidos-de-cliente";
+    private static final String PAGE_CADASTRO="quickSignupPrincipal";
+    private static final String FRAGMENT_CADASTRO="quickSignupPrincipal";
 
 
     @Autowired
@@ -255,6 +257,15 @@ public class ClienteController {
         }
         return "redirect:/";
 
+    }
+
+
+    @RequestMapping(value = "/form",method = RequestMethod.GET)
+    public String loginPage(Model model,CadastrarClienteTO cadastrarClienteTO){
+        model.addAttribute(PAGE_NAME,PAGE_CADASTRO);
+        model.addAttribute(PAGE_FRAGMENT,FRAGMENT_CADASTRO);
+
+        return INDEX;
     }
 
 

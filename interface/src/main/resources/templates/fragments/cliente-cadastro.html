@@ -1,13 +1,11 @@
-
-
-<div class="wrapper" th:fragment="login">
+<div class="wrapper" th:fragment="cliente-cadastro">
     <section class="main">
         <div class="container">
             <div class="row">
                 <div class="col-sm-5 login-form">
                     <div class="panel panel-default">
                         <div class="panel-intro text-center">
-                            <h1 class="logo"><i class="fa fa-recycle"></i>Free Commerce</h1>
+                            <h1 class="logo"><i class="fa fa-recycle"></i> Dlapak</h1>
                         </div>
                         <div class="panel-body">
                             <p th:if="${loginError}"> Senha ou Login não conferem</p>
@@ -36,7 +34,7 @@
                             <div style=" clear:both"></div>
                         </div>
                     </div>
-                    <p class="text-center">Don't have an account? <a href="/cliente/form"><strong>Signup</strong></a></p>
+                    <p class="text-center">Don't have an account? <a href="signup.html"><strong>Signup</strong></a></p>
                 </div>
             </div>
         </div>
@@ -44,7 +42,7 @@
     <input type="hidden" th:value="${#httpServletRequest.setAttribute('UrlNegada',#httpServletRequest.getAttribute('UrlNegada'))}"/>
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
     $(document).ready(function () {
 
         // ===========Featured Owl Carousel============
