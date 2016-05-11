@@ -27,7 +27,6 @@ public class Produto {
     private String identificadorDoProduto;
 
     @OneToOne
-    @JsonIgnore
     private Loja loja;
 
     private Date registrado;

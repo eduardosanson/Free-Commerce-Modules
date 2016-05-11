@@ -1,6 +1,5 @@
 package com.free.commerce.service;
 
-import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Enums.ItemPedidoStatus;
 import com.free.commerce.entity.ItemPedido;
 import com.free.commerce.entity.Pedido;
@@ -51,7 +50,7 @@ public class PedidoServiceImpl implements PedidoService {
             ItemPedido itemPedido;
             Produto produto = produtoService.buscarPorId(Long.parseLong(produtoPedido.getProdutoId()));
             itemPedido = criarItemPedido(produto,produtoPedido.getQuatidade());
-            itemPedido.setStatus(ItemPedidoStatus.ABERTO);
+            itemPedido.setStatus(ItemPedidoStatus.AGUARDANDO_PAGAMENTO);
             itemPedido.setPedido(pedido);
             itemPedidos.add(itemPedido);
             itemPedidoRepository.save(itemPedido);
@@ -81,7 +80,7 @@ public class PedidoServiceImpl implements PedidoService {
         ItemPedido itemPedido = new ItemPedido();
         itemPedido.setProduto(produto);
         itemPedido.setQuantidade(Integer.parseInt(quantidade));
-        itemPedido.setStatus(ItemPedidoStatus.ABERTO);
+        itemPedido.setStatus(ItemPedidoStatus.AGUARDANDO_PAGAMENTO);
         itemPedido.setRegistrado(new Date());
 
         return itemPedido;

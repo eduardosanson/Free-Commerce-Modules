@@ -31,8 +31,8 @@
                             <td class="col-md-1 text-center" th:text="${itemPedido.produto.preco}"><strong></strong></td>
                             <td class="col-md-1 text-center" th:text="${itemPedido.produto.preco * itemPedido.quantidade}"><strong></strong></td>
                             <td class="col-sm-3 col-md-3">
-                                <div type="button" th:class="'alert ' +${itemPedido.status=='ABERTO' ? 'alert-warning' : itemPedido.status=='ENTREGUE'? 'alert-success' : 'alert-danger'}" >
-                                    <i th:class="${itemPedido.status=='ENTREGUE' ? 'glyphicon glyphicon-ok' : '' }"><strong th:text="${itemPedido.status}"></strong></i>
+                                <div type="button" th:class="'alert ' +${itemPedido.status.value=='AGUARDANDO_PAGAMENTO' ? 'alert-warning' : itemPedido.status.value=='ENTREGUE'? 'alert-success' : 'alert-danger'}" >
+                                    <i th:class="${itemPedido.status.value=='ENTREGUE' ? 'glyphicon glyphicon-ok' : '' }"><strong th:text="${itemPedido.status.descricao}"></strong></i>
                                 </div>
                             </td>
                         </tr>

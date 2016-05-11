@@ -1,7 +1,7 @@
 
-INSERT INTO categoria (id,descricao,categoria_pai) VALUES 
+INSERT INTO freecommerce.categoria (id,descricao,categoria_pai) VALUES 
 
-('1',	'Calçados, Roupas e Bolsas',null),	
+('1',	'Calçados, Roupas e Bolsas',NULL),	
 ('2',	'Vestidos',1)                    ,
 ('3',	'Bermudas',1)                    ,
 ('4',	'Calças',1  )                    ,
@@ -10,7 +10,7 @@ INSERT INTO categoria (id,descricao,categoria_pai) VALUES
 ('7',	'Jaqueta',5 )                    ,
 ('8',	'Sobretudo',5)                   ,
 ('9',	'Spatos',1)                      ,
-('10',	'Acessórios para Veículos',	null),
+('10',	'Acessórios para Veículos',	NULL),
 ('11',	'Acessorio de Carro',10)         ,
 ('12',	'Acessorio de Motos',10)         ,
 ('13',	'GPS',10)                        ,
@@ -18,12 +18,12 @@ INSERT INTO categoria (id,descricao,categoria_pai) VALUES
 ('15',	'Antenas',14)                    ,
 ('16',	'Bateria e carregadores',14)    ,
 ('17',	'Aparelhos',13)                  ,
-('18',	'Livros',null)	                 ,
-('19',	'Informática',null)	             ,
-('20',	'Games',null)	                 ,
-('21',	'Esportes e Fitness',null)       ,
-('22',	'Câmeras e Acessorios',null)     ,
-('23',	'Eletrônicos Áudio e Video'	,null),
+('18',	'Livros',NULL)	                 ,
+('19',	'Informática',NULL)	             ,
+('20',	'Games',NULL)	                 ,
+('21',	'Esportes e Fitness',NULL)       ,
+('22',	'Câmeras e Acessorios',NULL)     ,
+('23',	'Eletrônicos Áudio e Video'	,NULL),
 ('24',	'Exterior',11)                    ,
 ('25',	'Interior',11)                    ,
 ('26',	'Adesivo',24)                     ,

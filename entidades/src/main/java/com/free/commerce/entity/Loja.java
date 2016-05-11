@@ -42,6 +42,7 @@ public class Loja {
     private Endereco endereco;
 
     @OneToMany(mappedBy = "loja")
+    @JsonIgnore
     private List<Produto> produtos;
 
     @OneToOne

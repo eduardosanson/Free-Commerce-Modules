@@ -16,8 +16,8 @@
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr th:each="produtoMap : ${carrinho.getConteudo()}">
+                            <tbody id="tabelaCarrinho">
+                            <tr th:each="produtoMap : ${carrinho.getConteudo()}" th:id="'produto' +${produtoMap.key.id}">
                                 <td class="col-xs-2">
                                     <img class="img-responsive" th:src="'/' + ${produtoMap.key.fotoPrincipal.path}"/>
                                 </td>
@@ -25,22 +25,22 @@
                                 <td class="col-md-2" style="text-align: center">
                                     <div class="input-group">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default btn-number" min="0" step="1" ng-click="minus()">
+                                            <button type="button" class="btn btn-default btn-number" min="0" step="1" th:onclick="'CarrinhoMenos(\''+ ${produtoMap.key.id} +'\');'">
                                                 <i class="glyphicon glyphicon-minus"></i>
                                             </button>
                                         </span>
-                                        <input type="text"  th:value="${produtoMap.value}" class="form-control input-number" ng-change="change()" ng-model="qnt" required="required" readonly="readonly"/>
+                                        <input type="text" th:id="'value' + ${produtoMap.key.id}" th:value="${produtoMap.value}" class="form-control input-number" readonly="readonly"/>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-default btn-number" ng-click="plus()">
+                                            <button type="button" class="btn btn-default btn-number" th:onclick="'CarrinhoMais(\''+ ${produtoMap.key.id} +'\');'">
                                                 <i class="glyphicon glyphicon-plus"></i>
                                             </button>
                                         </span>
                                     </div>
                                 </td>
-                                <td class="col-md-1 text-center"><strong th:text=" 'R$ ' + ${produtoMap.key.preco}"></strong></td>
-                                <td class="col-md-1 text-center"><strong th:text="'R$ ' + ${produtoMap.key.preco * produtoMap.value}"></strong></td>
+                                <td class="col-md-1 text-center"><strong th:id="'valorProduto'+${produtoMap.key.id}" th:text=" 'R$ ' + ${produtoMap.key.preco}"></strong></td>
+                                <td class="col-md-1 text-center"><strong th:id="'valorTotalPorProduto'+${produtoMap.key.id}" th:text="'R$ ' + ${produtoMap.key.preco * produtoMap.value}"></strong></td>
                                 <td class="col-sm-1 col-md-1">
-                                    <button type="button" class="btn btn-danger">
+                                    <button type="button" class="btn btn-danger" th:onclick="'destroiProduto(\''+ ${produtoMap.key.id} +'\');'">
                                         <i class="glyphicon glyphicon-remove"></i>
                                     </button>
                                 </td>
@@ -50,7 +50,7 @@
                                 <td></td>
                                 <td></td>
                                 <td class="text-right"><h5>Valor Total</h5></td>
-                                <td class="text-center"><h5><strong th:text=" 'R$ ' + ${carrinho.custoTotal}"></strong></h5></td>
+                                <td class="text-center"><h5><strong id="valorTotal" th:text=" 'R$ ' + ${carrinho.custoTotal}"></strong></h5></td>
                                 <td></td>
                             </tr>
                             </tbody>

@@ -1,7 +1,9 @@
 package com.br.free.commerce.controllers;
 
+import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.to.BuscarProdutoTO;
 import com.br.free.commerce.to.RegistrarPedidoTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ public class CarrinhoController {
     private static final String FRAGMENT_CARRINHO="carrinho";
     private static final String PAGE_NAME ="pageName";
     private static final String FRAGMENT_NAME="pageFragment";
+
+    @Autowired
+    private Carrinho carrinho;
 
     @RequestMapping(method = RequestMethod.GET)
     public String showHome(Model model, BuscarProdutoTO buscarProdutoTO, RegistrarPedidoTO registrarPedidoTO){
