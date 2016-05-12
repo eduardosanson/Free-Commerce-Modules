@@ -60,7 +60,7 @@
                                 <a href="/" class="text-right"><button type="button" class="btn btn-default">
                                     <span class="glyphicon glyphicon-shopping-cart"></span> Continuar Comprando
                                 </button></a>
-                                <a href="/cliente/menu/finalizarCompras" class="btn btn-success text-center">
+                                <a id="urlFinalizarCompra" th:if="${carrinho != null and carrinho.totalNoCarrinho() &gt; 0}" href="/cliente/menu/finalizarCompras" class="btn btn-success text-center">
                                     Finalizar Compras <span class="glyphicon glyphicon-play"></span>
                                 </a>
                             </div>

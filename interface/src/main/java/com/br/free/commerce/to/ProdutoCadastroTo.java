@@ -26,6 +26,26 @@ public class ProdutoCadastroTo {
 
     private String CategoriaId;
 
+    private boolean novo;
+
+    private Integer quantidade;
+
+    public boolean isNovo() {
+        return novo;
+    }
+
+    public void setNovo(boolean novo) {
+        this.novo = novo;
+    }
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
+
     public String getCategoriaId() {
         return CategoriaId;
     }

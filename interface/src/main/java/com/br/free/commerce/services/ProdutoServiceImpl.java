@@ -125,6 +125,8 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoCadastroTo.setDescricaoTetcnica(produtoTO.getDescricao());
         produtoCadastroTo.setNome(produtoTO.getNome());
         produtoCadastroTo.setCategoriaId(produtoTO.getCategoriaId());
+        produtoCadastroTo.setNovo(produtoTO.isNovo());
+        produtoCadastroTo.setQuantidade(produtoTO.getQuantidade());
 
         if (produtoTO.getFotoPrincipal().isEmpty()) {
             Foto foto = new Foto();

@@ -38,7 +38,25 @@ function destroiProduto(produtoId){
     subtrairValorTotal(produtoId);
     document.getElementById(produto).innerHTML="";
 
+    var row = document.getElementById(produto);
+        var table = row.parentNode;
+        while ( table && table.tagName != 'TABLE' )
+            table = table.parentNode;
+        if ( !table )
+            return;
+        table.deleteRow(row.rowIndex);
+
+        if(document.getElementById("tabelaCarrinho").rows.length<2){
+                 deletarButtonFinalizarCompra()
+        }
+
 }
+
+function deletarButtonFinalizarCompra(){
+    var elem = document.getElementById('urlFinalizarCompra');
+        elem.parentNode.removeChild(elem);
+}
+
 
 function subtrairValorTotal(produtoId){
 

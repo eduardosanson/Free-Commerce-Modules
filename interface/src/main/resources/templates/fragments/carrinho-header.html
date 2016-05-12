@@ -1,7 +1,8 @@
 <li id="carrinho" class="dropdown" th:fragment="carrinho-header">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-        <span class="glyphicon glyphicon-shopping-cart"></span> <i th:if="${carrinho != null }" th:text="${carrinho.totalNoCarrinho()}"></i> - Items<span class="caret"></span></a>
-    <ul class="dropdown-menu dropdown-cart" role="menu" th:if="${carrinho != null }">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        <i th:if="${carrinho != null }" th:text="${carrinho.totalNoCarrinho()}"></i> - Items<span class="caret"></span></a>
+    <ul class="dropdown-menu dropdown-cart" role="menu" th:if="${carrinho != null and carrinho.totalNoCarrinho() &gt; 0}">
         <li  th:each="produtoMap : ${carrinho.getConteudo()}">
                       <span class="item">
                         <span class="item-left">

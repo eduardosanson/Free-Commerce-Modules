@@ -1,11 +1,13 @@
-package com.br.free.commerce;
+package com.br.free.commerce.handler;
 
+import com.br.free.commerce.controllers.ClienteController;
 import com.free.commerce.entity.Enums.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
@@ -20,14 +22,19 @@ import java.util.Set;
 @Service
 public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuccessHandler {
 
-    private RedirectStrategy strategy = new DefaultRedirectStrategy();
+    private static String CLIENTE_CONTROLLER="/cliente";
+
+    private String urlRequested ="";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
+        urlRequested =CLIENTE_CONTROLLER + ClienteController.FINALIZAR_COMPRA;
+
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
 
+        request.getRequestURI();
         if(roles.contains("ROLE_" + Role.STORE.name())){
             response.sendRedirect("/store/menu");
 
@@ -36,7 +43,12 @@ public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuc
             response.sendRedirect("/admin/menu");
 
         }
-        if (roles.contains("ROLE_" + Role.CLIENT.name())){
+
+        DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
+
+        if (defaultSavedRequest !=null && urlRequested.equalsIgnoreCase(defaultSavedRequest.getRequestURI())){
+            response.sendRedirect(urlRequested);
+        }else if (roles.contains("ROLE_" + Role.CLIENT.name())){
             response.sendRedirect("/cliente/menu");
         }
 

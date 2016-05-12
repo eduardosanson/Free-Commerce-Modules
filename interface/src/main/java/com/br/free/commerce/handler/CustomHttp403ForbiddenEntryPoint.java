@@ -1,5 +1,6 @@
 package com.br.free.commerce.handler;
 
+import com.br.free.commerce.controllers.ClienteController;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,14 @@ import java.io.IOException;
 @Service
 public class CustomHttp403ForbiddenEntryPoint extends Http403ForbiddenEntryPoint {
 
+    private static String CLIENTE_CONTROLLER="/cliente";
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException arg2) throws IOException, ServletException {
 
-        request.setAttribute("UrlNegada",request.getRequestURI());
-        response.sendRedirect("/public/login");
 
+
+            response.sendRedirect("/public/login");
 
     }
 }

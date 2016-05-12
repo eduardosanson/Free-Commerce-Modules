@@ -57,6 +57,8 @@ public class ClienteController {
     private static final String PAGE_CADASTRO="quickSignupPrincipal";
     private static final String FRAGMENT_CADASTRO="quickSignupPrincipal";
 
+    public static final String FINALIZAR_COMPRA="/menu/finalizarCompras";
+
 
     @Autowired
     private Carrinho carrinho;
@@ -89,7 +91,7 @@ public class ClienteController {
         return INDEX;
     }
 
-    @RequestMapping("/menu/finalizarCompras")
+    @RequestMapping(FINALIZAR_COMPRA)
     public String finalizarCompras(@AuthenticationPrincipal CustomUserDetails userDetails,Model model,FinalizarCadastroTO cadastroTO){
 
         LOGGER.info(userDetails.getUserlogin().getCliente());
