@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by eduardosanson on 13/03/16.
  */
-public class StoreForm {
+public class CadastrarLojaTO {
 
     @NotBlank
     @NotNull
@@ -42,7 +42,7 @@ public class StoreForm {
 
     @NotNull
     @NotBlank
-    private String nomeDaRua;
+    private String rua;
 
     @NotBlank(message = "digite o bairro")
     @NotNull(message = "digite o bairro")
@@ -65,7 +65,7 @@ public class StoreForm {
 
     @Override
     public String toString() {
-        return "StoreForm{" +
+        return "CadastrarLojaTO{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", nomeDaEmpresa='" + nomeDaEmpresa + '\'' +
@@ -74,7 +74,7 @@ public class StoreForm {
                 ", cpfOuCnpj='" + cpfOuCnpj + '\'' +
                 ", nomeJuridico='" + nomeJuridico + '\'' +
                 ", cep='" + cep + '\'' +
-                ", nomeDaRua='" + nomeDaRua + '\'' +
+                ", rua='" + rua + '\'' +
                 ", bairro='" + bairro + '\'' +
                 ", numero='" + numero + '\'' +
                 ", complemento='" + complemento + '\'' +
@@ -147,12 +147,12 @@ public class StoreForm {
         this.cep = cep;
     }
 
-    public String getNomeDaRua() {
-        return nomeDaRua;
+    public String getRua() {
+        return rua;
     }
 
-    public void setNomeDaRua(String nomeDaRua) {
-        this.nomeDaRua = nomeDaRua;
+    public void setRua(String rua) {
+        this.rua = rua;
     }
 
     public String getBairro() {

@@ -123,10 +123,10 @@
                                     <div class="col-md-4 form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                            <input id="rua" th:field="*{nomeDaRua}" type="text"  class="form-control input-md" placeholder="Nome da Rua" size="50" />
+                                            <input id="rua" th:field="*{rua}" type="text"  class="form-control input-md" placeholder="Nome da Rua" size="50" />
                                         </div>
-                                        <div th:if="${#fields.hasErrors('nomeDaRua')}" class="alert alert-danger form-control input-md"
-                                             th:errors="*{nomeDaRua}" role="alert">
+                                        <div th:if="${#fields.hasErrors('rua')}" class="alert alert-danger form-control input-md"
+                                             th:errors="*{rua}" role="alert">
                                         </div>
                                     </div>
 

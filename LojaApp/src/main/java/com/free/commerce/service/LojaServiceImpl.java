@@ -8,9 +8,8 @@ import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.EnderecoRepository;
 import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.repository.UserRepository;
-import com.free.commerce.response.CadastroResponse;
 import com.free.commerce.service.interfaces.*;
-import com.free.commerce.to.StoreForm;
+import com.free.commerce.to.CadastrarLojaTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,10 +43,10 @@ public class LojaServiceImpl implements LojaService {
     private static final Logger logger = Logger.getLogger(LojaServiceImpl.class);
 
     @Override
-    public Loja realizarCadastroCompleto(StoreForm storeForm) {
-        Endereco endereco = criaEndereco(storeForm);
-        Loja loja = criarLoja(storeForm);
-        UserLogin login = criarLogin(storeForm);
+    public Loja realizarCadastroCompleto(CadastrarLojaTO cadastrarLojaTO) {
+        Endereco endereco = criaEndereco(cadastrarLojaTO);
+        Loja loja = criarLoja(cadastrarLojaTO);
+        UserLogin login = criarLogin(cadastrarLojaTO);
         loja.setEndereco(endereco);
         loja.setUserLogin(login);
 
@@ -105,32 +104,32 @@ public class LojaServiceImpl implements LojaService {
         return loja;
     }
 
-    private UserLogin criarLogin(StoreForm storeForm) {
+    private UserLogin criarLogin(CadastrarLojaTO cadastrarLojaTO) {
         UserLogin login = new UserLogin();
-        login.setLogin(storeForm.getEmail());
-        login.setSenha(storeForm.getPassword());
+        login.setLogin(cadastrarLojaTO.getEmail());
+        login.setSenha(cadastrarLojaTO.getPassword());
         login.setPermissao(Role.STORE);
         return login;
     }
 
-    private Loja criarLoja(StoreForm storeForm) {
+    private Loja criarLoja(CadastrarLojaTO cadastrarLojaTO) {
         Loja loja = new Loja();
-        loja.setNome(storeForm.getNomeDaEmpresa());
-        loja.setNomeEmpresa(storeForm.getNomeJuridico());
-        loja.setCnpjOuCpf(storeForm.getCpfOuCnpj());
-        loja.setEmail(storeForm.getEmail());
-        loja.setTelefone(storeForm.getTelefone());
+        loja.setNome(cadastrarLojaTO.getNomeDaEmpresa());
+        loja.setNomeEmpresa(cadastrarLojaTO.getNomeJuridico());
+        loja.setCnpjOuCpf(cadastrarLojaTO.getCpfOuCnpj());
+        loja.setEmail(cadastrarLojaTO.getEmail());
+        loja.setTelefone(cadastrarLojaTO.getTelefone());
         return loja;
     }
 
-    private Endereco criaEndereco(StoreForm storeForm) {
+    private Endereco criaEndereco(CadastrarLojaTO cadastrarLojaTO) {
         Endereco endereco = new Endereco();
-        endereco.setCep(storeForm.getCep());
-        endereco.setBairro(storeForm.getBairro());
-        endereco.setCidade(storeForm.getCidade());
-        endereco.setComplemento(storeForm.getComplemento());
-        endereco.setNome(storeForm.getNomeDaRua());
-        endereco.setNumero(storeForm.getNumero());
+        endereco.setCep(cadastrarLojaTO.getCep());
+        endereco.setBairro(cadastrarLojaTO.getBairro());
+        endereco.setCidade(cadastrarLojaTO.getCidade());
+        endereco.setComplemento(cadastrarLojaTO.getComplemento());
+        endereco.setNome(cadastrarLojaTO.getRua());
+        endereco.setNumero(cadastrarLojaTO.getNumero());
         return endereco;
     }
 

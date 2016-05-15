@@ -1,15 +1,13 @@
 package com.free.commerce.controller;
 
 import com.free.commerce.entity.Loja;
-import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.service.interfaces.AutorizacaoService;
 import com.free.commerce.service.interfaces.LoginService;
 import com.free.commerce.service.interfaces.LojaService;
-import com.free.commerce.to.StoreForm;
+import com.free.commerce.to.CadastrarLojaTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by eduardosanson on 05/03/16.
@@ -46,17 +42,17 @@ public class LojaController extends WebMvcConfigurerAdapter {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<UserLogin> cadastraLoja(@Valid @RequestBody StoreForm storeForm, BindingResult bindingResult){
+    public ResponseEntity<UserLogin> cadastraLoja(@Valid @RequestBody CadastrarLojaTO cadastrarLojaTO, BindingResult bindingResult){
 
         if(bindingResult.hasErrors()){
-            logger.info(storeForm);
+            logger.info(cadastrarLojaTO);
 
             return new ResponseEntity<UserLogin>(HttpStatus.BAD_REQUEST);
         }else{
 
-            Loja loja = lojaService.realizarCadastroCompleto(storeForm);
+            Loja loja = lojaService.realizarCadastroCompleto(cadastrarLojaTO);
 
-            return efetuarLogin(storeForm.getEmail());
+            return efetuarLogin(cadastrarLojaTO.getEmail());
         }
     }
 

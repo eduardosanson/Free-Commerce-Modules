@@ -7,6 +7,7 @@ import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.to.*;
+import com.br.free.commerce.util.MaskUtil;
 import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Produto;
@@ -105,6 +106,7 @@ public class LojaController {
         model.addAttribute(PAGE_NAME,PAGE_REGISTRATION);
         model.addAttribute(PAGE_FRAGMENT,REGISTRATION_FRAGMENT);
 
+        cadastrarLojaTO.setTelefone(MaskUtil.removeTelefoneMask(cadastrarLojaTO.getTelefone()));
 
             if (bindingResult.hasErrors()){
                 System.out.println("ocorreu um erro");

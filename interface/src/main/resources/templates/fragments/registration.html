@@ -13,7 +13,7 @@
                                         <hr size="3" color="#E6E9ED"/>  
 
                                         <div class="row">
-                                            <div class="col-md-6 form-group">
+                                            <div class="col-md-6">
                                                 <div class="input-group">
                                                      <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
                                                     <input th:field="*{email}" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
@@ -113,7 +113,7 @@
                                             <div class="col-md-4">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                    <input type="tel" maxlength="15" th:field="*{telefone}"
+                                                    <input id="telefone" type="text" th:field="*{telefone}"
                                                            class="form-control input-md" placeholder="(99) 99-999-9999" />
                                                 </div>
                                                 <div th:if="${#fields.hasErrors('telefone')}" class="alert alert-danger form-control input-md"
@@ -234,31 +234,18 @@
 
         <!-- Essentials -->
         <script type="text/javascript">
-            $(document).ready(function () {
+            $("#telefone").mask("(99) 9999?9-9999");
 
-                // ===========Featured Owl Carousel============
-                if ($(".owl-carousel-featured").length > 0) {
-                    $(".owl-carousel-featured").owlCarousel({
-                        items: 3,
-                        lazyLoad: true,
-                        pagination: true,
-                        autoPlay: 5000,
-                        stopOnHover: true
-                    });
+            $("#telefone").on("blur", function() {
+                var last = $(this).val().substr( $(this).val().indexOf("-") + 1 );
+
+                if( last.length == 3 ) {
+                    var move = $(this).val().substr( $(this).val().indexOf("-") - 1, 1 );
+                    var lastfour = move + last;
+                    var first = $(this).val().substr( 0, 9 );
+
+                    $(this).val( first + '-' + lastfour );
                 }
-
-                // ==================Counter====================
-                $('.item-count').countTo({
-                    formatter: function (value, options) {
-                        return value.toFixed(options.decimals);
-                    },
-                    onUpdate: function (value) {
-                        console.debug(this);
-                    },
-                    onComplete: function (value) {
-                        console.debug(this);
-                    }
-                });
             });
 
         </script>
