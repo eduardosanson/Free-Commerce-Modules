@@ -1,9 +1,13 @@
 
 
     <div th:fragment="account-create-product">
-        <div class="panel panel-default">
+        <div class="panel panel-default" onload="loadFileInput()">
             <div class="panel-heading">
-                <h4 class="panel-title"> <a href="#collapseB1" data-toggle="collapse"> Novo Produto </a> </h4>
+                <ul class="nav nav-tabs nav-justified" style="{background-color:none}">
+                    <li class="active"><a href="#" data-toggle="tab">Dados do Produto</a></li>
+                    <li class="disabled"><a href="#">Imagens do Produto </a></li>
+                </ul>
+
             </div>
 
             <form id="categoriaPricipal" accept-charset="utf-8" method="post" enctype="multipart/form-data" th:action="@{/produto}" th:object="${produtoTO}" class="form-horizontal">
@@ -14,8 +18,7 @@
                         <div class="col-sm-9">
                             <input  th:field="*{nome}" type="text"  value="" class="form-control"/></div>
                         
-                        <div th:if="${#fields.hasErrors('nome')}" 
-                        class="alert alert-danger form-control input-md"                                      th:errors="*{nome}" role="alert"></div>
+                        <div th:if="${#fields.hasErrors('nome')}" class="alert alert-danger form-control input-md" th:errors="*{nome}" role="alert"></div>
                         
                     </div>
                     <div class="form-group">
@@ -28,10 +31,11 @@
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Quantidade Disponivel</label>
-                        <div class="col-sm-9">
-                            <input th:field="*{quantidade}" type="text"  class="filestyle"/>
+                        <div class="col-sm-4">
+                            <input th:field="*{quantidade}" type="text" required="required" class="form-control"/>
                             <span class="help-block"></span>
                         </div>
+                        <div th:if="${#fields.hasErrors('quantidade')}" class="alert alert-danger form-control input-md" th:errors="*{quantidade}" role="alert"></div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Produto novo</label>
@@ -41,42 +45,11 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Imagem Principal</label>
-                        <div class="col-sm-9">
-                            <input th:field="*{fotoPrincipal}" type="file" class="filestyle"/>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Photo 1</label>
-                        <div class="col-sm-9">
-                            <input th:field="*{file}" type="file" class="filestyle"/>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Photo 2</label>
-                        <div class="col-sm-9">
-                            <input th:field="*{file2}" type="file"  class="filestyle"/>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Photo 3</label>
-                        <div class="col-sm-9">
-                            <input th:field="*{file3}" type="file"  class="filestyle"/>
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-
                     <div class="col-md-3">
 
-                            <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
-                                <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(1)"></option>
-                            </select>
-
+                        <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
+                            <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(1)"></option>
+                        </select>
 
                     </div>
 
@@ -123,6 +96,50 @@
             </form>
 
         </div>
+
+        <script th:inline="javascript">
+            <!--$("#file-1").fileinput({-->
+        <!--// you must set a valid URL here else you will get an error-->
+        <!--allowedFileExtensions : ['jpg', 'png','gif'],-->
+        <!--overwriteInitial: false,-->
+        <!--maxFileSize: 1000,-->
+        <!--maxFilesNum: 10,-->
+        <!--//allowedFileTypes: ['image', 'video', 'flash'],-->
+        <!--slugCallback: function(filename) {-->
+            <!--return filename.replace('(', '_').replace(']', '_');-->
+        <!--}-->
+	       <!--});-->
+
+	       $("#file-1").fileinput({
+    uploadUrl: "/store/upload",
+    language: 'pt-BR',
+    previewFileIcon: '<i class="fa fa-file"></i>',
+    allowedPreviewTypes: null, // set to empty, null or false to disable preview for all types
+    previewFileIconSettings: {
+        'docx': '<i class="fa fa-file-word-o text-primary"></i>',
+        'xlsx': '<i class="fa fa-file-excel-o text-success"></i>',
+        'pptx': '<i class="fa fa-file-powerpoint-o text-danger"></i>',
+        'jpg': '<i class="fa fa-file-photo-o text-warning"></i>',
+        'pdf': '<i class="fa fa-file-pdf-o text-danger"></i>',
+        'zip': '<i class="fa fa-file-archive-o text-muted"></i>',
+    }
+});
+
+$("#input-repl-2").fileinput({
+    uploadUrl: "/store/menu/upload",
+    language: 'pt-BR',
+    autoReplace: true,
+    maxFileCount: 5,
+    allowedFileExtensions: ["jpg", "png", "gif"]
+    <!--uploadExtraData:{teste:''} -->
+    <!--dados extras-->
+}).on('filebatchpreupload', function(event, data) {
+       window.location.assign("/store/menu")
+
+});
+
+        </script>
+
     </div>
 
 
@@ -147,6 +164,6 @@
                                 }
                               }
                           });
-                        }(jQuery));     
+                        }(jQuery));
         
     </script>

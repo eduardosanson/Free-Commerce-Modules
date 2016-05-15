@@ -1,28 +1,17 @@
-package com.br.free.commerce.controllers;
+package com.br.free.commerce.controller;
 
-import com.br.free.commerce.bean.Carrinho;
-import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.to.BuscarProdutoTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
-import com.br.free.commerce.to.StoreForm;
-import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Created by eduardosanson on 09/03/16.
@@ -62,6 +51,15 @@ public class HomeController {
         model.addAttribute("pageFragment", PAGE_FRAGMENT);
 
         return "index";
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String test(MultipartFile file){
+
+        logger.info(file);
+
+        return INDEX;
+
     }
 
 

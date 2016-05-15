@@ -1,4 +1,4 @@
-package com.br.free.commerce.controllers;
+package com.br.free.commerce.controller;
 
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.to.BuscarProdutoTO;

@@ -23,5 +23,7 @@ public interface ProdutoService {
 
     Page<Produto> buscarProdutosParecidosPorNome(String nome,Pageable pageable);
 
+    Produto alterarProduto(Produto produto);
+
 
 }

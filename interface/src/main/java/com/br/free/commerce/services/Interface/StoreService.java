@@ -1,7 +1,6 @@
 package com.br.free.commerce.services.Interface;
 
-import com.br.free.commerce.to.StoreForm;
-import com.free.commerce.entity.Loja;
+import com.br.free.commerce.to.CadastrarLojaTO;
 import com.free.commerce.entity.UserLogin;
 
 /**
@@ -9,5 +8,5 @@ import com.free.commerce.entity.UserLogin;
  */
 public interface StoreService {
 
-    UserLogin cadastrar(StoreForm form);
+    UserLogin cadastrar(CadastrarLojaTO form);
 }

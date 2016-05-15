@@ -1,7 +1,5 @@
 package com.free.commerce.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -31,11 +29,11 @@ public class Produto {
 
     private Date registrado;
 
-    @OneToMany(targetEntity = Foto.class,cascade = CascadeType.PERSIST)
-    private List<Foto> fotos;
+    @OneToMany(targetEntity = Imagem.class,cascade = CascadeType.ALL)
+    private List<Imagem> imagens;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    private Foto fotoPrincipal;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Imagem imagemPrincipal;
 
     @OneToOne
     private Categoria categoria;
@@ -55,8 +53,8 @@ public class Produto {
                 ", identificadorDoProduto='" + identificadorDoProduto + '\'' +
                 ", loja=" + loja +
                 ", registrado=" + registrado +
-                ", fotos=" + fotos +
-                ", fotoPrincipal=" + fotoPrincipal +
+                ", imagens=" + imagens +
+                ", imagemPrincipal=" + imagemPrincipal +
                 ", categoria=" + categoria +
                 ", novo=" + novo +
                 ", quantidade=" + quantidade +
@@ -92,8 +90,8 @@ public class Produto {
         this.novo = novo;
     }
 
-    public Foto getFotoPrincipal() {
-        return fotoPrincipal;
+    public Imagem getImagemPrincipal() {
+        return imagemPrincipal;
     }
 
     public Integer getQuantidade() {
@@ -104,8 +102,8 @@ public class Produto {
         this.quantidade = quantidade;
     }
 
-    public void setFotoPrincipal(Foto fotoPrincipal) {
-        this.fotoPrincipal = fotoPrincipal;
+    public void setImagemPrincipal(Imagem imagemPrincipal) {
+        this.imagemPrincipal = imagemPrincipal;
     }
 
     public Long getId() {
@@ -172,12 +170,12 @@ public class Produto {
         this.registrado = registrado;
     }
 
-    public List<Foto> getFotos() {
-        return fotos;
+    public List<Imagem> getImagens() {
+        return imagens;
     }
 
-    public void setFotos(List<Foto> fotos) {
-        this.fotos = fotos;
+    public void setImagens(List<Imagem> imagens) {
+        this.imagens = imagens;
     }
 
     public Categoria getCategoria() {

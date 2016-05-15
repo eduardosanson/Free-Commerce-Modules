@@ -39,12 +39,8 @@
                                         </div>
                                         <div class="flexslider post-images">
                                             <ul class="slides">
-                                                <li th:attr="data-thumb='/'+${produto.fotoPrincipal.path}">
-                                                    <img alt="" th:src="'/' + ${produto.fotoPrincipal.path}" />
-                                                </li>
-
-                                                <li th:each="foto : ${produto.fotos}" th:attr="data-thumb='/'+${foto.path}" >
-                                                    <img alt="" th:src="'/'+${foto.path}" />
+                                                <li th:each="imagem : ${produto.imagens}" th:attr="data-thumb='/'+${imagem.path}" >
+                                                    <img alt="" th:src="'/'+${imagem.path}" />
                                                 </li>
 
 

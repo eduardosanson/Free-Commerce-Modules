@@ -1,4 +1,4 @@
-package com.br.free.commerce.controllers;
+package com.br.free.commerce.controller;
 
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
@@ -15,16 +15,9 @@ import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Endereco;
 import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
-import org.apache.catalina.Session;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -83,6 +75,8 @@ public class ClienteController {
     @Autowired
     private LoginService loginService;
 
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
@@ -243,9 +237,6 @@ public class ClienteController {
         return INDEX;
     }
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
 
     @RequestMapping(value = "/form",method = RequestMethod.POST)
     public String singUp(@Valid CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult,
@@ -271,7 +262,7 @@ public class ClienteController {
                 user = clienteService.cadastrarCliente(cadastrarClienteTO);
                 redirectAttrs.addAttribute("username",user.getLogin());
                 redirectAttrs.addAttribute("password",user.getSenha());
-                userDetailsService.login(request,user.getLogin(),user.getSenha());
+                userDetailsServiceImpl.login(request,user.getLogin(),user.getSenha());
             }
 
 

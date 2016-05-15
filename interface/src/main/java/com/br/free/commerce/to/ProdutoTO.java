@@ -3,6 +3,8 @@ package com.br.free.commerce.to;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
  * Created by pc on 21/03/2016.
  */
@@ -25,6 +27,28 @@ public class ProdutoTO {
 
     private Integer quantidade;
 
+    private MultipartFile fotoPrincipal;
+
+    private MultipartFile file;
+
+    private MultipartFile file2;
+
+    private MultipartFile file3;
+
+    private List<MultipartFile> files;
+
+    public List<MultipartFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
+    }
+
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
     public boolean isNovo() {
         return novo;
     }
@@ -44,18 +68,6 @@ public class ProdutoTO {
     public String getCategoriaId() {
         return categoriaId;
     }
-
-    public void setCategoriaId(String categoriaId) {
-        this.categoriaId = categoriaId;
-    }
-
-    private MultipartFile fotoPrincipal;
-
-    private MultipartFile file;
-
-    private MultipartFile file2;
-
-    private MultipartFile file3;
 
     public MultipartFile getFotoPrincipal() {
         return fotoPrincipal;

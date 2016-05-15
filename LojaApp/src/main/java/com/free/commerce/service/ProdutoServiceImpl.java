@@ -108,6 +108,11 @@ public class ProdutoServiceImpl implements ProdutoService {
         return produtos;
     }
 
+    @Override
+    public Produto alterarProduto(Produto produto) {
+        return repository.save(produto);
+    }
+
     private Produto criarProduto(ProdutoTO produtoTO) {
         Produto produto = new Produto();
         produto.setNome(produtoTO.getNome());
@@ -115,8 +120,8 @@ public class ProdutoServiceImpl implements ProdutoService {
         produto.setDescricaoTetcnica(produtoTO.getDescricaoTetcnica());
         produto.setPreco(produtoTO.getPreco());
         produto.setRegistrado(new Date());
-        produto.setFotos(produtoTO.getFotos());
-        produto.setFotoPrincipal(produtoTO.getFotoPrincipal());
+        produto.setImagens(produtoTO.getImagems());
+        produto.setImagemPrincipal(produtoTO.getImagemPrincipal());
         produto.setNovo(produtoTO.isNovo());
         produto.setQuantidade(produtoTO.getQuantidade());
 

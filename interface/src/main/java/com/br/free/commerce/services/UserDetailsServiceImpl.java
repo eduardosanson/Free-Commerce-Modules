@@ -39,11 +39,14 @@ import java.util.function.Supplier;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
+
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private CustomAuthenticationManager customAuthenticationManager;
 
     private static final Logger LOGGER = Logger.getLogger(UserDetailsServiceImpl.class);
 
@@ -77,9 +80,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return user;
     }
 
-    @Autowired
-    private CustomAuthenticationManager customAuthenticationManager;
-
     public void  login(HttpServletRequest request, String userName, String password)
        {
                 UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userName, password);
@@ -99,6 +99,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserDetails userDetails = metodo.apply(userLogin);
         //grava no banco
         return userDetails;
+    }
+
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
     }
 }
 

@@ -1,9 +1,7 @@
 package com.br.free.commerce.conector;
 
 import com.br.free.commerce.response.StoreResponse;
-import com.br.free.commerce.to.StoreForm;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import com.br.free.commerce.to.CadastrarLojaTO;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -22,12 +20,12 @@ public class CadastroConector {
 
     private RestTemplate service;
 
-    public StoreResponse cadastrar(StoreForm form){
+    public StoreResponse cadastrar(CadastrarLojaTO form){
         service = new RestTemplate();
         StoreResponse response = new StoreResponse();
 
         try {
-         form = service.postForObject("htt://"+host+porta+servico,form,StoreForm.class);
+         form = service.postForObject("htt://"+host+porta+servico,form,CadastrarLojaTO.class);
 
          response.setForm(form);
          response.setCodigo("00");

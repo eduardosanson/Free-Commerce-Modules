@@ -1,4 +1,4 @@
-package com.br.free.commerce.controllers;
+package com.br.free.commerce.controller;
 
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
@@ -12,13 +12,16 @@ import com.br.free.commerce.to.ProdutoView;
 import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Produto;
-import org.hibernate.validator.constraints.NotBlank;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +48,13 @@ public class ProdutoController {
     private static final String CARRINHO_HEADER_PAGE ="carrinho-header";
     private static final String CARRINHO_HEADER_PFRAGMENT ="carrinho-header";
     private static final String quantidadeDeProdutoPorPagina="5";
+    private static final String PAGE_ACCOUNT = "account-posts";
+    private static final String PAGE_CREATE_PRODUCT ="account-create-product";
+    private static final String FRAGMENT_CADASTRAR_IMAGEM_PRODUTO ="cadastrar-imagem-produto";
+    private static final String PAGINA_CADASTRAR_IMAGEM_PRODUTO ="cadastrar-imagem-produto";
+    private static final String MENU_NAME="MENU_NAME";
+    private static final String MENU_FRAGMENT="MENU_FRAGMENT";
+
 
     @Autowired
     private ProdutoService produtoService;
@@ -58,6 +68,27 @@ public class ProdutoController {
     @Autowired
     private CarrinhoService carrinhoService;
 
+    private static final Logger logger =  Logger.getLogger(ProdutoController.class);
+
+    @RequestMapping(value = "/menu/produto/upload",method = RequestMethod.POST)
+    public ResponseEntity associarImagem(@RequestParam(value = "file") MultipartFile file, @RequestParam("produtoId") String produtoId){
+
+        logger.info(file.getOriginalFilename() + "  " + produtoId);
+
+        try {
+
+            produtoService.associarImagem(file,produtoId);
+
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public String cadastrarProduto(@Valid ProdutoTO produtoTO, BindingResult bindingResult,
                                    Model model,@AuthenticationPrincipal CustomUserDetails customUserDetails){
@@ -66,9 +97,18 @@ public class ProdutoController {
             return "redirect:menu/cadastrarProduto";
         }
 
-        produtoService.cadastrarProduto(customUserDetails.getUserlogin().getLoja(),produtoTO);
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
 
-        return "redirect:"+ LojaController.MENU;
+        model.addAttribute(MENU_NAME,PAGINA_CADASTRAR_IMAGEM_PRODUTO);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENT_CADASTRAR_IMAGEM_PRODUTO);
+
+
+        Produto produto = produtoService.cadastrarProduto(customUserDetails.getUserlogin().getLoja(),produtoTO);
+
+        model.addAttribute("produtoId",produto.getId());
+
+        return INDEX;
     }
 
     @RequestMapping("/detail/{productId}")

@@ -1,6 +1,5 @@
 package com.br.free.commerce.handler;
 
-import com.br.free.commerce.controllers.ClienteController;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Service;

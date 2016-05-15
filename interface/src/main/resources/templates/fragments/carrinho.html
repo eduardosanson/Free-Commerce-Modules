@@ -19,7 +19,7 @@
                             <tbody id="tabelaCarrinho">
                             <tr th:each="produtoMap : ${carrinho.getConteudo()}" th:id="'produto' +${produtoMap.key.id}">
                                 <td class="col-xs-2">
-                                    <img class="img-responsive" th:src="'/' + ${produtoMap.key.fotoPrincipal.path}"/>
+                                    <img class="img-responsive" th:src="'/' + ${produtoMap.key.imagens.get(0).path}"/>
                                 </td>
                                 <td class="col-md-4"><h5><strong th:text="${produtoMap.key.nome}"></strong></h5></td>
                                 <td class="col-md-2" style="text-align: center">

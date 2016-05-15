@@ -1,18 +1,15 @@
-package com.br.free.commerce.controllers;
+package com.br.free.commerce.controller;
 
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.AutorizacaoLojaService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
-import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.CategoriaTO;
 import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Loja;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

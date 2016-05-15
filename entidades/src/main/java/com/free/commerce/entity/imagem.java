@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by pc on 20/03/2016.
  */
 @Entity
-public class Foto {
+public class Imagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

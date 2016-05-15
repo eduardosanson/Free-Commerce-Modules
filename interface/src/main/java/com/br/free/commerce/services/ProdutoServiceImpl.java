@@ -3,13 +3,11 @@ package com.br.free.commerce.services;
 import com.br.free.commerce.InterfaceApplication;
 import com.br.free.commerce.config.ProdutoSettings;
 import com.br.free.commerce.services.Interface.ProdutoService;
-import com.br.free.commerce.to.CarrinhoDeComprasTO;
 import com.br.free.commerce.to.ProdutoCadastroTo;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
 import com.br.free.commerce.util.FileName;
-import com.free.commerce.entity.CarrinhoDeCompras;
-import com.free.commerce.entity.Foto;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import org.apache.log4j.Logger;
@@ -37,6 +35,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     private static String PATH_DEFAULT_DE_PRODUTO = "img/products/";
     private static String FOTO_NOME_DEFAULT = "semfoto.jpg";
+    private static String PASTA_DAS_LOJAS = "lojas/";
 
     @Autowired
     private ProdutoSettings produtoControlerApiConfig;
@@ -116,8 +115,39 @@ public class ProdutoServiceImpl implements ProdutoService {
         return produtoPage;
     }
 
+    @Override
+    public void alterarProduto(Produto produto) {
+
+        try {
+
+            restTemplate.put(produtoControlerApiConfig.getUrlProduto(),produto, Produto.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void associarImagem(MultipartFile file, String produtoId) {
+
+        Produto produto = buscarProdutoPorId(produtoId);
+
+        Imagem imagem = imageProcessor(PASTA_DAS_LOJAS+produtoId,criarNomeCriarNomeDeImagem(),file);
+
+        if (produto.getImagens()==null){
+            produto.setImagens(new ArrayList<Imagem>());
+            produto.getImagens().add(imagem);
+        }else {
+            produto.getImagens().add(imagem);
+        }
+
+        restTemplate.put(produtoControlerApiConfig.getUrlProduto(),produto, Produto.class);
+
+    }
+
     private ProdutoCadastroTo criarProdutoDeCadastroTo(Loja loja, ProdutoTO produtoTO) {
-        String nomePastaFoto = "loja/" + String.valueOf(loja.getId());
+        String nomeDaPastaDaImagem = "loja/" + String.valueOf(loja.getId());
 
         ProdutoCadastroTo produtoCadastroTo = new ProdutoCadastroTo();
         produtoCadastroTo.setPreco(Double.parseDouble(produtoTO.getPreco()));
@@ -128,29 +158,18 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoCadastroTo.setNovo(produtoTO.isNovo());
         produtoCadastroTo.setQuantidade(produtoTO.getQuantidade());
 
-        if (produtoTO.getFotoPrincipal().isEmpty()) {
-            Foto foto = new Foto();
-            foto.setPath(PATH_DEFAULT_DE_PRODUTO +FOTO_NOME_DEFAULT);
-            foto.setRegistrado(new Date());
-            foto.setNomeDoArquivo(FOTO_NOME_DEFAULT);
-            produtoCadastroTo.setFotoPrincipal(foto);
-        }else {
-
-            produtoCadastroTo.setFotoPrincipal(imageProcessor(nomePastaFoto, criarNomeCriarNomeDeImagem(), produtoTO.getFotoPrincipal()));
-        }
-
-        List<Foto> fotos = new ArrayList<Foto>();
-        List<MultipartFile> files = new ArrayList<MultipartFile>();
-        files.add(produtoTO.getFile());
-        files.add(produtoTO.getFile2());
-        files.add(produtoTO.getFile3());
-
-        for (MultipartFile f : files) {
-            String nomeDoArquivo = criarNomeCriarNomeDeImagem();
-            fotos.add(imageProcessor(nomePastaFoto, nomeDoArquivo, f));
-
-        }
-        produtoCadastroTo.setFotos(fotos);
+//        List<Imagem> imagems = new ArrayList<Imagem>();
+//        List<MultipartFile> files = new ArrayList<MultipartFile>();
+//        files.add(produtoTO.getFile());
+//        files.add(produtoTO.getFile2());
+//        files.add(produtoTO.getFile3());
+//
+//        for (MultipartFile f : files) {
+//            String nomeDoArquivo = criarNomeCriarNomeDeImagem();
+//            imagems.add(imageProcessor(nomeDaPastaDaImagem, nomeDoArquivo, f));
+//
+//        }
+//        produtoCadastroTo.setImagems(imagems);
 
 
         return produtoCadastroTo;
@@ -176,11 +195,11 @@ public class ProdutoServiceImpl implements ProdutoService {
         }
     }
 
-    private Foto imageProcessor(String nomePasta, String nomeArquivo, MultipartFile file) {
+    private Imagem imageProcessor(String nomePasta, String nomeArquivo, MultipartFile file) {
         String nomeDaPasta = InterfaceApplication.ROOT + "/" + nomePasta + "/";
         FileName fileName = new FileName(file.getOriginalFilename(), '/', '.');
         String pathCompleto = nomeDaPasta + nomeArquivo + "." + fileName.extension();
-        Foto foto = new Foto();
+        Imagem imagem = new Imagem();
 
         if (!file.isEmpty()) {
             try {
@@ -196,10 +215,10 @@ public class ProdutoServiceImpl implements ProdutoService {
 
                 FileCopyUtils.copy(file.getInputStream(), stream);
                 stream.close();
-                foto.setRegistrado(new Date());
-                foto.setNomeDoArquivo(nomeArquivo);
-                foto.setPath(pathCompleto);
-                return foto;
+                imagem.setRegistrado(new Date());
+                imagem.setNomeDoArquivo(nomeArquivo);
+                imagem.setPath(pathCompleto);
+                return imagem;
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

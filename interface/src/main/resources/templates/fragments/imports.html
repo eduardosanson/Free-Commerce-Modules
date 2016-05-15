@@ -1,101 +1,178 @@
 <head th:fragment="imports">
-    
+
     <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta name="robots" content="index, follow"/>
-        <title>Dlapak - General Listing Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="robots" content="index, follow"/>
+    <title>Free commerce</title>
+
+    <!--Bootstrap -->
+
+    <!--<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css}" type="text/css"/>-->
+
+
+    <!--<script src="/plugins/filestyle/bootstrap-filestyle.min.js"-->
+            <!--th:src="@{/plugins/filestyle/bootstrap-filestyle.min.js}"></script>-->
+
+    <!--<script src="/js/bootstrap.min.js"-->
+            <!--th:src="@{/js/bootstrap.min.js}"></script>-->
+
+
+    <!--&lt;!&ndash; jQuery library &ndash;&gt;-->
+    <!--<script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js}"></script>-->
+
+    <!--<link rel="stylesheet" href="assets/bootstrap/css/bootflat.css" type="text/css">-->
+
+    <!--&lt;!&ndash; Última versão CSS compilada e minificada &ndash;&gt;-->
+    <!--<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css}"-->
+          <!--integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>-->
+
+    <!--&lt;!&ndash; Tema opcional &ndash;&gt;-->
+    <!--<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css}" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>-->
+
+    <!--&lt;!&ndash; Última versão JavaScript compilada e minificada &ndash;&gt;-->
+    <!--<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js}"-->
+            <!--integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+
+    <!-- ############################## -->
+
+
+
+    <!-- BootFlat -->
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css}" type="text/css"/>
+
+
+    <script src="/plugins/filestyle/bootstrap-filestyle.min.js"
+            th:src="@{/plugins/filestyle/bootstrap-filestyle.min.js}"></script>
+
+
+    <!-- jQuery library -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js}"></script>
+
+
+    <!-- Tema opcional -->
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css}" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>
+
+
+
+
+    <script src="/plugins/filestyle/bootstrap-filestyle.min.js"
+    th:src="@{/plugins/filestyle/bootstrap-filestyle.min.js}"></script>
+
+    <!-- jQuery library -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js}"></script>
+
+
+    <!-- Última versão CSS compilada e minificada -->
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css}"
+    integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="/css/bootflat.css" type="text/css"/>
+
+    <!-- Tema opcional -->
+    <!--<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css}" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"/>-->
+
+    <!-- Última versão JavaScript compilada e minificada -->
+    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js}"
+    integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css}" type="text/css"/>
+
+    <!-- ############################# -->
+
 
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"/>
+    href="//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin"
+    th:href="@{//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin}" type="text/css" />
 
-    <link rel="stylesheet" 
-              href="//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" 
-              th:href="@{//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin}" type="text/css" />
-        
-        <!-- Essential styles -->
-        <link rel="stylesheet" 
-              href="/css/bootstrap.css" 
-              th:href="@{/css/bootstrap.min.css}" type="text/css"/>
-
-        <link rel="stylesheet"
-          href="/css/bootstrap-theme.min"
-          th:href="@{/css/bootstrap-theme.min}" type="text/css"/>
-        
-        <link rel="stylesheet" href="/plugins/font-awesome/css/font-awesome.css" 
-              th:href="@{/plugins/font-awesome/css/font-awesome.css}" type="text/css"/>
+    <!-- Essential styles -->
+    <!--<link rel="stylesheet" -->
+    <!--href="/css/bootstrap.css" -->
 
 
-        <link rel="stylesheet" href="/plugins/flexslider/flexslider.css"
-          th:href="@{/plugins/flexslider/flexslider.css}"
-          type="text/css" media="screen" />
-
-        <!-- Dlapak styles -->
-        <link id="theme_style" type="text/css" href="/css/style1.css"
-              th:href="@{/css/style1.css}"
-              rel="stylesheet" media="screen"/>
 
 
-        <!-- Favicon -->
-        <link href="/img/favicon.png" 
-              th:href="@{/img/favicon.png}"
-              rel="icon" type="image/png"/>
+    <link rel="stylesheet" href="/plugins/flexslider/flexslider.css"
+    th:href="@{/plugins/flexslider/flexslider.css}"
+    type="text/css" media="screen" />
 
-        <!-- Assets -->
-        <link rel="stylesheet" 
-              href="/plugins/owl-carousel/owl.carousel.css"
-              th:href="@{/plugins/owl-carousel/owl.carousel.css}"/>
-        
-        <link rel="stylesheet" 
-              href="/plugins/owl-carousel/owl.theme.css"
-              th:href="@{/plugins/owl-carousel/owl.theme.css}"/>
+    <!-- Dlapak styles -->
+    <link id="theme_style" type="text/css" href="/css/style1.css"
+    th:href="@{/css/style1.css}"
+    rel="stylesheet" media="screen"/>
 
-        <link rel="stylesheet"
-              th:href="@{/css/nav.css}"
-              href="/css/nav.css"/>
 
-        <link rel="stylesheet"
-          href="/css/cart.css"
-          th:href="@{/css/cart.css}" type="text/css"/>
+    <!-- Favicon -->
+    <link href="/img/favicon.png"
+    th:href="@{/img/favicon.png}"
+    rel="icon" type="image/png"/>
 
-    
+    <!-- Assets -->
+    <link rel="stylesheet"
+    href="/plugins/owl-carousel/owl.carousel.css"
+    th:href="@{/plugins/owl-carousel/owl.carousel.css}"/>
 
-        <!-- Essential styles -->
-        
-<!--        <link rel="stylesheet" href="assets/bootstrap/css/bootflat.css" type="text/css">-->
-        
-        <!-- JS Library -->
-        <script src="/js/jquery.js"
-                th:src="@{/js/jquery.js}"></script>
-    
-        <script src="/js/bootstrap.min.js"
-                th:src="@{/js/bootstrap.min.js}"></script>
-    
-        <script src="/plugins/owl-carousel/owl.carousel.js"
-                th:src="@{/plugins/owl-carousel/owl.carousel.js}"></script>
-    
-        <script src="/plugins/counter/jquery.countTo.js"
-                th:src="@{/plugins/counter/jquery.countTo.js}"></script>
+    <link rel="stylesheet"
+    href="/plugins/owl-carousel/owl.theme.css"
+    th:href="@{/plugins/owl-carousel/owl.theme.css}"/>
 
-        <script src="/plugins/filestyle/bootstrap-filestyle.min.js"
-                th:src="@{/plugins/filestyle/bootstrap-filestyle.min.js}"></script>
+    <link rel="stylesheet"
+    href="/css/cart.css"
+    th:href="@{/css/cart.css}" type="text/css"/>
 
-        <script defer="defer" src="/plugins/flexslider/jquery.flexslider.js"
-                th:src="@{/plugins/flexslider/jquery.flexslider.js}"></script>
+    <link rel="stylesheet"
+          href="/css/file-input/fileinput.css"
+          th:href="@{/css/file-input/fileinput.css}" type="text/css"/>
 
-        <script  src="/js/categoriaForm.js"
-            th:src="@{/js/categoriaForm.js}"></script>
+    <link rel="stylesheet"
+          th:href="@{/css/nav.css}"
+          href="/css/nav.css"/>
 
-        <script  src="/js/EncontrarEndereco.js"
-             th:src="@{/js/EncontrarEndereco.js}"></script>
 
-        <script  src="/js/procurarProduto.js"
-             th:src="@{/js/procurarProduto.js}"></script>
 
-        <script  src="/js/menuLoja.js"
-             th:src="@{/js/menuLoja.js}"></script>
+    <!-- Essential styles -->
 
-        <script  src="/js/carrinhoDeCompras.js"
-             th:src="@{/js/carrinhoDeCompras.js}"></script>
+
+    <!-- JS Library -->
+    <script src="/js/jquery.js"
+    th:src="@{/js/jquery.js}"></script>
+
+
+    <script src="/plugins/owl-carousel/owl.carousel.js"
+    th:src="@{/plugins/owl-carousel/owl.carousel.js}"></script>
+
+    <script src="/plugins/counter/jquery.countTo.js"
+    th:src="@{/plugins/counter/jquery.countTo.js}"></script>
+
+
+    <script defer="defer" src="/plugins/flexslider/jquery.flexslider.js"
+    th:src="@{/plugins/flexslider/jquery.flexslider.js}"></script>
+
+    <script  src="/js/categoriaForm.js"
+    th:src="@{/js/categoriaForm.js}"></script>
+
+    <script  src="/js/EncontrarEndereco.js"
+    th:src="@{/js/EncontrarEndereco.js}"></script>
+
+    <script  src="/js/procurarProduto.js"
+    th:src="@{/js/procurarProduto.js}"></script>
+
+    <script  src="/js/menuLoja.js"
+    th:src="@{/js/menuLoja.js}"></script>
+
+    <script  src="/js/carrinhoDeCompras.js"
+    th:src="@{/js/carrinhoDeCompras.js}"></script>
+
+    <script  src="/js/file-input/fileinput.js"
+    th:src="@{/js/file-input/fileinput.js}"></script>
+
+    <script  src="/js/custom-file-input.js"
+    th:src="@{/js/custom-file-input.js}"></script>
+
+    <script  src="/js/file-input/plugins/canvas-to-blob.js"
+             th:src="@{/js/file-input/plugins/canvas-to-blob.js}"></script>
+
+    <script  src="/js/file-input/fileinput_locale_pt-BR.js"
+             th:src="@{/js/file-input/fileinput_locale_pt-BR.js}"></script>
 
 
 

@@ -1,19 +1,12 @@
 package com.br.free.commerce.interceptor;
 
 import com.br.free.commerce.bean.Carrinho;
-import com.br.free.commerce.controllers.ProdutoController;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -48,6 +41,8 @@ public class Interceptor extends HandlerInterceptorAdapter {
         super.postHandle(request, response, handler, modelAndView);
     }
 
-
-
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        return super.preHandle(request, response, handler);
+    }
 }

@@ -21,7 +21,7 @@
                         <tr th:each="itemPedido : ${pedido.itemPedido}">
                             <td class="col-sm-8 col-md-6">
                                 <div class="media">
-                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" th:src="'/' + ${itemPedido.produto.fotoPrincipal.path}" style="width: 72px; height: 72px;"/> </a>
+                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" th:src="'/' + ${itemPedido.produto.imagemPrincipal.path}" style="width: 72px; height: 72px;"/> </a>
                                     <div class="media-body">
                                         <h4 class="media-heading"><a th:href="'/produto/detail/'+ ${itemPedido.produto.id}"><strong th:text="${itemPedido.produto.nome}"></strong></a></h4>
                                         <h5 class="media-heading"> Vendido Por: <a href="#"><strong th:text="${itemPedido.produto.loja.nome}"></strong></a></h5>

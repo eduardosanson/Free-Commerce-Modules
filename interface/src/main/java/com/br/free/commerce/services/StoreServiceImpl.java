@@ -1,16 +1,12 @@
 package com.br.free.commerce.services;
 
 import com.br.free.commerce.services.Interface.StoreService;
-import com.br.free.commerce.to.StoreForm;
-import com.free.commerce.entity.Loja;
+import com.br.free.commerce.to.CadastrarLojaTO;
 import com.free.commerce.entity.UserLogin;
-import com.sun.jndi.toolkit.url.Uri;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,18 +30,18 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public UserLogin cadastrar(StoreForm storeForm) {
-        logger.info("inicio de cadastro de cliente: " + storeForm.getEmail());
+    public UserLogin cadastrar(CadastrarLojaTO cadastrarLojaTO) {
+        logger.info("inicio de cadastro de cliente: " + cadastrarLojaTO.getEmail());
         String requestUrl;
-        Map<String, StoreForm> map = new HashMap<String, StoreForm>();
+        Map<String, CadastrarLojaTO> map = new HashMap<String, CadastrarLojaTO>();
 
         UserLogin user= null;
         try{
             requestUrl = url+ip+port+service;
             logger.info("Chamando a url: " + requestUrl);
-            map.put("storeForm",storeForm);
+            map.put("cadastrarLojaTO", cadastrarLojaTO);
 
-            user = template.postForObject(requestUrl,storeForm,UserLogin.class,map);
+            user = template.postForObject(requestUrl, cadastrarLojaTO,UserLogin.class,map);
 
         }catch (Exception e){
 

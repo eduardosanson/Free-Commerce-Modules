@@ -3,6 +3,7 @@ package com.br.free.commerce;
 import com.br.free.commerce.handler.AuthenticationSuccessHandlerImpl;
 import com.br.free.commerce.handler.CustomAccessDeniedHandler;
 import com.br.free.commerce.handler.CustomHttp403ForbiddenEntryPoint;
+import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.free.commerce.entity.Enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,12 +12,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by eduardosanson on 09/03/16.
@@ -26,7 +28,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 
     @Autowired
-    private UserDetailsService UserDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,6 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
 
     @Autowired
     private CustomHttp403ForbiddenEntryPoint http403ForbiddenEntryPoint;
+
+    @PostConstruct
+    public void init(){
+        userDetailsService.setPasswordEncoder(passwordEncoder);
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -59,13 +66,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
         .and().
                 formLogin().
                 loginPage("/public/login").successHandler(authenticationSuccessHandler)
-        .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/public/login/logout")).logoutSuccessUrl("/");;
+        .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/public/login/logout")).logoutSuccessUrl("/").
+        and().csrf().ignoringAntMatchers("/produto/menu/produto/upload");
 
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(UserDetailsService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
 
@@ -82,5 +90,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
         handler.setUseReferer(true);
         return handler;
     }
+
 
 }

@@ -35,11 +35,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="produto  : ${produtoPage.produtos}" >
+                <tr th:each="produto  : ${produtoPage.produtos}" th:if="${produtoPage != null}" >
                     <td><input type="checkbox" /></td>
                     <td><img alt="" class="thumb-img img-responsive"
-                             src="${produto.fotoPrincipal.path}"
-                             th:src="'/'+${produto.fotoPrincipal.path}"/></td>
+                             th:src="'/'+${produto.imagens.get(0).path}" th:if="${not #lists.isEmpty(produto.imagens)}"/></td>
                     <td>
                         <div class="item-title"><a th:href="@{/produto/detail/} + ${produto.id}" target="_blank"><strong th:text="${produto.nome}"></strong></a></div>
                         <div class="item-meta">

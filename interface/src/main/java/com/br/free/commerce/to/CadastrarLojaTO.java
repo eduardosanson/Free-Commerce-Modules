@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Created by eduardosanson on 13/03/16.
  */
-public class StoreForm {
+public class CadastrarLojaTO {
 
     @NotBlank
     @NotNull
@@ -63,7 +63,7 @@ public class StoreForm {
 
     @Override
     public String toString() {
-        return "StoreForm{" +
+        return "CadastrarLojaTO{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", nomeDaEmpresa='" + nomeDaEmpresa + '\'' +

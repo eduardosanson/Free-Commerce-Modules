@@ -6,7 +6,7 @@
         <li  th:each="produtoMap : ${carrinho.getConteudo()}">
                       <span class="item">
                         <span class="item-left">
-                            <img th:src="'/' + ${produtoMap.key.fotoPrincipal.path}" alt="" class="thumb-img img-responsive"/>
+                            <img th:src="'/' + ${produtoMap.key.imagens.get(0).path}" alt="" class="thumb-img img-responsive"/>
                             <span class="item-info">
                                 <span th:text="${produtoMap.key.nome}"></span>
                                 <span th:text=" 'R$ ' + ${produtoMap.key.preco}"></span>

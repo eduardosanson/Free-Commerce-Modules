@@ -1,14 +1,8 @@
 package com.free.commerce.to;
 
-import com.free.commerce.entity.Foto;
-import com.free.commerce.entity.Loja;
+import com.free.commerce.entity.Imagem;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import scala.util.parsing.combinator.testing.Str;
 
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,9 +17,9 @@ public class ProdutoTO {
 
     private String descricao;
 
-    private List<Foto> fotos;
+    private List<Imagem> imagems;
 
-    private Foto fotoPrincipal;
+    private Imagem imagemPrincipal;
 
     @NotBlank
     private Double preco;
@@ -60,20 +54,20 @@ public class ProdutoTO {
         this.categoriaId = categoriaId;
     }
 
-    public Foto getFotoPrincipal() {
-        return fotoPrincipal;
+    public Imagem getImagemPrincipal() {
+        return imagemPrincipal;
     }
 
-    public void setFotoPrincipal(Foto fotoPrincipal) {
-        this.fotoPrincipal = fotoPrincipal;
+    public void setImagemPrincipal(Imagem imagemPrincipal) {
+        this.imagemPrincipal = imagemPrincipal;
     }
 
-    public List<Foto> getFotos() {
-        return fotos;
+    public List<Imagem> getImagems() {
+        return imagems;
     }
 
-    public void setFotos(List<Foto> fotos) {
-        this.fotos = fotos;
+    public void setImagems(List<Imagem> imagems) {
+        this.imagems = imagems;
     }
 
     public String getNome() {

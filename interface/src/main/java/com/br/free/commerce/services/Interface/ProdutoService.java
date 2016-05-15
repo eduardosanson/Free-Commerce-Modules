@@ -5,6 +5,7 @@ import com.br.free.commerce.to.ProdutoTO;
 import com.free.commerce.entity.CarrinhoDeCompras;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +21,10 @@ public interface ProdutoService {
     Produto buscarProdutoPorId(String id);
 
     ProdutoPage buscarPorNomeParecido(String nome,String pagina ,String intemProPagina);
+
+    void alterarProduto(Produto produto);
+
+    void associarImagem(MultipartFile file,String produtoId);
 
 
 }

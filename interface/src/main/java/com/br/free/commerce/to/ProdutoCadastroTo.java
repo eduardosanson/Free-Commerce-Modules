@@ -1,6 +1,6 @@
 package com.br.free.commerce.to;
 
-import com.free.commerce.entity.Foto;
+import com.free.commerce.entity.Imagem;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.List;
@@ -20,9 +20,9 @@ public class ProdutoCadastroTo {
     @NotBlank
     private Double preco;
 
-    private Foto fotoPrincipal;
+    private Imagem imagemPrincipal;
 
-    private List<Foto> fotos;
+    private List<Imagem> imagems;
 
     private String CategoriaId;
 
@@ -54,12 +54,12 @@ public class ProdutoCadastroTo {
         CategoriaId = categoriaId;
     }
 
-    public Foto getFotoPrincipal() {
-        return fotoPrincipal;
+    public Imagem getImagemPrincipal() {
+        return imagemPrincipal;
     }
 
-    public void setFotoPrincipal(Foto fotoPrincipal) {
-        this.fotoPrincipal = fotoPrincipal;
+    public void setImagemPrincipal(Imagem imagemPrincipal) {
+        this.imagemPrincipal = imagemPrincipal;
     }
 
     public String getNome() {
@@ -94,11 +94,11 @@ public class ProdutoCadastroTo {
         this.preco = preco;
     }
 
-    public List<Foto> getFotos() {
-        return fotos;
+    public List<Imagem> getImagems() {
+        return imagems;
     }
 
-    public void setFotos(List<Foto> fotos) {
-        this.fotos = fotos;
+    public void setImagems(List<Imagem> imagems) {
+        this.imagems = imagems;
     }
 }

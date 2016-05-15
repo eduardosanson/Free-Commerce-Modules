@@ -1,7 +1,5 @@
-#logging:
-  #level: DEBUG
-
-
+logging:
+  level: DEBUG
 
 #Servidores de recurso free-commerce
 

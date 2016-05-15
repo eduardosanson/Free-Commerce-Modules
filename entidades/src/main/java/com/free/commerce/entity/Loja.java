@@ -46,7 +46,7 @@ public class Loja {
     private List<Produto> produtos;
 
     @OneToOne
-    private Foto perfil;
+    private Imagem perfil;
 
     public List<Produto> getProdutos() {
         return produtos;
@@ -56,11 +56,11 @@ public class Loja {
         this.produtos = produtos;
     }
 
-    public Foto getPerfil() {
+    public Imagem getPerfil() {
         return perfil;
     }
 
-    public void setPerfil(Foto perfil) {
+    public void setPerfil(Imagem perfil) {
         this.perfil = perfil;
     }
 

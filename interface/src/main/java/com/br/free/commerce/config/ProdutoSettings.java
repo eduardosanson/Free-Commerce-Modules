@@ -118,32 +118,32 @@ public class ProdutoSettings {
         this.buscarProdutosPorLoja = buscarProdutosPorLoja;
     }
 
-    private String getUrlCompleta(){
+    public String getUrlProduto(){
         return service+version+context;
     }
 
     public String buscarProdutoPorId(String id){
-        return getUrlCompleta()+buscarProdutoPorId+id;
+        return getUrlProduto()+buscarProdutoPorId+id;
     }
 
     public String buscarProdutosPorLojaPaginandoOReTornoUrl(String lojaId,String pagina,String qtdItemPorPagina){
-        return String.format(getUrlCompleta()+buscarProdutosPorLoja,lojaId,pagina,qtdItemPorPagina);
+        return String.format(getUrlProduto()+buscarProdutosPorLoja,lojaId,pagina,qtdItemPorPagina);
     }
 
     public String buscarProdutosPorNomeParecido(String pagina,String qtdItemPorPagina,String nome){
-        return String.format(getUrlCompleta()+buscarPorNomeParecido, pagina,qtdItemPorPagina,nome);
+        return String.format(getUrlProduto()+buscarPorNomeParecido, pagina,qtdItemPorPagina,nome);
     }
 
     public String cadastrarProduto(String lojaId){
-        return getUrlCompleta()+cadastrar + lojaId;
+        return getUrlProduto()+cadastrar + lojaId;
     }
 
     public String salvarCarrinhoDeCompras(){
-        return getUrlCompleta() + salvarCarrinhoDeCompras;
+        return getUrlProduto() + salvarCarrinhoDeCompras;
     }
 
     public String buscarCarrinhoDeCompras(String cookieId){
-        return String.format(getUrlCompleta() + buscarCarrinhoDeCompras,cookieId);
+        return String.format(getUrlProduto() + buscarCarrinhoDeCompras,cookieId);
     }
 
 

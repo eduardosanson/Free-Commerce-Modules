@@ -1,11 +1,9 @@
 package com.br.free.commerce.handler;
 
-import com.br.free.commerce.controllers.ClienteController;
+import com.br.free.commerce.controller.ClienteController;
 import com.free.commerce.entity.Enums.Role;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.stereotype.Service;

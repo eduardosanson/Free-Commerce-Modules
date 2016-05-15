@@ -1,23 +1,23 @@
 package com.br.free.commerce.response;
 
-import com.br.free.commerce.to.StoreForm;
+import com.br.free.commerce.to.CadastrarLojaTO;
 
 /**
  * Created by eduardo.sanson on 14/03/2016.
  */
 public class StoreResponse {
 
-    private StoreForm form;
+    private CadastrarLojaTO form;
 
     private String mensagem;
 
     private String codigo;
 
-    public StoreForm getForm() {
+    public CadastrarLojaTO getForm() {
         return form;
     }
 
-    public void setForm(StoreForm form) {
+    public void setForm(CadastrarLojaTO form) {
         this.form = form;
     }
 

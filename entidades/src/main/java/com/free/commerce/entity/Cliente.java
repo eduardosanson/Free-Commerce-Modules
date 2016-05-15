@@ -33,13 +33,13 @@ public class Cliente {
     private UserLogin userLogin;
 
     @OneToOne
-    private Foto perfil;
+    private Imagem perfil;
 
-    public Foto getPerfil() {
+    public Imagem getPerfil() {
         return perfil;
     }
 
-    public void setPerfil(Foto perfil) {
+    public void setPerfil(Imagem perfil) {
         this.perfil = perfil;
     }
 

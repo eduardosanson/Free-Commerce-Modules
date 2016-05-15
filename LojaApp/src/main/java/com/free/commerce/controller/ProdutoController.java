@@ -97,6 +97,21 @@ public class ProdutoController {
         return new ResponseEntity<Produto>(produto,HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Produto> alterarProduto(@RequestBody Produto produto){
+
+        try {
+
+            return new ResponseEntity<Produto>(produtoService.alterarProduto(produto),HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<Produto>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
+    }
+
     private ProdutoPage criarProdutoPage(Page<Produto> produtos) {
         ProdutoPage produtoPage = new ProdutoPage();
         produtoPage.setProdutos(produtos.getContent());

@@ -1,24 +1,16 @@
 package com.br.free.commerce.services;
 
 import com.br.free.commerce.services.Interface.ClienteService;
-import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.to.BuscarClienteTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
-import com.br.free.commerce.to.StoreForm;
 import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

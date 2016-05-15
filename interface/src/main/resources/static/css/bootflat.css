@@ -1461,7 +1461,7 @@ blockquote {
  * --------------------------------------------------
  */
 .nav-tabs {
-  background-color: #e6e9ed;
+ #background-color: #e6e9ed;
   border-bottom: none;
           border-radius: 4px 4px 0 0;
 
