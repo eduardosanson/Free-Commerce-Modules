@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-sm-12">
             <!--{highlight-ads} -> os mais vendidos fica amarelo-->
-            <div  th:if="${#lists.isEmpty(produtoPage.produto)}">
+            <div  th:if="${#lists.isEmpty(produtoPage.produtos)}">
                 <p> Nenhum Resultado encontrado</p>
             </div>
-            <div class="item-ads" th:each="produto : ${produtoPage.produto}">
+            <div class="item-ads" th:each="produto : ${produtoPage.produtos}">
 
                 <div class="row">
 
@@ -15,7 +15,7 @@
                         <!--<a href="#">Featured Ads</a>-->
                         <!--</div>-->
                         <div class="item-img">
-                            <img alt="" th:src="${produto.imagems.get(0).path}"/>
+                            <img alt="" th:src="'/' + ${produto.imagens.get(0).path}" th:if="${not #lists.isEmpty(produto.imagens)}"/>
                         </div>
                     </div>
                     <div class="col-sm-8 col-xs-6">

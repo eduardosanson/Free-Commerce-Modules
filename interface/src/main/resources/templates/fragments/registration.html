@@ -93,7 +93,7 @@
                                             <div class="col-md-4 form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                    <input th:field="*{cpfOuCnpj}" type="text" placeholder="Cpf ou cnpj" class="form-control input-md"/>
+                                                    <input name="cpfcnpj" id="cpfcnpj" th:field="*{cpfOuCnpj}" type="text" placeholder="Cpf ou cnpj" class="form-control input-md"/>
                                                 </div>
                                                 <div th:if="${#fields.hasErrors('cpfOuCnpj')}" class="alert alert-danger form-control input-md"
                                                      th:errors="*{cpfOuCnpj}" role="alert">
@@ -233,7 +233,10 @@
             
 
         <!-- Essentials -->
-        <script type="text/javascript">
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+
+
             $("#telefone").mask("(99) 9999?9-9999");
 
             $("#telefone").on("blur", function() {
@@ -248,6 +251,26 @@
                 }
             });
 
-        </script>
+            $("#cpfcnpj").keydown(function(){
+                try {
+                    $("#cpfcnpj").unmask();
+                } catch (e) {}
+
+                var tamanho = $("#cpfcnpj").val().replace(/\-|[\/"]|.|_/g,'').length;
+
+                if(tamanho < 11){
+                    $("#cpfcnpj").mask("999.999.999-99");
+                } else {
+                    $("#cpfcnpj").mask("99.999.999/9999-99");
+                }
+            });
+
+              webshims.setOptions('waitReady', false);
+              webshims.setOptions('forms-ext', {types: 'date'});
+              webshims.polyfill('forms forms-ext');
+
+              /*]]>*/
+
+           </script>
 
 </div>

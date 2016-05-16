@@ -1,0 +1,65 @@
+<div th:fragment="editar-produto">
+        <div class="panel panel-default" onload="loadFileInput()">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs nav-justified" style="{background-color:none}">
+                    <li class="active"><a href="#" data-toggle="tab">Dados do Produto</a></li>
+                    <li class="disabled"><a href="#">Imagens do Produto </a></li>
+                </ul>
+
+            </div>
+
+            <form accept-charset="utf-8" method="post" enctype="multipart/form-data" th:action="@{/produto}" th:object="${produtoTO}" class="form-horizontal">
+                <input id="categoriaProduto" type="hidden" th:field="*{categoriaId}"/>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input  th:field="*{nome}" type="text"  value="" class="form-control"/></div>
+
+                        <div th:if="${#fields.hasErrors('nome')}" class="alert alert-danger form-control input-md" th:errors="*{nome}" role="alert"></div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Price</label>
+                        <div class="col-sm-9">
+                            <input th:field="*{preco}" type="text" min="1" required="required" class="form-control"/>
+                        </div>
+                        <div th:if="${#fields.hasErrors('preco')}"
+                             class="alert alert-danger form-control input-md"                                      th:errors="*{preco}" role="alert"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Quantidade Disponivel</label>
+                        <div class="col-sm-4">
+                            <input th:field="*{quantidade}" type="text" required="required" class="form-control"/>
+                            <span class="help-block"></span>
+                        </div>
+                        <div th:if="${#fields.hasErrors('quantidade')}" class="alert alert-danger form-control input-md" th:errors="*{quantidade}" role="alert"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Produto novo</label>
+                        <div class="col-sm-9">
+                            <input th:field="*{novo}" type="checkbox"  class="filestyle"/>
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
+                            <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(1)"></option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="button" class="btn btn-custom" onclick="enviarFomularioDeProduto()"><i class="fa fa-save"></i> Publish</button>
+                            <!--<button type="submit" class="btn btn-custom"><i class="fa fa-save"></i> Publish</button>-->
+                            <button type="button" class="btn btn-default"><i class="fa fa-close"></i> Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>

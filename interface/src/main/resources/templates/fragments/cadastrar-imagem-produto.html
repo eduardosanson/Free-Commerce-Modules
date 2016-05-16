@@ -21,10 +21,11 @@
 
 
         $("#input-repl-2").fileinput({
-            uploadUrl: "/produto/menu/produto/upload",
+            uploadUrl: "/produto/menu/upload",
             language: 'pt-BR',
             autoReplace: true,
             maxFileCount: 5,
+            uploadAsync: false,
             allowedFileExtensions: ["jpg", "png", "gif"],
             uploadExtraData:{produtoId:[[${produtoId}]]}
             <!--dados extras-->

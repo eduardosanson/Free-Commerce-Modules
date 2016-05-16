@@ -35,8 +35,6 @@
 
     <!-- ############################## -->
 
-    <script th:src="@{https://raw.githubusercontent.com/digitalBush/jquery.maskedinput/1.3.1/dist/jquery.maskedinput.min.js}"></script>
-
     <!-- BootFlat -->
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css}" type="text/css"/>
 
@@ -165,20 +163,19 @@
     <script  src="/js/file-input/fileinput.js"
     th:src="@{/js/file-input/fileinput.js}"></script>
 
-    <script  src="/js/custom-file-input.js"
-    th:src="@{/js/custom-file-input.js}"></script>
-
     <script  src="/js/file-input/plugins/canvas-to-blob.js"
              th:src="@{/js/file-input/plugins/canvas-to-blob.js}"></script>
 
     <script  src="/js/file-input/fileinput_locale_pt-BR.js"
              th:src="@{/js/file-input/fileinput_locale_pt-BR.js}"></script>
 
-    <script  src="/js/cadastro-loja.js"
-             th:src="@{/js/cadastro-loja.js}"></script>
+    <script  src="/js/jquery.maskedinput.js"
+             th:src="@{/js/jquery.maskedinput.js}"></script>
 
-    <script  src="/js/mask-jquery.js"
-             th:src="@{/js/mask-jquery.js}"></script>
+    <!-- cdn for modernizr, if you haven't included it already -->
+    <script th:src="@{http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js}"></script>
+    <!-- polyfiller file to detect and load polyfills -->
+    <script th:src="@{http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js}"></script>
 
 
 

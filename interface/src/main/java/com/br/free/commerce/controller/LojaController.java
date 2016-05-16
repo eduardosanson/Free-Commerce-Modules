@@ -63,6 +63,9 @@ public class LojaController {
     private static final String quantidadeDeProdutoPorPagina="5";
     private static final String FRAGMENT_CADASTRAR_IMAGEM_PRODUTO ="cadastrar-imagem-produto";
     private static final String PAGINA_CADASTRAR_IMAGEM_PRODUTO ="cadastrar-imagem-produto";
+    private static final String MENU_EDITAR_PRODUTO="editar-produto";
+    private static final String FRAGMENTO_EDITAR_PRODUTO="editar-produto";
+
 
     @Autowired
     private StoreService storeService;
@@ -81,6 +84,22 @@ public class LojaController {
 
     private Logger logger = Logger.getLogger(LojaController.class);
 
+
+    @RequestMapping(value = "menu/editar/{produtoId}")
+    public String editarProduto(Model model,@PathVariable("produtoId") String produtoId){
+
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
+
+        model.addAttribute(MENU_NAME,MENU_EDITAR_PRODUTO);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENTO_EDITAR_PRODUTO);
+
+        Produto produto = produtoService.buscarProdutoPorId(produtoId);
+
+        model.addAttribute("produto",produto);
+
+        return INDEX;
+    }
 
     @RequestMapping(value = "/menu/teste",method = RequestMethod.GET)
     public String test2(Model model){

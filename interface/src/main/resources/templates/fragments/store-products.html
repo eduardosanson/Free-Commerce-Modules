@@ -38,7 +38,8 @@
                 <tr th:each="produto  : ${produtoPage.produtos}" th:if="${produtoPage != null}" >
                     <td><input type="checkbox" /></td>
                     <td><img alt="" class="thumb-img img-responsive"
-                             th:src="'/'+${produto.imagens.get(0).path}" th:if="${not #lists.isEmpty(produto.imagens)}"/></td>
+                             th:src="'/'+${produto.imagens != null and produto.imagens.size() != 0 ? produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"/></td>
+                    <!--th:if="${not #lists.isEmpty(produto.imagens)}"-->
                     <td>
                         <div class="item-title"><a th:href="@{/produto/detail/} + ${produto.id}" target="_blank"><strong th:text="${produto.nome}"></strong></a></div>
                         <div class="item-meta">
@@ -53,9 +54,9 @@
                     <td ><span th:text="${produto.quantidade &gt; 0 ? 'Em Estoque' : 'Esgotado'}"></span></td>
                     <td>
                         <ul class="actions-table">
-                            <li><a class="label label-success"><i class="fa fa-pencil"></i> edit</a></li>
+                            <li><a th:href="'/store/menu/editar/' + ${produto.id}" class="label label-success"><i class="fa fa-pencil"></i></a></li>
                             <li><a class="label label-warning"><i class="fa fa-close"></i> disable</a></li>
-                            <li><a href="#" class="label label-danger" onclick="return confirm('Remove this item?')"><i class="fa fa-trash"></i> delete</a></li>
+                            <li><a href="#" class="label label-danger" onclick="return confirm('Remove this item?')"><i class="glyphicon glyphicon-remove-circle"></i></a></li>
                         </ul>
                     </td>
                 </tr>

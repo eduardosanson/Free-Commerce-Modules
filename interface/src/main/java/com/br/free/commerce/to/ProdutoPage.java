@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ProdutoPage {
 
-    private Iterable<Produto> produtos;
+    private List<Produto> produtos;
 
     private int totalElements;
 
@@ -35,11 +35,11 @@ public class ProdutoPage {
         this.numberOfElements = numberOfElements;
     }
 
-    public Iterable<Produto> getProdutos() {
+    public List<Produto> getProdutos() {
         return produtos;
     }
 
-    public void setProdutos(Iterable<Produto> produtos) {
+    public void setProdutos(List<Produto> produtos) {
         this.produtos = produtos;
     }
 

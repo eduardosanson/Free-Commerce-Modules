@@ -55,7 +55,6 @@ public class ProdutoController {
     private static final String MENU_NAME="MENU_NAME";
     private static final String MENU_FRAGMENT="MENU_FRAGMENT";
 
-
     @Autowired
     private ProdutoService produtoService;
 
@@ -70,7 +69,8 @@ public class ProdutoController {
 
     private static final Logger logger =  Logger.getLogger(ProdutoController.class);
 
-    @RequestMapping(value = "/menu/produto/upload",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/menu/upload",method = RequestMethod.POST)
     public ResponseEntity associarImagem(@RequestParam(value = "file") MultipartFile file, @RequestParam("produtoId") String produtoId){
 
         logger.info(file.getOriginalFilename() + "  " + produtoId);
