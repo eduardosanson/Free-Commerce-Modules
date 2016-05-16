@@ -251,19 +251,19 @@
                 }
             });
 
-            $("#cpfcnpj").keydown(function(){
-                try {
-                    $("#cpfcnpj").unmask();
-                } catch (e) {}
+            <!--$("#cpfcnpj").keydown(function(){-->
+                <!--try {-->
+                    <!--$("#cpfcnpj").unmask();-->
+                <!--} catch (e) {}-->
 
-                var tamanho = $("#cpfcnpj").val().replace(/\-|[\/"]|.|_/g,'').length;
+                <!--var tamanho = $("#cpfcnpj").val().replace(/\-|[\/"]|.|_/g,'').length;-->
 
-                if(tamanho < 11){
-                    $("#cpfcnpj").mask("999.999.999-99");
-                } else {
-                    $("#cpfcnpj").mask("99.999.999/9999-99");
-                }
-            });
+                <!--if(tamanho < 11){-->
+                    <!--$("#cpfcnpj").mask("999.999.999-99");-->
+                <!--} else {-->
+                    <!--$("#cpfcnpj").mask("99.999.999/9999-99");-->
+                <!--}-->
+            <!--});-->
 
               webshims.setOptions('waitReady', false);
               webshims.setOptions('forms-ext', {types: 'date'});

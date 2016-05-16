@@ -6,6 +6,7 @@ import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.services.Interface.StoreService;
+import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.*;
 import com.br.free.commerce.util.MaskUtil;
 import com.br.free.commerce.util.Page;
@@ -82,11 +83,14 @@ public class LojaController {
     @Autowired
     private Carrinho carrinho;
 
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
     private Logger logger = Logger.getLogger(LojaController.class);
 
 
     @RequestMapping(value = "menu/editar/{produtoId}")
-    public String editarProduto(Model model,@PathVariable("produtoId") String produtoId){
+    public String editarProduto(Model model,@PathVariable("produtoId") String produtoId, Produto produto){
 
         model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
         model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
@@ -94,7 +98,7 @@ public class LojaController {
         model.addAttribute(MENU_NAME,MENU_EDITAR_PRODUTO);
         model.addAttribute(MENU_FRAGMENT,FRAGMENTO_EDITAR_PRODUTO);
 
-        Produto produto = produtoService.buscarProdutoPorId(produtoId);
+        produto = produtoService.buscarProdutoPorId(produtoId);
 
         model.addAttribute("produto",produto);
 
@@ -121,7 +125,8 @@ public class LojaController {
     }
 
     @RequestMapping(value = "/form",method = RequestMethod.POST)
-    public String singUp(@Valid CadastrarLojaTO cadastrarLojaTO, BindingResult bindingResult, Model model, HttpServletRequest request){
+    public String singUp(@Valid CadastrarLojaTO cadastrarLojaTO, BindingResult bindingResult,
+                         Model model, HttpServletRequest request,ProdutoTO produtoTO){
         model.addAttribute(PAGE_NAME,PAGE_REGISTRATION);
         model.addAttribute(PAGE_FRAGMENT,REGISTRATION_FRAGMENT);
 
@@ -136,7 +141,7 @@ public class LojaController {
             if (user==null){
                 return INDEX;
             }else {
-                authenticateUserAndSetSession(user, request);
+                userDetailsService.login(request,user.getLogin(),user.getSenha());
                 return "redirect:"+MENU;
             }
     }

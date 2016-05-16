@@ -8,8 +8,8 @@
 
             </div>
 
-            <form accept-charset="utf-8" method="post" enctype="multipart/form-data" th:action="@{/produto}" th:object="${produtoTO}" class="form-horizontal">
-                <input id="categoriaProduto" type="hidden" th:field="*{categoriaId}"/>
+            <form accept-charset="utf-8" method="post"  th:action="@{/produto/editar}" th:object="${produto}"
+                  class="form-horizontal">
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Name</label>
@@ -43,23 +43,17 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
-
-                        <select name="catPrincipal" multiple="multiple" size="8" style="width: 90%">
-                            <option th:each="categoria  : ${categoriasPrincipais}" th:attr="value=${categoria.id}" th:text="${categoria.descricao}" onclick="subCategoria(1)"></option>
-                        </select>
-
-                    </div>
                 </div>
                 <div class="panel-footer">
                     <div class="row">
                         <div class="col-sm-offset-3 col-sm-9">
-                            <button type="button" class="btn btn-custom" onclick="enviarFomularioDeProduto()"><i class="fa fa-save"></i> Publish</button>
+                            <button type="submit" class="btn btn-custom"><i class="fa fa-save"></i> Alterar</button>
                             <!--<button type="submit" class="btn btn-custom"><i class="fa fa-save"></i> Publish</button>-->
-                            <button type="button" class="btn btn-default"><i class="fa fa-close"></i> Cancel</button>
+                            <a href="/store/menu"><button type="button" class="btn btn-default"><i class="fa fa-close"></i> Cancel</button> </a>
                         </div>
                     </div>
                 </div>
             </form>
 
         </div>
+</div>

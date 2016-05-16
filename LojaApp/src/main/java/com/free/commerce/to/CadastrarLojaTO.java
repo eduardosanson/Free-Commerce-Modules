@@ -61,8 +61,6 @@ public class CadastrarLojaTO {
     @NotBlank
     private  String cidade;
 
-
-
     @Override
     public String toString() {
         return "CadastrarLojaTO{" +

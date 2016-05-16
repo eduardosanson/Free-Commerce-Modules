@@ -111,6 +111,15 @@ public class ProdutoController {
         return INDEX;
     }
 
+    @RequestMapping(value = "/editar",method = RequestMethod.POST)
+    public String editarProduto(Produto produto){
+
+
+        produtoService.alterarProduto(produto);
+
+        return "redirect:/store/menu";
+    }
+
     @RequestMapping("/detail/{productId}")
     public String productDetail(@PathVariable("productId") String id, Model model){
         model.addAttribute(PAGE_NAME,PRODUCT_DETAIL_PAGE);

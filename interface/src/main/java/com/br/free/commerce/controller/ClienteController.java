@@ -81,7 +81,8 @@ public class ClienteController {
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
     @RequestMapping("/menu")
-    public String login(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, FinalizarCadastroTO cadastroTO, HttpSession session){
+    public String login(@AuthenticationPrincipal CustomUserDetails userDetails, Model model,
+                        FinalizarCadastroTO cadastroTO, HttpSession session){
 
         //customUserDetails.getUserlogin();
 
@@ -248,10 +249,9 @@ public class ClienteController {
         model.addAttribute(MENU_NAME,MENU_NAME_HOME);
         model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
 
-
         if (bindingResult.hasErrors()){
             System.out.println("ocorreu um erro");
-            return INDEX;
+            return "redirect:/";
         }
 
         UserLogin user = null;
@@ -271,7 +271,7 @@ public class ClienteController {
 
         if (user!=null){
             redirectAttrs.addFlashAttribute("quickSingErro",true).
-                    addFlashAttribute("errorMessage","Email já cadastrado");
+                    addFlashAttribute("errorMessage","Usuário já cadastrado");
         }
         return "redirect:/";
 
