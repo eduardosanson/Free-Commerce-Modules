@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,22 +72,24 @@ public class ProdutoController {
 
 
     @RequestMapping(value = "/menu/upload",method = RequestMethod.POST)
-    public ResponseEntity associarImagem(@RequestParam(value = "file") MultipartFile file, @RequestParam("produtoId") String produtoId){
+    public @ResponseBody ResponseEntity<String> associarImagem(@RequestParam(value = "file") MultipartFile file, @RequestParam("produtoId") String produtoId){
 
         logger.info(file.getOriginalFilename() + "  " + produtoId);
 
         try {
 
+
             produtoService.associarImagem(file,produtoId);
 
         }catch (Exception e){
             logger.error(e.getMessage());
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+//            return "redirect:/";
+            return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
-        return new ResponseEntity(HttpStatus.OK);
-
+//        return "redirect:/";
+        return new ResponseEntity<String>("{\"response\" : \"sucesso\"}",HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)

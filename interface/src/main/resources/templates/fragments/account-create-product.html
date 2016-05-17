@@ -125,19 +125,6 @@
     }
 });
 
-$("#input-repl-2").fileinput({
-    uploadUrl: "/store/menu/upload",
-    language: 'pt-BR',
-    autoReplace: true,
-    maxFileCount: 5,
-    allowedFileExtensions: ["jpg", "png", "gif"]
-    <!--uploadExtraData:{teste:''} -->
-    <!--dados extras-->
-}).on('filebatchpreupload', function(event, data) {
-       window.location.assign("/store/menu")
-
-});
-
         </script>
 
     </div>

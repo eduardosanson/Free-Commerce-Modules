@@ -43,6 +43,10 @@
                                                     <img alt="" th:src="'/'+${imagem.path}" />
                                                 </li>
 
+                                                <li th:if="${#lists.isEmpty(produto.imagens)}">
+                                                    <img alt=""  th:src="'/img/products/produto-sem-imagem.jpg'"  />
+                                                </li>
+
 
 
                                             </ul>

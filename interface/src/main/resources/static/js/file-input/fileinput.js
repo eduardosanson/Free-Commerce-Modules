@@ -1210,6 +1210,7 @@
                 cache: false,
                 processData: false,
                 contentType: false,
+                enctype: 'multipart/form-data',
                 beforeSend: fnBefore,
                 success: fnSuccess,
                 complete: fnComplete,

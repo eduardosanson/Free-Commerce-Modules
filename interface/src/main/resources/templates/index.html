@@ -55,23 +55,6 @@
         });
     });
 
-    $('input').blur(function() {
-                var pass = $('input[name=email]').val();
-                var repass = $('input[name=confirmEmail]').val();
-
-                console.log(pass);
-                console.log(repass);
-
-                if(($('input[name=email]').val().length == 0) || ($('input[name=confirmEmail]').val().length == 0)){
-                    $('#confirmEmail').addClass('has-error');
-                }
-                else if (pass != repass) {
-                    $('#confirmEmail').addClass('has-error');
-                }
-                else {
-                    $('#email').removeClass().addClass('has-success');
-                    $('#confirmEmail').removeClass().addClass('has-success');
-            }});
 </script>
 </body>
 </html> 

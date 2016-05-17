@@ -27,7 +27,10 @@
             maxFileCount: 5,
             uploadAsync: false,
             allowedFileExtensions: ["jpg", "png", "gif"],
-            uploadExtraData:{produtoId:[[${produtoId}]]}
+            uploadExtraData:{
+                            produtoId:[[${produtoId}]],
+                            _csrf:[[${_csrf}]]
+                            }
             <!--dados extras-->
         }).on('filebatchpreupload', function(event, data) {
                <!--window.location.assign("/store/menu")-->
