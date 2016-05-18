@@ -11,6 +11,7 @@ import com.br.free.commerce.to.*;
 import com.br.free.commerce.util.MaskUtil;
 import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Categoria;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
@@ -120,6 +121,20 @@ public class LojaController {
 
         model.addAttribute("produto",produto);
         model.addAttribute("produtoId",produto.getId());
+
+
+        Imagem[] imagens = new Imagem[produto.getImagens().size()];
+
+
+
+        ImagemView imagemView = new ImagemView();
+        for (int i = 0; i<imagens.length ; i++) {
+            imagemView.getImagens().add("<img style='height:160px' src='/" + produto.getImagens().get(i).getPath() +"'/>");
+        }
+
+        model.addAttribute("imagens",imagens);
+        model.addAttribute("imagensView",imagemView);
+
 
         return INDEX;
     }

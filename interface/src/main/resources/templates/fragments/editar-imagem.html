@@ -18,16 +18,11 @@
 
         </div>
 
-    <script>
-
+    <script th:inline="javascript">
     /*<![CDATA[*/
 
-    <!--var imagens = [[${produto.imagens}]]-->
-    <!--for (i = 0; i < imagens.length; i++) {-->
-        <!--doSomething(theList[i]);-->
-    <!--}-->
+    var imagens = [[${produto.imagens}]]
 
-    /*]]>*/
 
        $("#editarImagens").fileinput({
             uploadUrl: "/produto/menu/upload", // server upload action
@@ -36,20 +31,22 @@
             maxFileCount: 5,
             overwriteInitial: false,
             initialPreview: [
-            /*<![CDATA[*/
-                "<img style='height:160px' src='http://lorempixel.com/200/150/people/1'/>",
-                "<img style='height:160px' src='http://lorempixel.com/200/150/people/2'/>",
-
-            /*]]>*/
+            [[${imagensView}]]
             ],
             initialPreviewConfig: [
+            <!--for (i = 0; i < imagens.length; i++) {-->
+                    <!--{caption: "People-1.jpg", width: "120px", url: "/store/menu/imagen/delete", key: imagens[i].id},-->
+            <!--}-->
                 {caption: "People-1.jpg", width: "120px", url: "/site/file-delete", key: 1},
                 {caption: "People-2.jpg", width: "120px", url: "/site/file-delete", key: 2},
             ],
             uploadExtraData: {
-                produtoId:/* [[${message}]] */ '1',
+                produtoId:/* [[${produto.id}]] */ '1',
             }
         });
+
+
+        /*]]>*/
 
 
     </script>
