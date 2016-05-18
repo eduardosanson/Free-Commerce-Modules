@@ -24,7 +24,7 @@ public interface ProdutoService {
 
     void alterarProduto(Produto produto);
 
-    void associarImagem(MultipartFile file,String produtoId);
+    void associarImagem(List<MultipartFile> file,String produtoId);
 
 
 }

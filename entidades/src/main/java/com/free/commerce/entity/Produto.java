@@ -29,7 +29,7 @@ public class Produto {
 
     private Date registrado;
 
-    @OneToMany(targetEntity = Imagem.class,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Imagem.class,cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Imagem> imagens;
 
     @OneToOne(cascade = CascadeType.ALL)

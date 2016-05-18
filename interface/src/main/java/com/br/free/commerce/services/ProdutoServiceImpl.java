@@ -129,20 +129,21 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public void associarImagem(MultipartFile file, String produtoId) {
+    public void associarImagem(List<MultipartFile> files, String produtoId) {
 
         Produto produto = buscarProdutoPorId(produtoId);
 
-        Imagem imagem = imageProcessor(PASTA_DAS_LOJAS+produtoId,criarNomeCriarNomeDeImagem(),file);
+        List<Imagem> imagens = new ArrayList<>();
 
-        if (produto.getImagens()==null){
-            produto.setImagens(new ArrayList<Imagem>());
-            produto.getImagens().add(imagem);
-        }else {
-            produto.getImagens().add(imagem);
+        for (MultipartFile file: files ) {
+            Imagem imagem;
+            imagem = imageProcessor(PASTA_DAS_LOJAS+produtoId,criarNomeCriarNomeDeImagem(),file);
+            imagens.add(imagem);
         }
 
-        restTemplate.put(produtoControlerApiConfig.getUrlProduto(),produto, Produto.class);
+        produto.getImagens().addAll(imagens);
+
+        alterarProduto(produto);
 
     }
 
@@ -157,20 +158,6 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoCadastroTo.setCategoriaId(produtoTO.getCategoriaId());
         produtoCadastroTo.setNovo(produtoTO.isNovo());
         produtoCadastroTo.setQuantidade(produtoTO.getQuantidade());
-
-//        List<Imagem> imagems = new ArrayList<Imagem>();
-//        List<MultipartFile> files = new ArrayList<MultipartFile>();
-//        files.add(produtoTO.getFile());
-//        files.add(produtoTO.getFile2());
-//        files.add(produtoTO.getFile3());
-//
-//        for (MultipartFile f : files) {
-//            String nomeDoArquivo = criarNomeCriarNomeDeImagem();
-//            imagems.add(imageProcessor(nomeDaPastaDaImagem, nomeDoArquivo, f));
-//
-//        }
-//        produtoCadastroTo.setImagems(imagems);
-
 
         return produtoCadastroTo;
     }

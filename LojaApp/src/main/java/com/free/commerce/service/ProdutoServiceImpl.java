@@ -110,7 +110,35 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Produto alterarProduto(Produto produto) {
-        return repository.save(produto);
+        Produto produtoPersistido = repository.findOne(produto.getId());
+
+        return repository.save(updateProduto(produto, produtoPersistido));
+    }
+
+    private Produto updateProduto(Produto produto, Produto produtoPersistido) {
+        produtoPersistido.setDescricao(produto.getDescricao());
+        produtoPersistido.setDescricaoTetcnica(produto.getDescricaoTetcnica());
+        produtoPersistido.setPreco(produto.getPreco());
+        produtoPersistido.setNome(produto.getNome());
+        produtoPersistido.setNovo(produto.isNovo());
+        produtoPersistido.setQuantidade(produto.getQuantidade());
+
+        if (possuiImagemParaAlterar(produto)){
+            produtoPersistido.getImagens().addAll(produto.getImagens());
+        }
+
+        return produtoPersistido;
+    }
+
+    private boolean possuiImagemParaAlterar(Produto produto) {
+        return produto.getImagens()!=null && !produto.getImagens().isEmpty();
+    }
+
+    private Produto merge(Produto produto, Produto produtoPersistido) {
+
+
+
+        return produtoPersistido;
     }
 
     private Produto criarProduto(ProdutoTO produtoTO) {

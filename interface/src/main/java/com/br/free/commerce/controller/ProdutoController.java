@@ -72,23 +72,19 @@ public class ProdutoController {
 
 
     @RequestMapping(value = "/menu/upload",method = RequestMethod.POST)
-    public @ResponseBody ResponseEntity<String> associarImagem(@RequestParam(value = "file") MultipartFile file, @RequestParam("produtoId") String produtoId){
+    public @ResponseBody ResponseEntity<String> associarImagem(@RequestParam(value = "file") List<MultipartFile> files, @RequestParam("produtoId") String produtoId){
 
-        logger.info(file.getOriginalFilename() + "  " + produtoId);
+
+        logger.info(files  + "  " + produtoId);
 
         try {
-
-
-            produtoService.associarImagem(file,produtoId);
+                produtoService.associarImagem(files,produtoId);
 
         }catch (Exception e){
             logger.error(e.getMessage());
-//            return "redirect:/";
             return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
-
-//        return "redirect:/";
         return new ResponseEntity<String>("{\"response\" : \"sucesso\"}",HttpStatus.OK);
     }
 
@@ -114,7 +110,7 @@ public class ProdutoController {
         return INDEX;
     }
 
-    @RequestMapping(value = "/editar",method = RequestMethod.POST)
+    @RequestMapping(value = "/editar/{id}",method = RequestMethod.POST)
     public String editarProduto(Produto produto){
 
 
