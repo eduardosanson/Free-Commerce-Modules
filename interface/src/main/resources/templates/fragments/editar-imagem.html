@@ -1,0 +1,56 @@
+<div th:fragment="editar-imagem" xmlns:th="http://www.w3.org/1999/xhtml">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-tabs nav-justified" style="{background-color:none}">
+                    <li><a th:href="'/store/menu/editar/produto/' + ${produto.id}" data-toggle="tab">Dados do Produto</a></li>
+                    <li class="active"><a th:href="'/store/menu/editar/produto/imagem/' + ${produto.id}" data-toggle="tab">Imagens do Produto </a></li>
+                </ul>
+
+            </div>
+
+            <div class="form-group">
+                <div class="form-group">
+                    <input id="editarImagens" name="file" type="file" class="file-loading" accept="image/*" multiple="multiple"/>
+                    <span class="help-block"></span>
+                </div>
+            </div>
+
+
+        </div>
+
+    <script>
+
+    /*<![CDATA[*/
+
+    <!--var imagens = [[${produto.imagens}]]-->
+    <!--for (i = 0; i < imagens.length; i++) {-->
+        <!--doSomething(theList[i]);-->
+    <!--}-->
+
+    /*]]>*/
+
+       $("#editarImagens").fileinput({
+            uploadUrl: "/produto/menu/upload", // server upload action
+            uploadAsync: false,
+            minFileCount: 1,
+            maxFileCount: 5,
+            overwriteInitial: false,
+            initialPreview: [
+            /*<![CDATA[*/
+                "<img style='height:160px' src='http://lorempixel.com/200/150/people/1'/>",
+                "<img style='height:160px' src='http://lorempixel.com/200/150/people/2'/>",
+
+            /*]]>*/
+            ],
+            initialPreviewConfig: [
+                {caption: "People-1.jpg", width: "120px", url: "/site/file-delete", key: 1},
+                {caption: "People-2.jpg", width: "120px", url: "/site/file-delete", key: 2},
+            ],
+            uploadExtraData: {
+                produtoId:/* [[${message}]] */ '1',
+            }
+        });
+
+
+    </script>
+</div>

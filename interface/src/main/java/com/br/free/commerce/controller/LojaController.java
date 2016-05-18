@@ -66,6 +66,8 @@ public class LojaController {
     private static final String PAGINA_CADASTRAR_IMAGEM_PRODUTO ="cadastrar-imagem-produto";
     private static final String MENU_EDITAR_PRODUTO="editar-produto";
     private static final String FRAGMENTO_EDITAR_PRODUTO="editar-produto";
+    private static final String MENU_EDITAR_IMAGEM="editar-imagem";
+    private static final String FRAGMENTO_EDITAR_IMAGEM="editar-imagem";
 
 
     @Autowired
@@ -89,7 +91,7 @@ public class LojaController {
     private Logger logger = Logger.getLogger(LojaController.class);
 
 
-    @RequestMapping(value = "menu/editar/{produtoId}")
+    @RequestMapping(value = "menu/editar/produto/{produtoId}")
     public String editarProduto(Model model,@PathVariable("produtoId") String produtoId, Produto produto){
 
         model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
@@ -101,6 +103,23 @@ public class LojaController {
         produto = produtoService.buscarProdutoPorId(produtoId);
 
         model.addAttribute("produto",produto);
+
+        return INDEX;
+    }
+
+    @RequestMapping(value = "menu/editar/produto/imagem/{produtoId}")
+    public String editarImagemDeProduto(Model model,@PathVariable("produtoId") String produtoId, Produto produto){
+
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
+
+        model.addAttribute(MENU_NAME,MENU_EDITAR_IMAGEM);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENTO_EDITAR_IMAGEM);
+
+        produto = produtoService.buscarProdutoPorId(produtoId);
+
+        model.addAttribute("produto",produto);
+        model.addAttribute("produtoId",produto.getId());
 
         return INDEX;
     }
@@ -187,6 +206,13 @@ public class LojaController {
     @RequestMapping(value = "/menu/showMyProducts/{pageNumber}")
     public String showMyProducts(@PathVariable String pageNumber, Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails){
 
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
+
+        model.addAttribute(MENU_NAME,MENU_NAME_HOME);
+        model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
+
+
         ProdutoPage produtos = produtoService.
                 recuperarProdutosDeLoja(customUserDetails.getUserlogin().getLoja(),
                 pageNumber,quantidadeDeProdutoPorPagina);
@@ -200,7 +226,7 @@ public class LojaController {
         model.addAttribute("produtoPage",produtos);
         model.addAttribute("page",page);
 
-        return "fragments/"+MENU_NAME_HOME + " :: " + MENU_FRAGMENT_HOME;
+        return INDEX;
     }
 
     @RequestMapping(value = "/menu/showMyProductsPage/{pageNumber}")
@@ -214,6 +240,7 @@ public class LojaController {
 
         model.addAttribute("produtoPage",produtos);
         model.addAttribute("page",page);
+
 
         return "fragments/"+PAGE_PRODUCT + " :: " + FRAGMENT_PRODUCT;
     }
