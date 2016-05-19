@@ -1,9 +1,11 @@
 package com.free.commerce.service;
 
 import com.free.commerce.entity.Categoria;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.repository.FotoRepository;
+import com.free.commerce.repository.ImageRepository;
 import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.repository.ProductRepository;
 import com.free.commerce.service.interfaces.CategoriaService;
@@ -34,6 +36,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     private static Logger logger = Logger.getLogger(ProdutoServiceImpl.class);
 
@@ -115,6 +120,24 @@ public class ProdutoServiceImpl implements ProdutoService {
         return repository.save(updateProduto(produto, produtoPersistido));
     }
 
+    @Override
+    public void deletarImagem(long produtoId, long imagemId) {
+        Produto produto = repository.findOne(produtoId);
+
+        Imagem imagem = new Imagem();
+        for (Imagem i : produto.getImagens()){
+            if (i.getId()==imagemId){
+                imagem =i;
+            }
+
+        }
+        produto.getImagens().remove(imagem);
+
+        repository.save(produto);
+
+
+    }
+
     private Produto updateProduto(Produto produto, Produto produtoPersistido) {
         produtoPersistido.setDescricao(produto.getDescricao());
         produtoPersistido.setDescricaoTetcnica(produto.getDescricaoTetcnica());
@@ -124,7 +147,13 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoPersistido.setQuantidade(produto.getQuantidade());
 
         if (possuiImagemParaAlterar(produto)){
-            produtoPersistido.getImagens().addAll(produto.getImagens());
+
+            for (Imagem imagem : produto.getImagens()) {
+                if (imagem.getId()==0){
+                    produtoPersistido.getImagens().add(imageRepository.save(imagem));
+                }
+
+            }
         }
 
         return produtoPersistido;

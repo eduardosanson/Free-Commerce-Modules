@@ -25,5 +25,7 @@ public interface ProdutoService {
 
     Produto alterarProduto(Produto produto);
 
+    void deletarImagem(long produtoId, long imagemId);
+
 
 }

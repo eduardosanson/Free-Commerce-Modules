@@ -8,13 +8,13 @@ import java.util.List;
  */
 public class ImagemView {
 
-    private List<String> imagens = new ArrayList<>();
+    private List<String>  initialPreviewConfig = new ArrayList<>();
 
-    public List<String> getImagens() {
-        return imagens;
+    public List<String> getInitialPreviewConfig() {
+        return initialPreviewConfig;
     }
 
-    public void setImagens(List<String> imagens) {
-        this.imagens = imagens;
+    public void setInitialPreviewConfig(List<String> initialPreviewConfig) {
+        this.initialPreviewConfig = initialPreviewConfig;
     }
 }

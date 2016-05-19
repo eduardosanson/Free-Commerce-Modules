@@ -21,27 +21,16 @@
     <script th:inline="javascript">
     /*<![CDATA[*/
 
-    var imagens = [[${produto.imagens}]]
-
-
        $("#editarImagens").fileinput({
             uploadUrl: "/produto/menu/upload", // server upload action
             uploadAsync: false,
             minFileCount: 1,
             maxFileCount: 5,
             overwriteInitial: false,
-            initialPreview: [
-            [[${imagensView}]]
-            ],
-            initialPreviewConfig: [
-            <!--for (i = 0; i < imagens.length; i++) {-->
-                    <!--{caption: "People-1.jpg", width: "120px", url: "/store/menu/imagen/delete", key: imagens[i].id},-->
-            <!--}-->
-                {caption: "People-1.jpg", width: "120px", url: "/site/file-delete", key: 1},
-                {caption: "People-2.jpg", width: "120px", url: "/site/file-delete", key: 2},
-            ],
+            initialPreview:[[${initialPreview}]],
+            initialPreviewConfig: [[${initialPreviewConfig}]],
             uploadExtraData: {
-                produtoId:/* [[${produto.id}]] */ '1',
+                produtoId:[[${produto.id}]],
             }
         });
 

@@ -112,6 +112,21 @@ public class ProdutoController {
 
     }
 
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity alterarProduto(@RequestParam("produtoId") long produtoId, @RequestParam("imagemId") long imagemId){
+
+        try {
+            produtoService.deletarImagem(produtoId,imagemId);
+            return new ResponseEntity<Produto>(HttpStatus.OK);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<Produto>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+
+    }
+
     private ProdutoPage criarProdutoPage(Page<Produto> produtos) {
         ProdutoPage produtoPage = new ProdutoPage();
         produtoPage.setProdutos(produtos.getContent());

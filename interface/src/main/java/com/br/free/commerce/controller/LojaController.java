@@ -92,6 +92,14 @@ public class LojaController {
     private Logger logger = Logger.getLogger(LojaController.class);
 
 
+    @RequestMapping(value = "/menu/imagem/delete/{produtoId}")
+    public @ResponseBody ResponseEntity deletarImagem(@RequestParam("key") String imagemId,@PathVariable("produtoId") String produtoId){
+        logger.info("deletando imagem de produto");
+
+        return ResponseEntity.ok("{\"response\":\"sucesso\"}");
+
+    }
+
     @RequestMapping(value = "menu/editar/produto/{produtoId}")
     public String editarProduto(Model model,@PathVariable("produtoId") String produtoId, Produto produto){
 
@@ -125,15 +133,32 @@ public class LojaController {
 
         Imagem[] imagens = new Imagem[produto.getImagens().size()];
 
+        for (int i=0;i <imagens.length;i++){
+            imagens[i] = produto.getImagens().get(i);
+
+        }
 
 
-        ImagemView imagemView = new ImagemView();
+
+        String[] imagenView = new String[produto.getImagens().size()];
+        String[] key = new String[imagenView.length];
+        ImagemView view = new ImagemView();
+        List<InitialPreviewConfig> initialPreviewConfigs = new ArrayList<>();
         for (int i = 0; i<imagens.length ; i++) {
-            imagemView.getImagens().add("<img style='height:160px' src='/" + produto.getImagens().get(i).getPath() +"'/>");
+            InitialPreviewConfig initialPreviewConfig = new InitialPreviewConfig();
+            String path = produto.getImagens().get(i).getPath().startsWith("/") ? produto.getImagens().get(i).getPath() : "/" + produto.getImagens().get(i).getPath();
+            imagenView[i] = "<img style='height:160px' src='" + path + "'/>";
+            key[i] = String.valueOf(produto.getImagens().get(i).getId());
+            initialPreviewConfig.setWidth("120px");
+            initialPreviewConfig.setUrl("/store/menu/imagem/delete/"+produtoId);
+            initialPreviewConfig.setKey(key[i]);
+            initialPreviewConfigs.add(initialPreviewConfig);
+
         }
 
         model.addAttribute("imagens",imagens);
-        model.addAttribute("imagensView",imagemView);
+        model.addAttribute("initialPreview",imagenView);
+        model.addAttribute("initialPreviewConfig",initialPreviewConfigs);
 
 
         return INDEX;

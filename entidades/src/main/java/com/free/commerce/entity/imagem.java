@@ -15,7 +15,7 @@ public class Imagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     private String path;
 
@@ -23,11 +23,11 @@ public class Imagem {
 
     private Date registrado;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -53,5 +53,19 @@ public class Imagem {
 
     public void setRegistrado(Date registrado) {
         this.registrado = registrado;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Imagem){
+            Imagem i = (Imagem) obj;
+            if (i.getId()==i.getId()){
+                return true;
+            }else {
+                return  false;
+            }
+        }else {
+            return false;
+        }
     }
 }
