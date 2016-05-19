@@ -1,6 +1,12 @@
 package com.free.commerce.entity;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.OrderBy;
+
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +36,7 @@ public class Produto {
     private Date registrado;
 
     @OneToMany(targetEntity = Imagem.class,cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Imagem> imagens;
+    private List<Imagem> imagens = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     private Imagem imagemPrincipal;

@@ -18,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by eduardo.sanson on 21/03/2016.
@@ -123,20 +125,20 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public void deletarImagem(long produtoId, long imagemId) {
         Produto produto = repository.findOne(produtoId);
+        List<Imagem> imagems = produto.getImagens();
+        produto.setImagens(null);
+        produto = repository.save(produto);
 
-        Imagem imagem = new Imagem();
-        for (Imagem i : produto.getImagens()){
-            if (i.getId()==imagemId){
-                imagem =i;
-            }
+        imagems.stream()
+                .filter(i -> i.getId() == imagemId)
+                .findAny()
+                .ifPresent(i -> {
+                    imagems.remove(i);
+                    imageRepository.delete(i);
+                });
 
-        }
-        produto.getImagens().remove(imagem);
-
+        produto.setImagens(imagems);
         repository.save(produto);
-        imageRepository.delete(imagem);
-
-
     }
 
     private Produto updateProduto(Produto produto, Produto produtoPersistido) {
@@ -147,15 +149,9 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoPersistido.setNovo(produto.isNovo());
         produtoPersistido.setQuantidade(produto.getQuantidade());
 
-        if (possuiImagemParaAlterar(produto)){
-
-            for (Imagem imagem : produto.getImagens()) {
-                if (imagem.getId()==0){
-                    produtoPersistido.getImagens().add(imageRepository.save(imagem));
-                }
-
-            }
-        }
+            produto.getImagens().stream()
+                    .filter(i -> i.getId() == 0)
+                    .forEach(i -> produtoPersistido.getImagens().add(imageRepository.save(i)));
 
         return produtoPersistido;
     }

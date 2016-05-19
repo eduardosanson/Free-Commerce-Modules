@@ -2,6 +2,7 @@ package com.free.commerce.entity;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ public class Imagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @OrderBy(clause = "id asc")
     private long id;
 
     private String path;
@@ -55,17 +57,20 @@ public class Imagem {
         this.registrado = registrado;
     }
 
+
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Imagem){
-            Imagem i = (Imagem) obj;
-            if (i.getId()==i.getId()){
-                return true;
-            }else {
-                return  false;
-            }
-        }else {
-            return false;
-        }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Imagem imagem = (Imagem) o;
+
+        return id == imagem.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
     }
 }
