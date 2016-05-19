@@ -134,6 +134,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         produto.getImagens().remove(imagem);
 
         repository.save(produto);
+        imageRepository.delete(imagem);
 
 
     }

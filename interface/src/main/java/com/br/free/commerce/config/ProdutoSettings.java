@@ -118,32 +118,32 @@ public class ProdutoSettings {
         this.buscarProdutosPorLoja = buscarProdutosPorLoja;
     }
 
-    public String getUrlProduto(){
+    public String getUrlComConexto(){
         return service+version+context;
     }
 
     public String buscarProdutoPorId(String id){
-        return getUrlProduto()+buscarProdutoPorId+id;
+        return getUrlComConexto()+buscarProdutoPorId+id;
     }
 
     public String buscarProdutosPorLojaPaginandoOReTornoUrl(String lojaId,String pagina,String qtdItemPorPagina){
-        return String.format(getUrlProduto()+buscarProdutosPorLoja,lojaId,pagina,qtdItemPorPagina);
+        return String.format(getUrlComConexto()+buscarProdutosPorLoja,lojaId,pagina,qtdItemPorPagina);
     }
 
     public String buscarProdutosPorNomeParecido(String pagina,String qtdItemPorPagina,String nome){
-        return String.format(getUrlProduto()+buscarPorNomeParecido, pagina,qtdItemPorPagina,nome);
+        return String.format(getUrlComConexto()+buscarPorNomeParecido, pagina,qtdItemPorPagina,nome);
     }
 
     public String cadastrarProduto(String lojaId){
-        return getUrlProduto()+cadastrar + lojaId;
+        return getUrlComConexto()+cadastrar + lojaId;
     }
 
     public String salvarCarrinhoDeCompras(){
-        return getUrlProduto() + salvarCarrinhoDeCompras;
+        return getUrlComConexto() + salvarCarrinhoDeCompras;
     }
 
     public String buscarCarrinhoDeCompras(String cookieId){
-        return String.format(getUrlProduto() + buscarCarrinhoDeCompras,cookieId);
+        return String.format(getUrlComConexto() + buscarCarrinhoDeCompras,cookieId);
     }
 
 

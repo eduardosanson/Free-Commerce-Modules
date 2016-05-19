@@ -89,12 +89,17 @@ public class LojaController {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
+    @Autowired
+    private ProdutoService getProdutoService;
+
     private Logger logger = Logger.getLogger(LojaController.class);
 
 
     @RequestMapping(value = "/menu/imagem/delete/{produtoId}")
-    public @ResponseBody ResponseEntity deletarImagem(@RequestParam("key") String imagemId,@PathVariable("produtoId") String produtoId){
+    public @ResponseBody ResponseEntity deletarImagem(@RequestParam("key") long imagemId,@PathVariable("produtoId") long produtoId){
         logger.info("deletando imagem de produto");
+
+        produtoService.deletarImagem(produtoId,imagemId);
 
         return ResponseEntity.ok("{\"response\":\"sucesso\"}");
 

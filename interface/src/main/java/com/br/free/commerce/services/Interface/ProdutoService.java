@@ -26,5 +26,7 @@ public interface ProdutoService {
 
     void associarImagem(List<MultipartFile> file,String produtoId);
 
+    void deletarImagem(long produtoId, long imagemId);
+
 
 }

@@ -83,7 +83,7 @@ public class ProdutoController {
         return new ResponseEntity<ProdutoPage>(produtoPage ,HttpStatus.OK);
     }
 
-    @RequestMapping(params = "produtoId")
+    @RequestMapping(params = "produtoId",method = RequestMethod.GET)
     public ResponseEntity<Produto> buscarProdutoPorId(@RequestParam("produtoId") Long id){
 
         Produto produto = null;

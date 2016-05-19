@@ -120,7 +120,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         try {
 
-            restTemplate.put(produtoControlerApiConfig.getUrlProduto(),produto, Produto.class);
+            restTemplate.put(produtoControlerApiConfig.getUrlComConexto(),produto, Produto.class);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,6 +145,17 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         alterarProduto(produto);
 
+    }
+
+    @Override
+    public void deletarImagem(long produtoId, long imagemId) {
+        try {
+
+            restTemplate.delete(produtoControlerApiConfig.getUrlComConexto()+"?produtoId="+produtoId + "&imagemId="+imagemId);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private ProdutoCadastroTo criarProdutoDeCadastroTo(Loja loja, ProdutoTO produtoTO) {
