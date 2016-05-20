@@ -64,18 +64,10 @@ public class ClienteServiceImpl implements ClienteService {
         String requestUrl;
 
         Cliente cliente= null;
-        try{
             requestUrl = "http://localhost:8085/v1/cliente/concluirCadastro";
             logger.info("Chamando a url: " + requestUrl);
 
             cliente = template.postForObject(requestUrl,cadastroTO,Cliente.class);
-
-        }catch (Exception e){
-
-            e.printStackTrace();
-            logger.info("erro na comunicação");
-
-        }
 
         return cliente;
     }

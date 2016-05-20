@@ -343,34 +343,6 @@ public class LojaController {
         }
     }
 
-    @RequestMapping("/solicitarPedido")
-    public String criarPedido(@AuthenticationPrincipal CustomUserDetails userDetails){
 
-        if (carrinho.getConteudo()!=null){
-            RegistrarPedidoTO registrarPedidoTO = CriarRegistrarPedido();
-            registrarPedidoTO.setClienteId(String.valueOf(userDetails.getUserlogin().getCliente().getId()));
-            pedidoService.registrarPedido(registrarPedidoTO);
-        }
-
-
-        return "redirect:../cliente/menu/meusPedidos";
-    }
-
-    private RegistrarPedidoTO CriarRegistrarPedido() {
-        RegistrarPedidoTO registrarPedidoTO = new RegistrarPedidoTO();
-        List<ProdutoPedido> produtosPedidos = new ArrayList<>();
-        Map<Produto,Integer> produtoEQuantidade = carrinho.getConteudo();
-        for (Produto produto:produtoEQuantidade.keySet()) {
-            ProdutoPedido produtoPedido = new ProdutoPedido();
-            Integer quatidade = produtoEQuantidade.get(produto);
-            produtoPedido.setProdutoId(String.valueOf(produto.getId()));
-            produtoPedido.setQuatidade(String.valueOf(quatidade));
-            produtosPedidos.add(produtoPedido);
-        }
-        registrarPedidoTO.setProdutoPedido(produtosPedidos);
-
-        return registrarPedidoTO;
-
-    }
 
 }

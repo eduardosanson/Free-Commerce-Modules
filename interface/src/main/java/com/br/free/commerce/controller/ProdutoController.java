@@ -132,7 +132,7 @@ public class ProdutoController {
         return INDEX;
     }
 
-    @RequestMapping
+    @RequestMapping(method = RequestMethod.GET)
     public String mostrarProdutos(BuscarProdutoTO buscarProdutoTO, Model model){
         model.addAttribute(PAGE_NAME,PRODUCTS_SHOW_PAGE);
         model.addAttribute(PAGE_FRAGMENT,PRODUCTS_SHOW_FRAGMENT);

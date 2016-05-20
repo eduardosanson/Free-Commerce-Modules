@@ -10,11 +10,9 @@ import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
+import com.br.free.commerce.to.ProdutoPedido;
 import com.br.free.commerce.to.RegistrarPedidoTO;
-import com.free.commerce.entity.Cliente;
-import com.free.commerce.entity.Endereco;
-import com.free.commerce.entity.Pedido;
-import com.free.commerce.entity.UserLogin;
+import com.free.commerce.entity.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,7 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pc on 01/05/2016.
@@ -212,7 +212,20 @@ public class ClienteController {
             e.printStackTrace();
         }
 
-        return "redirect:/store/solicitarPedido";
+        return criarPedido(userDetails);
+    }
+
+    @RequestMapping("/menu/solicitarPedido")
+    public String criarPedido(@AuthenticationPrincipal CustomUserDetails userDetails){
+
+        if (carrinho.getConteudo()!=null){
+            RegistrarPedidoTO registrarPedidoTO = CriarRegistrarPedido();
+            registrarPedidoTO.setClienteId(String.valueOf(userDetails.getUserlogin().getCliente().getId()));
+            pedidoService.registrarPedido(registrarPedidoTO);
+        }
+
+
+        return "redirect:/cliente/menu/meusPedidos";
     }
 
     @RequestMapping(value = "/menu/meusPedidos")
@@ -274,6 +287,23 @@ public class ClienteController {
                     addFlashAttribute("errorMessage","Usuário já cadastrado");
         }
         return "redirect:/";
+
+    }
+
+    private RegistrarPedidoTO CriarRegistrarPedido() {
+        RegistrarPedidoTO registrarPedidoTO = new RegistrarPedidoTO();
+        List<ProdutoPedido> produtosPedidos = new ArrayList<>();
+        Map<Produto,Integer> produtoEQuantidade = carrinho.getConteudo();
+        for (Produto produto:produtoEQuantidade.keySet()) {
+            ProdutoPedido produtoPedido = new ProdutoPedido();
+            Integer quatidade = produtoEQuantidade.get(produto);
+            produtoPedido.setProdutoId(String.valueOf(produto.getId()));
+            produtoPedido.setQuatidade(String.valueOf(quatidade));
+            produtosPedidos.add(produtoPedido);
+        }
+        registrarPedidoTO.setProdutoPedido(produtosPedidos);
+
+        return registrarPedidoTO;
 
     }
 
