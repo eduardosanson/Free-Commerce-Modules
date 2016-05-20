@@ -113,7 +113,7 @@ public class ClienteController {
                 return "redirect:/cliente/menu/finalizarCadastro/paraCompra";
 
             }else {
-                return "redirect:../../store/solicitarPedido";
+                return "redirect:/cliente/menu/solicitarPedido";
             }
 
         }else {

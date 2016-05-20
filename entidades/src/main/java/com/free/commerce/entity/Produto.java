@@ -42,6 +42,7 @@ public class Produto {
     private Imagem imagemPrincipal;
 
     @OneToOne
+    @JoinColumn(nullable = false)
     private Categoria categoria;
 
     private boolean novo;

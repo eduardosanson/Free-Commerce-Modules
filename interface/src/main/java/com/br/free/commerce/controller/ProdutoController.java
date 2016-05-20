@@ -25,10 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by eduardo.sanson on 23/03/2016.
@@ -166,7 +166,8 @@ public class ProdutoController {
             produtoView.getCategorias().add(produto.getCategoria());
 
             do{
-                categoria = categoriaService.buscarPaiPeloFilho(String.valueOf(produto.getCategoria().getId()));
+
+                categoria = categoriaService.buscarPaiPeloFilho(String.valueOf(Optional.of(produto.getCategoria()).get().getId()));
                 if (categoria==null){
                     aindaTemCategoriaParaBuscar=false;
                 }else {

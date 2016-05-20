@@ -52,9 +52,6 @@ public class FinalizarCadastroTO {
     @NotEmpty
     private String numero;
 
-    @NotBlank
-    @NotNull
-    @NotEmpty
     private String complemento;
 
     @NotBlank
