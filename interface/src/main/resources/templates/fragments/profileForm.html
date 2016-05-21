@@ -1,0 +1,51 @@
+<div th:fragment="profileForm">
+
+    <div id="profileFormodal" class="modal fade">
+        <div class="modal-header">
+            <button class="close alert alert-danger" data-dismiss="modal">X</button>
+        </div>
+        <div class="modal-body">
+            <div class="row-fluid">
+
+                    <div id="kv-avatar-errors" class="center-block" style="width:800px;display:none"></div>
+                    <form class="text-center form-horizontal" th:action="${profileFotoSendFormUrl}" method="post" enctype="multipart/form-data">
+                        <div class="kv-avatar center-block" style="width:200px">
+                            <input id="avatar" name="avatar" type="file" class="file-loading" />
+                        </div>
+                    </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <!--<p><i>Lastest Update on October 2nd, 2012</i></p>-->
+        </div>
+    </div>
+
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+
+     var btnCust = '<button type="submit" class="btn btn-default" title="Enviar Imagem">' +
+            '<i class="glyphicon glyphicon-send"></i>' +
+            '</button>';
+        $("#avatar").fileinput({
+            overwriteInitial: true,
+            maxFileSize: 1500,
+            showClose: false,
+            showCaption: false,
+            browseLabel: '',
+            removeLabel: '',
+            browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
+            removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
+            removeTitle: 'Cancela ou reseta as mudanças',
+            elErrorContainer: '#kv-avatar-errors',
+            msgErrorClass: 'alert alert-block alert-danger',
+            defaultPreviewContent: "<img src=[[${profileFoto}]] alt='Your Avatar' style='width:160px'>",
+            layoutTemplates: {main2: '{preview} ' +  btnCust + ' {remove} {browse}'},
+            allowedFileExtensions: ["jpg", "png", "gif"]
+        });
+
+
+        /*]]>*/
+
+    </script>
+</div>

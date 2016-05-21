@@ -5,8 +5,11 @@
                 <div class="col-sm-4 col-md-3 col-lg-2">
                     <!-- User avatar -->
                     <div class="profile_avatar">
+                        <a data-toggle="modal" href="#profileFormodal">
                         <img src="/img/people/uer.png"
-                             th:src="@{/img/people/user.png}" alt="avatar" class="img-responsive"/>
+                             th:src="'/' + ${profileImagem !=null ? profileImagem.path : 'img/people/user.png'}" alt="avatar" class="img-responsive"
+                        />
+                        </a>
                     </div>
                 </div>
                 <div class="col-sm-8 col-md-9 col-lg-10">
@@ -22,4 +25,6 @@
             </div> <!-- / .row -->
         </div> <!-- / .container -->
     </div>
+    <div th:replace="fragments/profileForm :: profileForm"></div>
+
 </div>

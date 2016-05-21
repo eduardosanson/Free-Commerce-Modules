@@ -94,6 +94,9 @@ public class ClienteController {
         List<Pedido> pedidos = clienteService.meusPedidos(userDetails.getUserlogin().getCliente().getId());
         model.addAttribute("pedidos",pedidos);
 
+        model.addAttribute("profileFotoSendFormUrl","/cliente/menu/prfileFoto");
+        model.addAttribute("profileFoto","/img/people/user.png");
+
         return INDEX;
     }
 

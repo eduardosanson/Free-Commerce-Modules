@@ -68,6 +68,8 @@ public class AdminController {
 
         List<Loja> lojas = autorizacaoLojaService.buscarLojasPendentes();
         model.addAttribute("lojas",lojas);
+        model.addAttribute("profileFotoSendFormUrl","/admin/menu/prfileFoto");
+        model.addAttribute("profileFoto","/img/people/user.png");
 
         return INDEX;
     }

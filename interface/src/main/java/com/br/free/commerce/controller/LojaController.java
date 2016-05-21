@@ -230,6 +230,8 @@ public class LojaController {
 
         model.addAttribute("produtoPage",produtos);
         model.addAttribute("page",page);
+        model.addAttribute("profileFotoSendFormUrl","/store/menu/prfileFoto");
+        model.addAttribute("profileFoto","/img/people/user.png");
 
         return INDEX;
     }

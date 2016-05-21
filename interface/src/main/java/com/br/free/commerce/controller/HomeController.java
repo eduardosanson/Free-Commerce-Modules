@@ -1,17 +1,22 @@
 package com.br.free.commerce.controller;
 
+import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.to.BuscarProdutoTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
+import com.free.commerce.entity.Cliente;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Optional;
 
 /**
  * Created by eduardosanson on 09/03/16.
@@ -25,12 +30,11 @@ public class HomeController {
 
     private static final String HOME_URL="/";
     private static final String INDEX="index";
-    private static final String MENU_NAME="MENU_NAME";
-    private static final String MENU_FRAGMENT="MENU_FRAGMENT";
-    private static final String MENU_FRAGMENT_HOME="cliente-pagina-inicial";
-    private static final String MENU_NAME_HOME="cliente-pagina-inicial";
-    private static final String PAGE_CLIENTE="pagina-cliente";
-
+    private static final String PAGINA_PROFILE="profileForm";
+    private static final String FRAGMENTO_PROFILE="profileForm";
+    private static final String PROFILE_LOJA_URL="/store/menu/prfileFoto";
+    private static final String PROFILE_CLIENTE_URL="/cliente/menu/prfileFoto";
+    private static final String PROFILE_ADMIN_URL="/admin/menu/prfileFoto";
 
     @Autowired
     private ClienteService clienteService;
@@ -61,6 +65,7 @@ public class HomeController {
         return INDEX;
 
     }
+
 
 
 }
