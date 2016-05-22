@@ -1,5 +1,7 @@
 package com.br.free.commerce.controller;
 
+import br.com.uol.pagseguro.exception.PagSeguroServiceException;
+import com.br.free.commerce.PagamentoServiceImpl;
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.exception.RegraDeNegocioException;
@@ -21,6 +23,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +64,12 @@ public class ClienteController {
     private static final String PAGE_CADASTRO="quickSignupPrincipal";
     private static final String FRAGMENT_CADASTRO="quickSignupPrincipal";
 
+    public static final String CONTEXTO="/cliente";
     public static final String FINALIZAR_COMPRA="/menu/finalizarCompras";
+    public static final String ALTERAR_FOTO_PERFIL_URL="/menu/prfileFoto";
+    public static String PERFL_FOTO_PATH="";
+    public static String URL_REDIRECIONANMENTO="http://localhost:8080/menu/cliente";
+
 
 
     @Autowired
@@ -78,6 +87,9 @@ public class ClienteController {
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
+    @Autowired
+    private PagamentoServiceImpl pagamentoServiceImpl;
+
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
     @RequestMapping("/menu")
@@ -94,10 +106,19 @@ public class ClienteController {
         List<Pedido> pedidos = clienteService.meusPedidos(userDetails.getUserlogin().getCliente().getId());
         model.addAttribute("pedidos",pedidos);
 
-        model.addAttribute("profileFotoSendFormUrl","/cliente/menu/prfileFoto");
+        model.addAttribute("profileFotoSendFormUrl",CONTEXTO+ALTERAR_FOTO_PERFIL_URL);
         model.addAttribute("profileFoto","/img/people/user.png");
 
         return INDEX;
+    }
+
+    @RequestMapping(value = ALTERAR_FOTO_PERFIL_URL, method = RequestMethod.POST)
+    public String alterarFotoPerfilUrl(@RequestParam("avatar") MultipartFile imagem, @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        clienteService.alterarPerfil(userDetails.getUserlogin().getCliente().getId(),imagem);
+        userDetails.getUserlogin().setCliente(clienteService.buscarCliente(userDetails.getUserlogin().getCliente().getId()));
+
+        return "redirect:/cliente/menu";
     }
 
     @RequestMapping(FINALIZAR_COMPRA)
@@ -199,7 +220,7 @@ public class ClienteController {
     }
 
     @RequestMapping(value = "/menu/finalizarCadastro/paraCompra",method = RequestMethod.POST)
-    public String finalizarCadastroEFinalizarCompra(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, FinalizarCadastroTO cadastroTO){
+    public String finalizarCadastroEFinalizarCompra(@AuthenticationPrincipal CustomUserDetails userDetails, Model model, FinalizarCadastroTO cadastroTO) throws PagSeguroServiceException {
 
 
         model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
@@ -219,12 +240,15 @@ public class ClienteController {
     }
 
     @RequestMapping("/menu/solicitarPedido")
-    public String criarPedido(@AuthenticationPrincipal CustomUserDetails userDetails){
+    public String criarPedido(@AuthenticationPrincipal CustomUserDetails userDetails) throws PagSeguroServiceException {
 
         if (carrinho.getConteudo()!=null){
             RegistrarPedidoTO registrarPedidoTO = CriarRegistrarPedido();
             registrarPedidoTO.setClienteId(String.valueOf(userDetails.getUserlogin().getCliente().getId()));
-            pedidoService.registrarPedido(registrarPedidoTO);
+            Pedido pedido = pedidoService.registrarPedido(registrarPedidoTO);
+
+            String urlPagSeguro = pagamentoServiceImpl.gerarTokenPagamento(carrinho,userDetails.getUserlogin(),String.valueOf(pedido.getId()),URL_REDIRECIONANMENTO);
+            return "redirect:"+urlPagSeguro;
         }
 
 
@@ -232,7 +256,7 @@ public class ClienteController {
     }
 
     @RequestMapping(value = "/menu/meusPedidos")
-    private String meusPedidos(@AuthenticationPrincipal CustomUserDetails userDetails, Model model){
+    public String meusPedidos(@AuthenticationPrincipal CustomUserDetails userDetails, Model model){
 
         model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
         model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);

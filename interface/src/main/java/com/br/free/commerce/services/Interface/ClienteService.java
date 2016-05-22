@@ -4,8 +4,10 @@ import com.br.free.commerce.to.BuscarClienteTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
 import com.free.commerce.entity.Cliente;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,7 +20,9 @@ public interface ClienteService {
 
     Cliente concluirCadastro(FinalizarCadastroTO cadastroTO);
 
-    Cliente buscarCliente(BuscarClienteTO buscarClienteTO);
+    Cliente buscarCliente(Long clienteId);
 
     List<Pedido> meusPedidos(Long clienteId);
+
+    void alterarPerfil(Long clienteId, MultipartFile file);
 }

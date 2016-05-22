@@ -53,17 +53,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws AuthenticationServiceException {
 
-        Optional<UserLogin> userLogin = null;
+        UserLogin userLogin = null;
         try {
-            userLogin = Optional.ofNullable(userService.recuperarPorEmail(username));
+            userLogin = Optional.ofNullable(userService.recuperarPorEmail(username))
+                    .orElseThrow(() -> new AuthenticationServiceException("Usuário não encontrado"));
+
         } catch (RegraDeNegocioException e) {
             e.printStackTrace();
         }
 
-        if(!userLogin.isPresent()){
-            throw new AuthenticationServiceException("Usuário não encontrado");
-        }
-        UserDetails user = createUserDetails(userLogin.get());
+        UserDetails user = createUserDetails(userLogin);
 
 //        Function<UserLogin, UserDetails> criarUsuario = this::createUserDetails;
 //        Function<UserLogin, UserDetails> criarUsuario = u -> createUserDetails(u);

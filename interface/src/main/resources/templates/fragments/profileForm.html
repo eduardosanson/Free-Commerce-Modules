@@ -8,7 +8,8 @@
             <div class="row-fluid">
 
                     <div id="kv-avatar-errors" class="center-block" style="width:800px;display:none"></div>
-                    <form class="text-center form-horizontal" th:action="${profileFotoSendFormUrl}" method="post" enctype="multipart/form-data">
+                    <form class="text-center form-horizontal"
+                          th:action="${profileFotoSendFormUrl}" method="post" enctype="multipart/form-data">
                         <div class="kv-avatar center-block" style="width:200px">
                             <input id="avatar" name="avatar" type="file" class="file-loading" />
                         </div>
@@ -39,9 +40,12 @@
             removeTitle: 'Cancela ou reseta as mudanças',
             elErrorContainer: '#kv-avatar-errors',
             msgErrorClass: 'alert alert-block alert-danger',
-            defaultPreviewContent: "<img src=[[${profileFoto}]] alt='Your Avatar' style='width:160px'>",
+            defaultPreviewContent: "<img src=[[${#authentication.principal.pathFotoPerfil}]] alt='Your Avatar' style='width:160px'>",
             layoutTemplates: {main2: '{preview} ' +  btnCust + ' {remove} {browse}'},
-            allowedFileExtensions: ["jpg", "png", "gif"]
+            allowedFileExtensions: ["jpg", "png", "gif"],
+            uploadExtraData:{
+                            [[${_csrf.parameterName}]]:[[${_csrf.token}]]
+                            }
         });
 
 

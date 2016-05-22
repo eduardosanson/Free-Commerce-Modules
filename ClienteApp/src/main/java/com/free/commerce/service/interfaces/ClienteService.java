@@ -1,6 +1,7 @@
 package com.free.commerce.service.interfaces;
 
 import com.free.commerce.entity.Cliente;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.to.CadastrarClienteTO;
@@ -17,6 +18,8 @@ public interface ClienteService {
     Cliente concluirCadastro(FinalizarCadastroTO cadastroTO);
 
     Cliente recuperarProID(Long id);
+
+    void alterarPerfil(Long clienteId, Imagem imagem);
 
 
 }

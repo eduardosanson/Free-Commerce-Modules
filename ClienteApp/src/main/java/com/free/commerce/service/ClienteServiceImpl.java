@@ -1,10 +1,9 @@
 package com.free.commerce.service;
 
-import com.free.commerce.entity.Cliente;
-import com.free.commerce.entity.Endereco;
+import com.free.commerce.entity.*;
 import com.free.commerce.entity.Enums.Role;
-import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.ClienteRepository;
+import com.free.commerce.repository.ImagemRepository;
 import com.free.commerce.repository.UserRepository;
 import com.free.commerce.service.interfaces.ClienteService;
 import com.free.commerce.to.CadastrarClienteTO;
@@ -12,6 +11,8 @@ import com.free.commerce.to.FinalizarCadastroTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Created by eduardosanson on 05/03/16.
@@ -24,6 +25,9 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ImagemRepository imagemRepository;
 
     private static final Logger LOGGER = Logger.getLogger(CategoriaServiceImpl.class);
 
@@ -96,6 +100,16 @@ public class ClienteServiceImpl implements ClienteService{
         userLogin.setPermissao(Role.CLIENT);
         userLogin = userRepository.save(userLogin);
         return userLogin;
+    }
+
+    @Override
+    public void alterarPerfil(Long clienteId, Imagem imagem) {
+        LOGGER.info("Alterando perfil");
+        Optional.ofNullable(imagem).ifPresent(n->{
+            Cliente cliente = repository.findOne(clienteId);
+            cliente.setPerfil(imagemRepository.save(n));
+            repository.save(cliente);
+        });
     }
 
     private Cliente criarCliente(CadastrarClienteTO cadastrarClienteTO) {

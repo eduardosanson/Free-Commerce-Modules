@@ -1,28 +1,20 @@
 package com.br.free.commerce.services;
 
-import com.br.free.commerce.InterfaceApplication;
 import com.br.free.commerce.config.ProdutoSettings;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.to.ProdutoCadastroTo;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
-import com.br.free.commerce.util.FileName;
+import com.br.free.commerce.util.ImagemProcessor;
 import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -137,7 +129,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         for (MultipartFile file: files ) {
             Imagem imagem;
-            imagem = imageProcessor(PASTA_DAS_LOJAS+produtoId,criarNomeCriarNomeDeImagem(),file);
+            imagem = ImagemProcessor.processor(PASTA_DAS_LOJAS+produtoId,criarNomeCriarNomeDeImagem(),file);
             imagens.add(imagem);
         }
 
@@ -193,38 +185,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         }
     }
 
-    private Imagem imageProcessor(String nomePasta, String nomeArquivo, MultipartFile file) {
-        String nomeDaPasta = InterfaceApplication.ROOT + "/" + nomePasta + "/";
-        FileName fileName = new FileName(file.getOriginalFilename(), '/', '.');
-        String pathCompleto = nomeDaPasta + nomeArquivo + "." + fileName.extension();
-        Imagem imagem = new Imagem();
 
-        if (!file.isEmpty()) {
-            try {
-                File pasta = new File(nomeDaPasta);
-                Path path = Paths.get(nomeDaPasta);
-                if (Files.notExists(path)) {
-                    pasta.mkdirs();
-                }
-
-                File fileRoot = new File(pathCompleto);
-                FileOutputStream outputStream = new FileOutputStream(fileRoot);
-                BufferedOutputStream stream = new BufferedOutputStream(outputStream);
-
-                FileCopyUtils.copy(file.getInputStream(), stream);
-                stream.close();
-                imagem.setRegistrado(new Date());
-                imagem.setNomeDoArquivo(nomeArquivo);
-                imagem.setPath(pathCompleto);
-                return imagem;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
 
     private String criarNomeCriarNomeDeImagem() {
         Random r = new Random();

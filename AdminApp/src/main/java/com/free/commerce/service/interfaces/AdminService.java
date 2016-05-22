@@ -1,6 +1,7 @@
 package com.free.commerce.service.interfaces;
 
 import com.free.commerce.entity.Administrador;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.to.AdministradorTO;
 
 /**
@@ -9,4 +10,8 @@ import com.free.commerce.to.AdministradorTO;
 public interface AdminService {
 
     Administrador criarAdm(AdministradorTO administradorTO);
+
+    void alterarPerfil(Long adminId, Imagem imagem);
+
+    Administrador recuperarPorId(Long id);
 }

@@ -1,11 +1,9 @@
 package com.free.commerce.service;
 
-import com.free.commerce.entity.Endereco;
+import com.free.commerce.entity.*;
 import com.free.commerce.entity.Enums.Role;
-import com.free.commerce.entity.Loja;
-import com.free.commerce.entity.Produto;
-import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.EnderecoRepository;
+import com.free.commerce.repository.ImagemRepository;
 import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.repository.UserRepository;
 import com.free.commerce.service.interfaces.*;
@@ -13,6 +11,8 @@ import com.free.commerce.to.CadastrarLojaTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * Created by eduardosanson on 05/03/16.
@@ -37,6 +37,9 @@ public class LojaServiceImpl implements LojaService {
 
     @Autowired
     private AutorizacaoService autorizacaoService;
+
+    @Autowired
+    private ImagemRepository imagemRepository;
 
 
 
@@ -102,6 +105,16 @@ public class LojaServiceImpl implements LojaService {
         }
 
         return loja;
+    }
+
+    @Override
+    public void alterarPerfil(Long lojaId, Imagem imagem) {
+        logger.info("Alterando perfil");
+        Optional.ofNullable(imagem).ifPresent(n->{
+            Loja loja = repository.findOne(lojaId);
+            loja.setPerfil(imagemRepository.save(n));
+            repository.save(loja);
+        });
     }
 
     private UserLogin criarLogin(CadastrarLojaTO cadastrarLojaTO) {

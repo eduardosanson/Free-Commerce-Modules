@@ -2,6 +2,7 @@ package com.br.free.commerce.services;
 
 import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.to.RegistrarPedidoTO;
+import com.free.commerce.entity.Pedido;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,16 +18,12 @@ public class PedidoServiceImpl implements PedidoService {
     private RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public void registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
+    public Pedido registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
         String url = "http://localhost:8090/v1/pedido";
 
-        try {
 
-            restTemplate.postForObject(url,registrarPedidoTO,Object.class);
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        return restTemplate.postForObject(url,registrarPedidoTO,Pedido.class);
 
     }
 }

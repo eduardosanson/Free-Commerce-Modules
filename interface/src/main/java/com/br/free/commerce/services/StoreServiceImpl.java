@@ -2,10 +2,14 @@ package com.br.free.commerce.services;
 
 import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.to.CadastrarLojaTO;
+import com.br.free.commerce.util.ImagemProcessor;
+import com.free.commerce.entity.Imagem;
+import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +28,8 @@ public class StoreServiceImpl implements StoreService {
     private static String ip ="localhost";
     private static String port =":8090";
     private static String service="/v1/loja";
+
+    private static String PASTA_LOJA_PERFIL="loja/perfil/";
 
     public StoreServiceImpl() {
         this.template = new RestTemplate();
@@ -51,5 +57,20 @@ public class StoreServiceImpl implements StoreService {
         }
 
         return user;
+    }
+
+    @Override
+    public void alterarPerfil(Long lojaId, MultipartFile file) {
+        String url = "http://localhost:8090/v1/loja/perfil?lojaId="+lojaId;
+
+        Imagem imagem = ImagemProcessor.processor(PASTA_LOJA_PERFIL+lojaId,"PERFIL",file);
+
+        template.put(url,imagem);
+    }
+
+    @Override
+    public Loja buscarLoja(Long id) {
+        String url = "http://localhost:8090/v1/loja/"+id;
+        return template.getForObject(url,Loja.class);
     }
 }

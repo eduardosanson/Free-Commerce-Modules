@@ -5,6 +5,7 @@ import com.free.commerce.entity.Pedido;
 import com.free.commerce.service.interfaces.PedidoService;
 import com.free.commerce.to.RegistrarPedidoTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,12 +27,12 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @RequestMapping
-    public ResponseEntity registrarPedido(@RequestBody RegistrarPedidoTO registrarPedidoTO){
+    public ResponseEntity<Pedido> registrarPedido(@RequestBody RegistrarPedidoTO registrarPedidoTO){
 
         try{
-            pedidoService.registrarPedido(registrarPedidoTO);
 
-            return new ResponseEntity(HttpStatus.OK);
+
+            return new ResponseEntity<Pedido>(pedidoService.registrarPedido(registrarPedidoTO),HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();

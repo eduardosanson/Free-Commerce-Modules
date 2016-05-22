@@ -1,5 +1,7 @@
-<div th:fragment="account-header">
-    <div class="account-header" th:style="'background:url(' + @{/img/background/hero.jpg} + ')  no-repeat center center / cover  rgba(0, 0, 0, 1);'">
+<div th:fragment="account-header" xmlns:th="http://www.thymeleaf.org">
+    <div class="account-header"
+         th:style="'background:url(' + @{/img/background/hero.jpg} + ')  no-repeat center center / cover  rgba(0, 0, 0, 1);'"
+         th:with="userLogin=${#authentication.principal.userlogin}">
         <div class="container">
             <div class="row">
                 <div class="col-sm-4 col-md-3 col-lg-2">
@@ -7,15 +9,16 @@
                     <div class="profile_avatar">
                         <a data-toggle="modal" href="#profileFormodal">
                         <img src="/img/people/uer.png"
-                             th:src="'/' + ${profileImagem !=null ? profileImagem.path : 'img/people/user.png'}" alt="avatar" class="img-responsive"
+                             th:src="${#authentication.principal.pathFotoPerfil}" alt="avatar" class="img-responsive"
                         />
                         </a>
                     </div>
                 </div>
                 <div class="col-sm-8 col-md-9 col-lg-10">
-                    <div class="profile_summary">
+                    <div class="profile_summary" th:with="user=${userLogin.cliente != null ? userLogin.cliente
+                    : userLogin.loja != null ? userLogin.loja : userLogin.administrador}">
                         <!-- User name -->
-                        <h3 class="profile_name">Nome da Empresa</h3>
+                        <h3 class="profile_name" th:text="${user.nome}">Nome da Empresa</h3>
                         <!-- User status -->
                         <p>Campo livre</p>
                         <!-- Contact -->

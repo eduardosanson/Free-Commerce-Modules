@@ -1,5 +1,6 @@
 package com.free.commerce.controller;
 
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.service.interfaces.AutorizacaoService;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by eduardosanson on 05/03/16.
@@ -111,6 +113,37 @@ public class LojaController extends WebMvcConfigurerAdapter {
 
             return new ResponseEntity<Loja>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+    }
+
+    @RequestMapping("/{lojaId}")
+    public ResponseEntity<Loja> buscarPorId(@PathVariable("lojaId") Long lojaId){
+        Loja loja = null;
+
+        try {
+
+              loja = lojaService.recuperarPorId(lojaId);
+
+            if (loja==null){
+                return new ResponseEntity<Loja>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<Loja>(loja,HttpStatus.FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return new ResponseEntity<Loja>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(value = "/perfil",method = RequestMethod.PUT)
+    public ResponseEntity salvarPerfil(@RequestParam("lojaId") long lojaId, @RequestBody Imagem imagem){
+
+        lojaService.alterarPerfil(lojaId,imagem);
+
+        return new ResponseEntity(HttpStatus.ACCEPTED);
 
     }
 

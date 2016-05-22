@@ -4,13 +4,16 @@ import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.to.BuscarClienteTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
+import com.br.free.commerce.util.ImagemProcessor;
 import com.free.commerce.entity.Cliente;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +29,8 @@ public class ClienteServiceImpl implements ClienteService {
     private RestTemplate template;
 
     private static final Logger logger = Logger.getLogger(ClienteServiceImpl.class);
+
+    private static String PASTA_CLIENTE_PERFIL="cliente/perfil/";
 
     private static String url ="http://";
     private static String ip ="localhost";
@@ -75,8 +80,11 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public Cliente buscarCliente(BuscarClienteTO buscarClienteTO) {
-        return null;
+    public Cliente buscarCliente(Long id) {
+        String url ="http://localhost:8085/v1/cliente?clienteId="+id;
+
+        Cliente cliente = template.getForObject(url,Cliente.class);
+        return cliente;
     }
 
     @Override
@@ -104,4 +112,15 @@ public class ClienteServiceImpl implements ClienteService {
             return pedidos;
         }
     }
+
+    @Override
+    public void alterarPerfil(Long clienteId, MultipartFile file) {
+        String url = "http://localhost:8085/v1/cliente/perfil?clienteId="+clienteId;
+
+        Imagem imagem = ImagemProcessor.processor(PASTA_CLIENTE_PERFIL+clienteId,"PERFIL",file);
+
+        template.put(url,imagem);
+    }
+
+
 }

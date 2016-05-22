@@ -16,7 +16,6 @@ import com.free.commerce.entity.Produto;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -69,6 +68,11 @@ public class LojaController {
     private static final String FRAGMENTO_EDITAR_PRODUTO="editar-produto";
     private static final String MENU_EDITAR_IMAGEM="editar-imagem";
     private static final String FRAGMENTO_EDITAR_IMAGEM="editar-imagem";
+
+    private static final String TOKEN_PAG_SEGURO="A457261FBEEE4D51AF3D6997AC12F720";
+
+    private static final String URL_ALTERAR_FOTO_PERFIL="/menu/profileFoto";
+    private static final String CONTEXTO="/store";
 
 
     @Autowired
@@ -230,10 +234,23 @@ public class LojaController {
 
         model.addAttribute("produtoPage",produtos);
         model.addAttribute("page",page);
-        model.addAttribute("profileFotoSendFormUrl","/store/menu/prfileFoto");
-        model.addAttribute("profileFoto","/img/people/user.png");
+        model.addAttribute("profileFotoSendFormUrl",CONTEXTO+URL_ALTERAR_FOTO_PERFIL);
 
         return INDEX;
+    }
+
+    @RequestMapping(value = URL_ALTERAR_FOTO_PERFIL, method = RequestMethod.POST)
+    public String alterarFotoPerfilUrl(@RequestParam("avatar") MultipartFile imagem, @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        if (imagem.isEmpty()){
+            return "redirect:/store/menu";
+        }
+
+        storeService.alterarPerfil(userDetails.getUserlogin().getLoja().getId(),imagem);
+
+        userDetails.getUserlogin().setLoja(storeService.buscarLoja(userDetails.getUserlogin().getLoja().getId()));
+
+        return "redirect:/store/menu";
     }
 
     @RequestMapping("/menu/createProduct")

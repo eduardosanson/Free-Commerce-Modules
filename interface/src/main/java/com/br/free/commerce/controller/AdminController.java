@@ -1,6 +1,7 @@
 package com.br.free.commerce.controller;
 
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.services.Interface.AdminService;
 import com.br.free.commerce.services.Interface.AutorizacaoLojaService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -43,6 +45,9 @@ public class AdminController {
     private static final String RESULT_BLOCK = "resultBlock";
     private static final String BUTTON_ENVIAR_CATEGORIA = "enviarCategoria";
 
+    private static final String URL_ALTERAR_FOTO_PERFIL="/menu/profileFoto";
+    private static final String CONTEXTO="/admin";
+
     @Autowired
     private ProdutoService produtoService;
 
@@ -51,6 +56,9 @@ public class AdminController {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private AdminService adminService;
 
     private Logger logger = Logger.getLogger(AdminController.class);
 
@@ -68,10 +76,23 @@ public class AdminController {
 
         List<Loja> lojas = autorizacaoLojaService.buscarLojasPendentes();
         model.addAttribute("lojas",lojas);
-        model.addAttribute("profileFotoSendFormUrl","/admin/menu/prfileFoto");
-        model.addAttribute("profileFoto","/img/people/user.png");
+        model.addAttribute("profileFotoSendFormUrl",CONTEXTO+URL_ALTERAR_FOTO_PERFIL);
 
         return INDEX;
+    }
+
+    @RequestMapping(value = URL_ALTERAR_FOTO_PERFIL, method = RequestMethod.POST)
+    public String alterarFotoPerfilUrl(@RequestParam("avatar") MultipartFile imagem, @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        if (imagem.isEmpty()){
+            return "redirect:/admin/menu";
+        }
+
+        adminService.alterarPerfil(userDetails.getUserlogin().getAdministrador().getId(),imagem);
+
+        userDetails.getUserlogin().setAdministrador(adminService.buscarAdmin(userDetails.getUserlogin().getAdministrador().getId()));
+
+        return "redirect:/admin/menu";
     }
 
     @RequestMapping("/menu/novasSolicitacoes")

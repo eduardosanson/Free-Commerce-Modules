@@ -1,16 +1,15 @@
 package com.free.commerce.controller;
 
 import com.free.commerce.entity.Cliente;
+import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.service.interfaces.ClienteService;
 import com.free.commerce.service.interfaces.LoginService;
 import com.free.commerce.to.CadastrarClienteTO;
 import com.free.commerce.to.FinalizarCadastroTO;
-import com.free.commerce.to.StoreForm;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -32,6 +31,12 @@ public class ClienteController {
     private LoginService loginService;
 
     private static final Logger logger =Logger.getLogger(ClienteController.class);
+
+    @RequestMapping
+    public ResponseEntity<Cliente> buscarCliente(@RequestParam("clienteId") Long id){
+
+        return new ResponseEntity<Cliente>(clienteService.recuperarProID(id),HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<UserLogin> cadastraLoja(@Valid @RequestBody CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult){
@@ -83,5 +88,14 @@ public class ClienteController {
 
             return new ResponseEntity<Cliente>(cliente,HttpStatus.OK);
         }
+    }
+
+    @RequestMapping(value = "/perfil",method = RequestMethod.PUT)
+    public ResponseEntity salvarPerfil(@RequestParam("clienteId") long clienteId, @RequestBody Imagem imagem){
+
+        clienteService.alterarPerfil(clienteId,imagem);
+
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface PedidoService {
 
-    void registrarPedido(RegistrarPedidoTO registrarPedidoTO);
+    Pedido registrarPedido(RegistrarPedidoTO registrarPedidoTO);
 
     List<Pedido> buscarPedidoDeCliente(String clienteId);
 }

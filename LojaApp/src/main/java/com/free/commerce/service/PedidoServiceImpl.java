@@ -1,6 +1,7 @@
 package com.free.commerce.service;
 
 import com.free.commerce.entity.Enums.ItemPedidoStatus;
+import com.free.commerce.entity.Enums.PedidoStatus;
 import com.free.commerce.entity.ItemPedido;
 import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.Produto;
@@ -36,7 +37,7 @@ public class PedidoServiceImpl implements PedidoService {
     private ItemPedidoRepository itemPedidoRepository;
 
     @Override
-    public void registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
+    public Pedido registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
         Pedido pedido = new Pedido();
         List<ItemPedido> itemPedidos = new ArrayList<>();
         Double valorTotal=0.;
@@ -58,10 +59,11 @@ public class PedidoServiceImpl implements PedidoService {
             valorTotal = valorTotal + (produto.getPreco()* Integer.parseInt(produtoPedido.getQuatidade()));
         }
         pedido.setValor(valorTotal);
+        pedido.setStatus(PedidoStatus.AGUARDANDO_PAGAMENTO);
 
         pedido.setItemPedido(itemPedidos);
 
-        pedidoRepository.save(pedido);
+       return pedidoRepository.save(pedido);
 
     }
 
