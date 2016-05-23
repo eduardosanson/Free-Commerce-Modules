@@ -1,5 +1,6 @@
 package com.free.commerce.service.interfaces;
 
+import com.free.commerce.entity.Administrador;
 import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
@@ -21,4 +22,6 @@ public interface LojaService {
     Loja recuperarPorIdDeProduto(String id);
 
     public void alterarPerfil(Long clienteId, Imagem imagem);
+
+    Loja atualizar(Loja loja);
 }

@@ -1,6 +1,7 @@
 package com.free.commerce.controller;
 
 import com.free.commerce.entity.Administrador;
+import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.service.interfaces.AdminService;
@@ -65,6 +66,25 @@ public class AdminController {
     public ResponseEntity salvarPerfil(@RequestParam("adminId") long adminId, @RequestBody Imagem imagem){
 
         adminService.alterarPerfil(adminId,imagem);
+
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity atualizar(@RequestBody Administrador administrador){
+
+        if (administrador==null || administrador.getId()==null){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        Administrador adm = adminService.recuperarPorId(administrador.getId());
+
+        if (adm==null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        adminService.atualizar(adm);
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
 

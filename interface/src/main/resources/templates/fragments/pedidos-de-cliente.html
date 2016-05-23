@@ -29,8 +29,8 @@
                                     </div>
                                 </div></td>
                             <td class="col-md-3"><h5><strong th:text="${itemPedido.produto.descricao}"></strong></h5></td>
-                            <td class="col-md-1 text-center" th:text="${itemPedido.produto.preco}"><strong></strong></td>
-                            <td class="col-md-1 text-center" th:text="${itemPedido.produto.preco * itemPedido.quantidade}"><strong></strong></td>
+                            <td class="col-md-1 text-center" th:inline="text"> R$ [[${#numbers.formatDecimal(itemPedido.produto.preco, 0, 'POINT', 2, 'POINT')}]]<strong></strong></td>
+                            <td class="col-md-1 text-center" th:inline="text"> R$ [[${#numbers.formatDecimal((itemPedido.produto.preco * itemPedido.quantidade), 0, 'POINT', 2, 'POINT')}]]<strong></strong></td>
                             <td class="col-sm-3 col-md-3">
                                 <div type="button" th:class="'alert ' +${itemPedido.status.value=='AGUARDANDO_PAGAMENTO' ? 'alert-warning' : itemPedido.status.value=='ENTREGUE'? 'alert-success' : 'alert-danger'}" >
                                     <i th:class="${itemPedido.status.value=='ENTREGUE' ? 'glyphicon glyphicon-ok' : '' }"><strong th:text="${itemPedido.status.descricao}"></strong></i>
@@ -42,7 +42,10 @@
                             <td></td>
                             <td></td>
                             <td class="text-right"><h5>Total</h5></td>
-                            <td class="text-center"><h5><strong th:text="${pedido.valor}"></strong></h5></td>
+                            <td class="text-center"><h5>
+                                <strong th:inline="text">
+                                    R$ [[${#numbers.formatDecimal(pedido.valor, 0, 'POINT', 2, 'POINT')}]]
+                                </strong></h5></td>
                             <td></td>
                         </tr>
                         </tbody>

@@ -68,7 +68,7 @@ public class ClienteController {
     public static final String FINALIZAR_COMPRA="/menu/finalizarCompras";
     public static final String ALTERAR_FOTO_PERFIL_URL="/menu/prfileFoto";
     public static String PERFL_FOTO_PATH="";
-    public static String URL_REDIRECIONANMENTO="http://localhost:8080/menu/cliente";
+    public static String URL_REDIRECIONANMENTO="http://localhost:8080/cliente/menu";
 
 
 
@@ -245,9 +245,10 @@ public class ClienteController {
         if (carrinho.getConteudo()!=null){
             RegistrarPedidoTO registrarPedidoTO = CriarRegistrarPedido();
             registrarPedidoTO.setClienteId(String.valueOf(userDetails.getUserlogin().getCliente().getId()));
-            Pedido pedido = pedidoService.registrarPedido(registrarPedidoTO);
+            Long pedidoId = pedidoService.registrarPedido(registrarPedidoTO);
 
-            String urlPagSeguro = pagamentoServiceImpl.gerarTokenPagamento(carrinho,userDetails.getUserlogin(),String.valueOf(pedido.getId()),URL_REDIRECIONANMENTO);
+            String urlPagSeguro = pagamentoServiceImpl.gerarTokenPagamento(carrinho,userDetails.getUserlogin(),String.valueOf(pedidoId),URL_REDIRECIONANMENTO);
+            carrinho.limparCarrinho();
             return "redirect:"+urlPagSeguro;
         }
 

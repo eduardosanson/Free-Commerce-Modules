@@ -112,6 +112,11 @@ public class ClienteServiceImpl implements ClienteService{
         });
     }
 
+    @Override
+    public Cliente atualizar(Cliente cliente) {
+        return repository.save(cliente);
+    }
+
     private Cliente criarCliente(CadastrarClienteTO cadastrarClienteTO) {
         Cliente cliente = new Cliente();
         cliente.setNome(cadastrarClienteTO.getNome());

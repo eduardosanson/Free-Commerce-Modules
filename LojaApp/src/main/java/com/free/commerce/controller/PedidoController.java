@@ -27,12 +27,12 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @RequestMapping
-    public ResponseEntity<Pedido> registrarPedido(@RequestBody RegistrarPedidoTO registrarPedidoTO){
+    public ResponseEntity<Long> registrarPedido(@RequestBody RegistrarPedidoTO registrarPedidoTO){
 
         try{
 
 
-            return new ResponseEntity<Pedido>(pedidoService.registrarPedido(registrarPedidoTO),HttpStatus.OK);
+            return new ResponseEntity<Long>(pedidoService.registrarPedido(registrarPedidoTO).getId(),HttpStatus.OK);
 
         }catch (Exception e){
             e.printStackTrace();

@@ -21,5 +21,7 @@ public interface ClienteService {
 
     void alterarPerfil(Long clienteId, Imagem imagem);
 
+    Cliente atualizar(Cliente cliente);
+
 
 }

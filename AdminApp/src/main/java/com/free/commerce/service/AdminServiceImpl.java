@@ -1,6 +1,7 @@
 package com.free.commerce.service;
 
 import com.free.commerce.entity.Administrador;
+import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.repository.AdministradorRepository;
@@ -70,5 +71,10 @@ public class AdminServiceImpl implements AdminService{
         administrador.setNome(administradorTO.getNome());
         administrador.setMatricula(administradorTO.getMatricula());
         return administrador;
+    }
+
+    @Override
+    public Administrador atualizar(Administrador administrador) {
+        return repository.save(administrador);
     }
 }

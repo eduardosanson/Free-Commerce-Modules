@@ -1,0 +1,81 @@
+<div th:fragment="endereco-form">
+    <h5>Endereço</h5>
+    <hr size="3" color="#E6E9ED"/>
+
+    <form>
+        <div class="row">
+
+            <div class="col-sm-2 col-xs-1 form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input id="cep" th:field="*{cep}" type="text" placeholder="CEP" class="form-control input-md"  onblur="pesquisacep(this.value);" />
+                </div>
+                <div th:if="${#fields.hasErrors('cep')}" class="alert alert-danger form-control input-md"
+                     th:errors="*{cep}" role="alert">
+                </div>
+            </div>
+
+            <div class="col-md-4 form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input id="rua" th:field="*{rua}" type="text"  class="form-control input-md" placeholder="Nome da Rua" size="50" />
+                </div>
+                <div th:if="${#fields.hasErrors('rua')}" class="alert alert-danger form-control input-md"
+                     th:errors="*{rua}" role="alert">
+                </div>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input id="bairro" th:field="*{bairro}" type="text"  class="form-control input-md" placeholder="Bairro" size="50" />
+                </div>
+                <div th:if="${#fields.hasErrors('bairro')}" class="alert alert-danger form-control input-md"
+                     th:errors="*{bairro}" role="alert">
+                </div>
+            </div>
+
+            <div class="col-sm-2 form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input th:field="*{numero}" type="text"  class="form-control input-md" placeholder="Número" size="50" />
+                </div>
+                <div th:if="${#fields.hasErrors('numero')}" class="alert alert-danger form-control input-md"
+                     th:errors="*{numero}" role="alert">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 form-group">
+                <div class="input-group">
+                    <input th:field="*{complemento}" type="text"  class="form-control input-md" placeholder="Complemento" size="50" />
+                </div>
+                <div th:if="${#fields.hasErrors('complemento')}" class="alert alert-danger form-control input-md"
+                     th:errors="*{complemento}" role="alert">
+                </div>
+            </div>
+
+            <div class="col-sm-4 form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input id="cidade" th:field="*{cidade}" type="text"  class="form-control input-md" placeholder="cidade" size="50" />
+                </div>
+                <div th:if="${#fields.hasErrors('cidade')}" class="alert alert-danger form-control input-md"
+                     th:errors="*{cidade}" role="alert">
+                </div>
+            </div>
+
+            <div class="col-sm-2 form-group">
+                <div class="input-group">
+                    <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
+                    <input id="uf" th:field="*{uf}" type="text"  class="form-control input-md" placeholder="UF" size="50" />
+                </div>
+                <div th:if="${#fields.hasErrors('uf')}" class="alert alert-danger form-control input-md"
+                     th:errors="*{uf}" role="alert">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -18,12 +18,12 @@ public class PedidoServiceImpl implements PedidoService {
     private RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    public Pedido registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
+    public Long registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
         String url = "http://localhost:8090/v1/pedido";
 
 
 
-        return restTemplate.postForObject(url,registrarPedidoTO,Pedido.class);
+        return restTemplate.postForObject(url,registrarPedidoTO,Long.class);
 
     }
 }

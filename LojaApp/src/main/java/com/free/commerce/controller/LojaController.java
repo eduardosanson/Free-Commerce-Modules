@@ -147,4 +147,23 @@ public class LojaController extends WebMvcConfigurerAdapter {
 
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity atualizar(@RequestBody Loja loja){
+
+        if (loja==null || loja.getId()==null){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        Loja l = lojaService.recuperarPorId(loja.getId());
+
+        if (l==null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        lojaService.atualizar(loja);
+
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+
+    }
+
 }

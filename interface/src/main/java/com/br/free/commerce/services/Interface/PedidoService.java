@@ -8,5 +8,5 @@ import com.free.commerce.entity.Pedido;
  */
 public interface PedidoService {
 
-    Pedido registrarPedido(RegistrarPedidoTO registrarPedidoTO);
+    Long registrarPedido(RegistrarPedidoTO registrarPedidoTO);
 }

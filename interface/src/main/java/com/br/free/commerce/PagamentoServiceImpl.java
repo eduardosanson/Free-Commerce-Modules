@@ -12,6 +12,7 @@ import com.free.commerce.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class PagamentoServiceImpl {
     public String gerarTokenPagamento(Carrinho carrinho, UserLogin userLogin,
                                       String idPedido, String urlDeRedirecionamento) throws PagSeguroServiceException {
         PaymentRequest paymentRequest = new PaymentRequest();
-        Endereco endereco = userLogin.getCliente().getEndereco();
+        Endereco endereco = userLogin.getCliente().getEnderecoEntrega();
 
         carrinho
                 .getConteudo()
@@ -33,7 +34,7 @@ public class PagamentoServiceImpl {
             paymentRequest.addItem(n.getIdentificadorDoProduto(), // identificação no meu site
                    n.getNome(), // nome do produto
                     Integer.valueOf(qtd), // quantidade de produto
-                    new BigDecimal(n.getPreco()), // preço do produto
+                    formatToMoney(n.getPreco()), // preço do produto
                     new Long(1000), //peso unitário em gramas
                     null); //valor unitário do frete
         });
@@ -48,9 +49,9 @@ public class PagamentoServiceImpl {
                 endereco.getComplemento());
 
 
-//        paymentRequest.setShippingType(ShippingType.SEDEX); // tipo de entrega
+        paymentRequest.setShippingType(ShippingType.SEDEX); // tipo de entrega
 //
-//        paymentRequest.setShippingCost(new BigDecimal("2.02")); // preço da entrega
+        paymentRequest.setShippingCost(new BigDecimal("2.02")); // preço da entrega
 
         char[] telefone = userLogin.getCliente().getTelefone().toCharArray();
         String ddd = "";
@@ -93,4 +94,14 @@ public class PagamentoServiceImpl {
             return  paymentRequest.register(PagSeguroConfig.getAccountCredentials(), onlyCheckoutCode);
 
     }
+
+    public BigDecimal formatToMoney(Double number) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.isParseBigDecimal();
+
+        return new BigDecimal(df.format(number).replace(",",".")); // dj_segfault
+
+    }
+
+
 }

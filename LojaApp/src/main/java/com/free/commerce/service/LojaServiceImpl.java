@@ -117,6 +117,11 @@ public class LojaServiceImpl implements LojaService {
         });
     }
 
+    @Override
+    public Loja atualizar(Loja loja) {
+        return repository.save(loja);
+    }
+
     private UserLogin criarLogin(CadastrarLojaTO cadastrarLojaTO) {
         UserLogin login = new UserLogin();
         login.setLogin(cadastrarLojaTO.getEmail());

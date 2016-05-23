@@ -14,4 +14,7 @@ public interface AdminService {
     void alterarPerfil(Long adminId, Imagem imagem);
 
     Administrador recuperarPorId(Long id);
+
+
+    Administrador atualizar(Administrador administrador);
 }
