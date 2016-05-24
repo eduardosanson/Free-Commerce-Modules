@@ -27,14 +27,18 @@
                                         </div>
                                         <div class="post-title">
                                             <h2><p th:text="${produto.nome}"></p></h2>
-                                            <button th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" class="pull-right btn btn-custom">Adicionar ao carrinho  <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                            <button
+                                                    th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null and #authentication.principal.userlogin.cliente.permissao =='CLIENT')}"
+                                                    th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" class="pull-right btn btn-custom">
+                                                Adicionar ao carrinho
+                                                <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                         </div>
                                         <div class="post-meta">
                                             <ul>
                                                 <li><i class="fa fa-clock-o"></i> 2 minutes ago</li>
                                                 <li><i class="fa fa-bars"></i> <a href="category.html">Electronic</a>,<a href="category.html">Laptop</a></li>
                                                 <li><i class="fa fa-map-marker"></i> <a href="category.html">Mountain View</a></li>
-                                                <li><i class="fa fa-bookmark"></i> Used</li>
+                                                <li th:inline="text"><i class="fa fa-bookmark"></i> [[${produto.isNovo()?'Novo':'Usado'}]]</li>
                                             </ul>
                                         </div>
                                         <div class="flexslider post-images">
@@ -53,18 +57,10 @@
 
                                         </div>
                                         <div class="post-body">
-                                            <h4><strong>Spesification</strong></h4>
-                                            <ul>
-                                                <li>Display : 14 inch Gorilla Glass</li>
-                                                <li>Processor : Intel Core i7</li>
-                                                <li>Memory : 4GB</li>
-                                                <li>Storage : 320 GB</li>
-                                                <li>Baterai : Good</li>
-                                            </ul>
-                                            <p>
-                                                Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. 
-                                            </p>
-                                            <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur 
+                                            <h4><strong th:if="${produto.descricaoTetcnica !=null}">Descrição Técnica do produto</strong></h4>
+                                            <p th:text="${produto.descricaoTetcnica}"></p>
+                                            <h4><strong th:if="${produto.descricao !=null}">Descrição do produto</strong></h4>
+                                            <p th:text="${produto.descricao}">
                                             </p>
                                         </div>
                                         <div class="post-footer">
@@ -86,10 +82,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row"
+                                 th:if="${#authentication.principal == 'anonymousUser' or #authentication.principal.userlogin.loja == null}">
                                 <div class="col-md-12">
                                     <div class="section-header">
-                                        <h2>More From John Doe</h2>
+                                        <h2 th:inline="text">Mais Produtos de [[${produto.loja.nome}]]</h2>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4">
@@ -199,7 +196,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-4">
+                        <div class="col-md-4 col-sm-4"  th:if="${#authentication.principal == 'anonymousUser' or #authentication.principal.userlogin.loja == null}">
                             <div class="widget">
                                 <div class="widget-header">
                                     <h3>Vendedor</h3>
@@ -207,9 +204,9 @@
                                 <div class="widget-body text-center">
                                     <img alt="avatar" src="/img/people/gie.jpg"
                                          th:src="@{/img/people/user.png}" class="seller-avatar img-responsive"/>
-                                    <h2 class="seller-name">John Doe</h2>
-                                    <p class="seller-detail">Location: <strong>Orlando</strong><br/>
-                                        Joined : <strong>21 June 2010</strong></p>
+                                    <h2 class="seller-name" th:inline="text">[[${produto.loja.nome}]]</h2>
+                                    <p class="seller-detail">Localização: <strong th:inline="text">[[${produto.loja.endereco.cidade}]]</strong><br/>
+                                        Disponível desde: <strong th:inline="text"> [[${#dates.format(produto.registrado, 'dd/MM/yyyy HH:mm')}]]</strong></p>
                                 </div>
                                 <div class="widget-footer">
                                     <div class="row">
@@ -217,7 +214,7 @@
                                             <button class="btn btn-info btn-block"><i class="fa fa-whatsapp"></i> 0823 4223 4234</button>
                                         </div>
                                         <div class="col-sm-6">
-                                            <button class="btn btn-warning btn-block" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> Send Message</button>
+                                            <button class="btn btn-warning btn-block" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> Entre em contato</button>
                                         </div>
                                     </div>
                                 </div>

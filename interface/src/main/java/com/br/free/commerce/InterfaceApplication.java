@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import java.io.File;
 
@@ -46,6 +47,11 @@ public class InterfaceApplication extends WebMvcConfigurerAdapter{
 				super.addInterceptors(registry);
 			}
 		};
+	}
+
+	@Bean
+	public Java8TimeDialect java8TimeDialect() {
+		return new Java8TimeDialect();
 	}
 
 }

@@ -3,6 +3,7 @@ package com.br.free.commerce.services;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.to.CategoriaTO;
 import com.free.commerce.entity.Categoria;
+import com.free.commerce.entity.Categoria;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -73,22 +74,22 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Categoria buscarPorId(Long catPaiId) {
-        String url = "http://localhost:8089/v1/categoria/"+catPaiId;
-        Categoria categoria = null;
+    public List<Categoria> buscarFilhasPorId(Long catPaiId) {
+        String url = "http://localhost:8089/v1/categoria/"+catPaiId+"/filhas";
+        List<Categoria> categorias = null;
 
         logger.info("Buscando categorias principais para a url: " + url );
 
         try{
 
-            categoria = restTemplate.getForObject(url, Categoria.class);
+            categorias = restTemplate.getForObject(url, List.class);
 
         }catch (Exception e){
             logger.error(e.getMessage());
             return null;
         }
 
-        return categoria;
+        return categorias;
     }
 
     @Override

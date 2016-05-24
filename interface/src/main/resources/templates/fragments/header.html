@@ -23,14 +23,16 @@
                 <li><a href="/store" th:if="${#authentication.principal == 'anonymousUser'}" >Vender</a></li>
                 <li th:if="${#authentication.principal == 'anonymousUser'}" ><a href="/public/login">Entrar</a></li>
 
-                <li id="carrinho" th:replace="/fragments/carrinho-header :: carrinho-header"></li>
+                <li id="carrinho"  th:if="${#authentication.principal == 'anonymousUser' or
+                                 (#authentication.principal.userlogin.cliente !=null and #authentication.principal.userlogin.cliente.permissao =='CLIENT')}"
+                    th:replace="/fragments/carrinho-header :: carrinho-header"></li>
 
                 <li class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong
                             class="caret"></strong>&nbsp;</a>
 
                     <ul class="dropdown-menu" sec:authorize="hasRole('ROLE_ADMIN')">
-                        <li><a href="/admin/menu">Menu Principal</a></li>
+                        <li ><a href="/admin/menu">Menu Principal</a></li>
                         <li><a href="/public/login/logout">Sair</a></li>
                     </ul>
 

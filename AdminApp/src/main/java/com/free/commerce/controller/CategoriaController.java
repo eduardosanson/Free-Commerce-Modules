@@ -39,15 +39,15 @@ public class CategoriaController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Categoria> cadastrarCategoria(@Valid @RequestBody CategoriaTO categoriaTO, BindingResult bindingResult){
+    public ResponseEntity cadastrarCategoria(@Valid @RequestBody CategoriaTO categoriaTO, BindingResult bindingResult){
 
         Categoria categoria = null;
         if (bindingResult.hasErrors()){
-            return new ResponseEntity<Categoria>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         try{
-            categoria = categoriaService.cadastrarCategoria(categoriaTO);
+            categoriaService.cadastrarCategoria(categoriaTO);
 
         }catch (RegraDeNegocioException re){
             if (re.getTipoErro()== RegraDeNegocioEnum.VALOR_JA_CADASTRADO){
@@ -57,11 +57,10 @@ public class CategoriaController {
         }
         catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<Categoria>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-
-        return new ResponseEntity<Categoria>(categoria,HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @RequestMapping(params = {"principal"})
@@ -106,6 +105,41 @@ public class CategoriaController {
             return new ResponseEntity<Categoria>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(path = {"/{id}/filhas"})
+    public ResponseEntity<List<Categoria>> buscarCategoriaFilhasPorIdDePai(@PathVariable("id") Long id){
+        Categoria categoria =null;
+        try {
+            categoria = categoriaService.buscarCategoriaPorId(id);
+            if (categoria==null){
+                return new ResponseEntity<List<Categoria>>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<List<Categoria>>(categoria.getFilhos(),HttpStatus.FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<List<Categoria>>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @RequestMapping(path = {"/list/{id}"})
+    public ResponseEntity<Categoria> buscarCategoriaPorIdList(@PathVariable("id") Long id){
+        Categoria categoria =null;
+        try {
+            categoria = categoriaService.buscarCategoriaPorId(id);
+
+            if (categoria==null){
+                return new ResponseEntity<Categoria>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<Categoria>(categoria,HttpStatus.FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<Categoria>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @RequestMapping(params = {"filho"})
     public ResponseEntity<Categoria> buscarCategoriaPorIdDaCategoriaFilha(@RequestParam("filho") Long id){
         Categoria categoria =null;

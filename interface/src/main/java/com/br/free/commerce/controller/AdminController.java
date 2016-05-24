@@ -125,11 +125,15 @@ public class AdminController {
         categoriaTO.setPrincipal(true);
         categoriaService.cadastrarCategoria(categoriaTO);
 
-        model.addAttribute(PAGE_NAME,PAGE_CREATE_CATEGORY);
-        model.addAttribute(PAGE_FRAGMENT,FRAGMENT_CREATE_CATEGORY);
-
-        model.addAttribute(MENU_NAME,PAGE_CREATE_CATEGORY);
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT_FRAGMENT);
         model.addAttribute(MENU_FRAGMENT,FRAGMENT_CREATE_CATEGORY);
+        model.addAttribute(MENU_NAME,PAGE_CREATE_CATEGORY);
+
+        List<Categoria> categoriasPrincipais = categoriaService.buscarCategoriasPrincipais();
+
+        model.addAttribute("categoriasPrincipais",categoriasPrincipais);
+
 
         return "index";
     }
@@ -159,8 +163,8 @@ public class AdminController {
                                       @RequestParam("idCategoriaPai") Long idCategoriaPai, Model model){
 
 
-        Categoria categoriaPai = categoriaService.buscarPorId(idCategoriaPai);
-        model.addAttribute("categorias",categoriaPai.getFilhos());
+        List<Categoria> categoriaFilhas = categoriaService.buscarFilhasPorId(idCategoriaPai);
+        model.addAttribute("categorias",categoriaFilhas);
         model.addAttribute("nextBlock",nextBlock);
         model.addAttribute("passoAtual",passoAtual);
 
@@ -184,8 +188,8 @@ public class AdminController {
                 return "fragments/"+PAGE_CREATE_CATEGORY +" :: " + "categoriaModal";
             }
             categoriaService.cadastrarCategoria(categoriaTO);
-            Categoria categoriaPai = categoriaService.buscarPorId(catPaiId);
-            model.addAttribute("categorias",categoriaPai.getFilhos());
+            List<Categoria> categoriasFilhas = categoriaService.buscarFilhasPorId(catPaiId);
+            model.addAttribute("categorias",categoriasFilhas);
 
 
             return "fragments/"+PAGE_CREATE_CATEGORY +" :: " + RESULT_BLOCK+blockAtual;

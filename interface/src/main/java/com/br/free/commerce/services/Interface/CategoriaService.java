@@ -16,7 +16,7 @@ public interface CategoriaService {
 
     List<Categoria> buscarCategoriasPrincipais();
 
-    Categoria buscarPorId(Long catPaiId);
+    List<Categoria> buscarFilhasPorId(Long catPaiId);
 
     Categoria buscarPorNome(String nome);
 

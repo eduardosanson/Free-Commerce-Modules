@@ -1,6 +1,6 @@
 package com.free.commerce.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
@@ -25,12 +25,13 @@ public class Categoria {
     @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     @JoinColumn(name = "categoria_pai",updatable = false)
     @OrderBy(clause = "descricao asc")
+    @JsonBackReference
     private List<Categoria> filhos;
 
     @ManyToOne
     @JoinColumn(name = "categoria_pai",nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "fk_categoria_categoria")
-    @JsonIgnore
+    @JsonManagedReference
     private Categoria pai;
 
     public String getDescricao() {
