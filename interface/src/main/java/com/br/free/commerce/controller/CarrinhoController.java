@@ -2,6 +2,7 @@ package com.br.free.commerce.controller;
 
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.to.BuscarProdutoTO;
+import com.br.free.commerce.to.Frete;
 import com.br.free.commerce.to.RegistrarPedidoTO;
 import com.free.commerce.entity.Produto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by pc on 30/04/2016.
@@ -29,7 +31,7 @@ public class CarrinhoController {
     private Carrinho carrinho;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String showCarrinhoHeader(Model model, BuscarProdutoTO buscarProdutoTO, RegistrarPedidoTO registrarPedidoTO){
+    public String showCarrinhoHeader(Model model, BuscarProdutoTO buscarProdutoTO, RegistrarPedidoTO registrarPedidoTO, Frete frete){
         model.addAttribute(PAGE_NAME,PAGE_CARRINHO );
         model.addAttribute(FRAGMENT_NAME,FRAGMENT_CARRINHO);
 
@@ -64,6 +66,16 @@ public class CarrinhoController {
         carrinho.diminuirQuantidadeProduto(produto);
 
         return "fragments/"+ CARRINHO_HEADER_PAGE + " :: " + CARRINHO_HEADER_PFRAGMENT;
+    }
+
+    @RequestMapping(value = "/adicionarFrete",method = RequestMethod.POST)
+    public String addValorFrete(Frete frete,Model model){
+
+        String valor = frete.getReal()+"."+frete.getMoeda();
+
+        carrinho.getFrete().addFreteProduto(frete.getProdutoId(),new Double(valor));
+
+        return "redirect:/carrinho";
     }
 
 

@@ -6,6 +6,7 @@ import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Categoria;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
@@ -65,9 +66,8 @@ public class CategoriaServiceImpl implements CategoriaService {
 
             categorias = restTemplate.getForObject(url, ArrayList.class);
 
-        }catch (Exception e){
-            logger.error(e.getMessage());
-            return null;
+        }catch (HttpClientErrorException e){
+                e.printStackTrace();
         }
 
         return categorias;

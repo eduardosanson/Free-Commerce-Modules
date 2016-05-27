@@ -1,6 +1,7 @@
 package com.br.free.commerce.bean;
 
 import com.br.free.commerce.services.Interface.ProdutoService;
+import com.br.free.commerce.to.Frete;
 import com.free.commerce.entity.Produto;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -22,6 +23,8 @@ public class Carrinho {
 
     private ProdutoService produtoService;
 
+    private Frete frete = new Frete();
+
     public void addProduto(Produto produto,Integer quantidade){
         if(conteudo.containsKey(produto)){
             conteudo.put(produto,conteudo.get(produto)+quantidade);
@@ -30,6 +33,14 @@ public class Carrinho {
             conteudo.put(produto,quantidade);
         }
 
+    }
+
+    public Frete getFrete() {
+        return frete;
+    }
+
+    public void setFrete(Frete frete) {
+        this.frete = frete;
     }
 
     public Set<Produto> getProdutos(){

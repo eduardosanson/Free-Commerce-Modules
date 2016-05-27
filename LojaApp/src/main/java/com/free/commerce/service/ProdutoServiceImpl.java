@@ -8,6 +8,7 @@ import com.free.commerce.repository.FotoRepository;
 import com.free.commerce.repository.ImageRepository;
 import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.repository.ProductRepository;
+import com.free.commerce.service.interfaces.CategoriaRepository;
 import com.free.commerce.service.interfaces.CategoriaService;
 import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.ProdutoTO;
@@ -41,6 +42,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Autowired
     private ImageRepository imageRepository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     private static Logger logger = Logger.getLogger(ProdutoServiceImpl.class);
 
@@ -85,7 +89,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         Categoria categoria = new Categoria();
 
         if (produtoTO.getCategoriaId()!=null && produtoTO.getCategoriaId()!=""){
-            categoria = categoriaService.buscarPorId(Long.parseLong(produtoTO.getCategoriaId()));
+            categoria = categoriaRepository.findOne(Long.parseLong(produtoTO.getCategoriaId()));
             return categoria;
         }else {
             return null;

@@ -31,7 +31,6 @@ public class Categoria {
     @ManyToOne
     @JoinColumn(name = "categoria_pai",nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "fk_categoria_categoria")
-    @JsonManagedReference
     private Categoria pai;
 
     public String getDescricao() {

@@ -362,6 +362,13 @@ public class LojaController {
         }
     }
 
+    public String responderMensagem(ResponderMensagemTO responderMensagemTO){
+
+        return "redirect:/produto/detail/"+ responderMensagemTO.getProdutoId();
+    }
+
+
+
 
 
 }

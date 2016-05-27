@@ -1,0 +1,33 @@
+<div th:fragment="mensagens">
+    <div class="row" th:each="mensagem : ${mensagens}" th:if="${mensagens != null}">
+
+        <div class="col-md-2">
+            <div class="thumbnail">
+                <img class="img-responsive user-photo" th:src="${mensagem.cliente.perfil != null ? '/' + mensagem.cliente.perfil.path : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'}" src=""/>
+            </div><!-- /thumbnail -->
+        </div><!-- /col-sm-1 -->
+
+        <div class="col-md-10">
+            <div class="panel panel-default">
+                <div class="panel-heading" >
+                    <strong th:text="${mensagem.cliente.nome}"></strong> <span class="text-muted">commented 5 days ago</span>
+                    <button th:if="${mensagem.resposta == null and
+                                                                         #authentication.principal != 'anonymousUser' and
+                                                                         #authentication.principal.userlogin.loja != null and
+                                                                         #authentication.principal.userlogin.loja.id == produto.loja.id}"
+                            class="pull-right btn btn-default" data-target="#responseMessageModal"
+                            data-toggle="modal" th:onclick="'prepararParaResponderMensagem(' + ${mensagem.id} + ')'">
+                        Responder
+                    </button>
+                </div>
+                <div class="panel-body" style="max-height: 60px; overflow-y: scroll;">
+                    <p class="pull-left" th:text="${mensagem.pergunta}"></p>
+                    <hr/>
+                    <p class="pull-right" th:text="${mensagem.resposta}"></p>
+                </div>
+
+            </div><!-- /panel panel-default -->
+
+        </div><!-- /col-sm-5 -->
+    </div>
+</div>

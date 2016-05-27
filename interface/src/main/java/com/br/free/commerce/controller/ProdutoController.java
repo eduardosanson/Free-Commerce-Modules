@@ -5,12 +5,11 @@ import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.services.Interface.CarrinhoService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
-import com.br.free.commerce.to.BuscarProdutoTO;
-import com.br.free.commerce.to.ProdutoPage;
-import com.br.free.commerce.to.ProdutoTO;
-import com.br.free.commerce.to.ProdutoView;
+import com.br.free.commerce.services.MensagemServiceImpl;
+import com.br.free.commerce.to.*;
 import com.br.free.commerce.util.Page;
 import com.free.commerce.entity.Categoria;
+import com.free.commerce.entity.Mensagem;
 import com.free.commerce.entity.Produto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * Created by eduardo.sanson on 23/03/2016.
@@ -67,6 +64,9 @@ public class ProdutoController {
 
     @Autowired
     private CarrinhoService carrinhoService;
+
+    @Autowired
+    private MensagemServiceImpl mensagemService;
 
     private static final Logger logger =  Logger.getLogger(ProdutoController.class);
 
@@ -120,16 +120,89 @@ public class ProdutoController {
     }
 
     @RequestMapping("/detail/{productId}")
-    public String productDetail(@PathVariable("productId") String id, Model model){
+    public String productDetail(@PathVariable("productId") String id, CadastrarMensagemTO cadastrarMensagemTO,
+                                ResponderMensagemTO responderMensagemTO, Model model){
+        int pagina = 0;
+        int limite = 5;
         model.addAttribute(PAGE_NAME,PRODUCT_DETAIL_PAGE);
         model.addAttribute(PAGE_FRAGMENT,PRODUCT_DETAIL_FRAGMENT);
 
         Produto produto = produtoService.buscarProdutoPorId(id);
 
+        cadastrarMensagemTO.setProdutoId(Long.valueOf(id));
+
+
+        List<Categoria> categorias = new ArrayList<>();
+        Categoria categoria = produto.getCategoria();
+
+        while (categoria != null){
+            categorias.add(categoria);
+            categoria = categoria.getPai();
+        }
+        Collections.sort(categorias,(c1,c2) -> c1.getId().compareTo(c2.getId()));
+
+        List<Mensagem> mensagens = mensagemService.recuperarMensagensPorProduto(Long.valueOf(id),pagina,limite);
+
+        mensagens.stream().sorted((m1,m2)-> m1.getReistrado().compareTo(m2.getReistrado()));
+
+        ProdutoPage produtos = produtoService.recuperarProdutosDeLoja(produto.getLoja(),
+                "1","9");
+
+        int qtdDeMensagens = mensagemService.recuperarMensagensPorProdutoList(produto.getId()).size();
+        int qtdDePaginas =  qtdDeMensagens%limite>0?(qtdDeMensagens/limite)+1 : qtdDeMensagens/limite;
+
+        Page page = new Page();
+        page.setPaginaAtual(pagina);
+        page.setQtdElementosPorPagina(limite);
+        page.setTotalDePaginas(qtdDePaginas);
+
+
+        responderMensagemTO.setProdutoId(produto.getId());
+        model.addAttribute("mensagens",mensagens);
+        model.addAttribute("categoriasRelacionadas",categorias);
         model.addAttribute("produto",produto);
-//        model.addAttribute("carrinho",carrinho);
+        model.addAttribute("page",page);
+        model.addAttribute("outrosProdutos",
+                Optional
+                        .ofNullable(produtos.getProdutos())
+                        .filter(a -> a.remove(produto)).get());
 
         return INDEX;
+    }
+
+    @RequestMapping(value = "/responderMensagem",method = RequestMethod.POST)
+    public String responderMensagem(ResponderMensagemTO responderMensagemTO,Model model){
+
+        mensagemService.responderMensagem(responderMensagemTO);
+
+        return "redirect:/produto/detail/"+responderMensagemTO.getProdutoId();
+
+    }
+
+    @RequestMapping(value = "/maisMensagens",method = RequestMethod.GET)
+    public String maisMensagens(@RequestParam("produtoId") Long produtoId,
+                                @RequestParam("paginaAtual") int paginaAtual,
+                                Model model){
+        int limiteDePaginas = 5;
+        paginaAtual = paginaAtual-1;
+
+        int qtdDeMensagens = mensagemService.recuperarMensagensPorProdutoList(produtoId).size();
+        int qtdDePaginas =  qtdDeMensagens%limiteDePaginas>0?(qtdDeMensagens/limiteDePaginas)+1 : qtdDeMensagens/limiteDePaginas;
+
+        Page page = new Page();
+        page.setPaginaAtual(paginaAtual-1);
+        page.setQtdElementosPorPagina(limiteDePaginas);
+        page.setTotalDePaginas(qtdDePaginas);
+
+        List<Mensagem> mensagens = mensagemService.recuperarMensagensPorProduto(produtoId,paginaAtual,5);
+        Produto produto = produtoService.buscarProdutoPorId(produtoId.toString());
+
+        model.addAttribute("mensagens",mensagens);
+        model.addAttribute("page",page);
+        model.addAttribute("produto",produto);
+
+        return "fragments/mensagens :: mensagens";
+
     }
 
     @RequestMapping(method = RequestMethod.GET)

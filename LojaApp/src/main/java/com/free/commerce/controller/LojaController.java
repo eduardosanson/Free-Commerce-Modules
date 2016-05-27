@@ -7,6 +7,7 @@ import com.free.commerce.service.interfaces.AutorizacaoService;
 import com.free.commerce.service.interfaces.LoginService;
 import com.free.commerce.service.interfaces.LojaService;
 import com.free.commerce.to.CadastrarLojaTO;
+import com.free.commerce.to.ResponderMensagemTO;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -165,5 +166,6 @@ public class LojaController extends WebMvcConfigurerAdapter {
         return new ResponseEntity(HttpStatus.ACCEPTED);
 
     }
+
 
 }

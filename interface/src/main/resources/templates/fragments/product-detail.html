@@ -23,21 +23,27 @@
 
                                     <div class="post">
                                         <div class="post-price">
-                                            <p th:text="${produto.preco}"> </p>
+                                            <p th:inline="text"> R$ [[${#numbers.formatDecimal(produto.preco, 0, 'POINT', 2, 'POINT')}]]</p>
                                         </div>
                                         <div class="post-title">
                                             <h2><p th:text="${produto.nome}"></p></h2>
                                             <button
-                                                    th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null and #authentication.principal.userlogin.cliente.permissao =='CLIENT')}"
+                                                    th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null and #authentication.principal.userlogin.permissao =='CLIENT')}"
                                                     th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" class="pull-right btn btn-custom">
                                                 Adicionar ao carrinho
                                                 <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                         </div>
                                         <div class="post-meta">
                                             <ul>
-                                                <li><i class="fa fa-clock-o"></i> 2 minutes ago</li>
-                                                <li><i class="fa fa-bars"></i> <a href="category.html">Electronic</a>,<a href="category.html">Laptop</a></li>
-                                                <li><i class="fa fa-map-marker"></i> <a href="category.html">Mountain View</a></li>
+                                                <li>
+                                                    <i class="fa fa-bars"></i>
+                                                    <a href="category.html"
+                                                       th:each="categoria : ${categoriasRelacionadas}"
+                                                       th:text="${categoria.descricao} + ', '">
+
+                                                </a>
+                                                </li>
+                                                <li><i class="fa fa-map-marker"></i> <a href="category.html" th:text="${produto.loja.endereco.bairro}"></a></li>
                                                 <li th:inline="text"><i class="fa fa-bookmark"></i> [[${produto.isNovo()?'Novo':'Usado'}]]</li>
                                             </ul>
                                         </div>
@@ -67,7 +73,7 @@
                                             <div class="row">
                                                 <div class="col-xs-6">    
                                                     <button class="btn btn-info"><i class="fa fa-whatsapp"></i> <span class="hidden-xs hidden-sm">0823 4223 4234</span></button>
-                                                    <button class="btn btn-warning" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> <span class="hidden-xs hidden-sm">Send Message</span></button>
+                                                    <button class="btn btn-warning" data-target="#sendMessageModal" data-toggle="modal"><i class="fa fa-envelope"></i> <span class="hidden-xs hidden-sm">Envie uma mensagem</span></button>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="item-action pull-right">
@@ -82,106 +88,53 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <form th:action="@{/mensagem}" th:object="${cadastrarMensagemTO}" id="usrform" method="post">
+                                        <input type="hidden" th:field="*{produtoId}" th:value="${produto.id}" />
+                                        <textarea id="mensagemId" th:field="*{mensagem.pergunta}" class="form-control" rows="3" cols="80" name="comment"
+                                                  form="usrform" placeholder="Digite sua dúvida aqui" required="required">
+                                        </textarea>
+                                        <br/>
+                                        <div class="pull-right">
+                                            <button class="btn btn-info btn-block"><i class="fa fa-envelope"></i> Envie sua pergunta</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
                             <div class="row"
-                                 th:if="${#authentication.principal == 'anonymousUser' or #authentication.principal.userlogin.loja == null}">
+                                 th:if="${(#authentication.principal == 'anonymousUser' or #authentication.principal.userlogin.loja == null) and (outrosProdutos != null and !outrosProdutos.isEmpty())}" >
                                 <div class="col-md-12">
                                     <div class="section-header">
                                         <h2 th:inline="text">Mais Produtos de [[${produto.loja.nome}]]</h2>
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-4" th:each="outroProduto : ${outrosProdutos}">
                                             <div class="item-ads-grid">
                                                 <div class="item-badge-grid featured-ads">
                                                     <a href="#">Featured Ads</a>
                                                 </div>
                                                 <div class="item-img-grid">
-                                                    <img alt="" th:src="@{/img/products/product-1.jpg}"
+                                                    <img alt="" th:src="'/'+${outroProduto.imagens != null and outroProduto.imagens.size() != 0 ? outroProduto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
                                                          src="/img/products/product-1.jpg" class="img-responsive img-center"/>
                                                 </div>
                                                 <div class="item-title">
-                                                    <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
+                                                    <a href="'/produto/detail/'+${outroProduto.id}"><h4 th:inline="text">[[${outroProduto.nome}]]</h4></a>
                                                 </div>
                                                 <div class="item-meta">
                                                     <ul>
                                                         <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                        <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                        <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                        <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
+                                                        <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html" th:text="${outroProduto.categoria.descricao}"></a></li>
+                                                        <li class="item-location"><a href="category.html"><i class="fa fa-map-marker" th:text="' ' + ${outroProduto.loja.endereco.cidade}"></i></a></li>
+                                                        <li class="item-type"><i class="fa fa-bookmark" th:text="' ' + ${produto.isNovo() ? 'Novo' : 'Usado'}"></i></li>
                                                     </ul>
                                                 </div>
                                                 <div class="product-footer">
                                                     <div class="item-price-grid pull-left">
-                                                        <h3>$ 100</h3>
-                                                        <span>Negotiable</span>
-                                                    </div>
-                                                    <div class="item-action-grid pull-right">
-                                                        <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                            <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="item-ads-grid highlight-ads">
-                                                <div class="item-badge-grid hot-ads">
-                                                    <a href="#">Featured Ads</a>
-                                                </div>
-                                                <div class="item-img-grid">
-                                                    <img alt="" src="/img/products/product-2.jpg"
-                                                         th:src="@{/img/products/product-2.jpg}" class="img-responsive img-center"/>
-                                                </div>
-                                                <div class="item-title">
-                                                    <a href="detail.html"><h4>Samsung Galaxy Grand Prime 530 8GB Grey</h4></a>
-                                                </div>
-                                                <div class="item-meta">
-                                                    <ul>
-                                                        <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                        <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                        <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                        <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="product-footer">
-                                                    <div class="item-price-grid pull-left">
-                                                        <h3>$ 100</h3>
-                                                        <span>Negotiable</span>
-                                                    </div>
-                                                    <div class="item-action-grid pull-right">
-                                                        <ul>
-                                                            <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                            <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="item-ads-grid">
-                                                <div class="item-badge-grid premium-ads">
-                                                    <a href="#">Featured Ads</a>
-                                                </div>
-                                                <div class="item-img-grid">
-                                                    <img alt="" src="/img/products/product-6.jpg"
-                                                         th:src="@{/img/products/product-6.jpg}"
-                                                         class="img-responsive img-center"/>
-                                                </div>
-                                                <div class="item-title">
-                                                    <a href="detail.html"><h4>Samsung Tab 3 V 116</h4></a>
-                                                </div>
-                                                <div class="item-meta">
-                                                    <ul>
-                                                        <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                        <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                        <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                        <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="product-footer">
-                                                    <div class="item-price-grid pull-left">
-                                                        <h3>$ 100</h3>
-                                                        <span>Negotiable</span>
+                                                        <h3 th:inline="text">R$ [[${#numbers.formatDecimal(outroProduto.preco, 0, 'POINT', 2, 'POINT')}]]</h3>
                                                     </div>
                                                     <div class="item-action-grid pull-right">
                                                         <ul>
@@ -195,15 +148,36 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row" th:if="${mensagens != null}">
+                                <div class="col-sm-12">
+                                    <h3>Perguntas</h3><br/>
+                                </div><!-- /col-sm-12 -->
+                            </div><!-- /row -->
+
+                            <div>
+
+                                <div id="mensagensBlock">
+                                    <div th:replace="fragments/mensagens :: mensagens"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-5 pull-left">
+                                        <ul class="pagination table-pagination"  th:each="i : ${page.primeiraMetade}">
+                                            <li><input th:class="${i}==${page.paginaAtual}?'btn btn-default active disabled' : 'btn'" type="button" th:onclick="'maisMensagens(this.value,'+ ${produto.id} +');'" th:value="${i}"/></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-4 col-sm-4"  th:if="${#authentication.principal == 'anonymousUser' or #authentication.principal.userlogin.loja == null}">
+                        <div class="col-md-4 col-sm-4"  th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.loja != null and #authentication.principal.userlogin.loja.id != produto.id)}">
                             <div class="widget">
                                 <div class="widget-header">
                                     <h3>Vendedor</h3>
                                 </div>
                                 <div class="widget-body text-center">
                                     <img alt="avatar" src="/img/people/gie.jpg"
-                                         th:src="@{/img/people/user.png}" class="seller-avatar img-responsive"/>
+                                         th:src="'/' + ${produto.loja.perfil != null ? produto.loja.perfil.path : 'img/people/user.png'}" class="seller-avatar img-responsive"/>
                                     <h2 class="seller-name" th:inline="text">[[${produto.loja.nome}]]</h2>
                                     <p class="seller-detail">Localização: <strong th:inline="text">[[${produto.loja.endereco.cidade}]]</strong><br/>
                                         Disponível desde: <strong th:inline="text"> [[${#dates.format(produto.registrado, 'dd/MM/yyyy HH:mm')}]]</strong></p>
@@ -289,7 +263,36 @@
                 </div>
             </div>
         </div>
+
+    <!-- response message modal -->
+    <div aria-labelledby="responseMessageModalLabel" role="dialog" tabindex="-1" id="responseMessageModal" class="modal fade in">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+                    <h4 id="responseMessageModalLabel" class="modal-title">Obrigado por Responder os Clientes</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="reponderMensagemForm" th:action="@{/produto/responderMensagem}" th:object="${responderMensagemTO}" method="post">
+                        <input type="hidden" id="mensagem" th:field="*{mensagemId}"/>
+                        <input type="hidden" th:field="*{produtoId}" id="idDoProduto"/>
+                        <div class="form-group">
+                            <label class="control-label" for="message-text">Resposta: </label>
+                            <textarea th:field="*{resposta}" class="form-control input-lg"
+                                      placeholder="Sua Resposta aqui" required="required">
+                            </textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+                    <button class="btn btn-custom" type="button" onclick="responderMensagem()"><i class="fa fa-paper-plane"></i> Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <script type="text/javascript">
+        /*<![CDATA[*/
             $(document).ready(function () {
 
                 // ===============Flexslider=====================
@@ -305,5 +308,21 @@
                 // ==========tooltip initial=================
                 $('[data-toggle="tooltip"]').tooltip();
             });
+
+            function prepararParaResponderMensagem(i){
+                document.getElementById('mensagem').value=i;
+            }
+
+            function responderMensagem(){
+                document.getElementById("reponderMensagemForm").submit();
+            }
+
+            function maisMensagens(i,pId){
+                url ="/produto/maisMensagens?produtoId=" + pId + "&paginaAtual=" + i;
+
+                $('#mensagensBlock').load(url);
+            }
+            /* ]]>*/
+
         </script>
    </div>

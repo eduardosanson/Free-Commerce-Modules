@@ -22,12 +22,12 @@ public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuc
 
     private static String CLIENTE_CONTROLLER="/cliente";
 
-    private String urlRequested ="";
+    private String urlFinalizarCompra ="";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        urlRequested =CLIENTE_CONTROLLER + ClienteController.FINALIZAR_COMPRA;
+        urlFinalizarCompra =CLIENTE_CONTROLLER + ClienteController.FINALIZAR_COMPRA;
 
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
         SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
@@ -44,8 +44,8 @@ public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuc
 
         DefaultSavedRequest defaultSavedRequest = (DefaultSavedRequest) request.getSession().getAttribute("SPRING_SECURITY_SAVED_REQUEST");
 
-        if (defaultSavedRequest !=null && urlRequested.equalsIgnoreCase(defaultSavedRequest.getRequestURI())){
-            response.sendRedirect(urlRequested);
+        if (defaultSavedRequest !=null && urlFinalizarCompra.equalsIgnoreCase(defaultSavedRequest.getRequestURI())){
+            response.sendRedirect(urlFinalizarCompra);
         }else if (roles.contains("ROLE_" + Role.CLIENT.name())){
             response.sendRedirect("/cliente/menu");
         }

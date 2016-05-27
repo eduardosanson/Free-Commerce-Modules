@@ -4,7 +4,7 @@
             <div class="panel panel-success">
                 <div class="panel-heading "><a data-toggle="collapse" th:attr="data-parent=${'#accordion'+pedido.id}, href=${'#' + pedido.id}">
                             <strong th:text="'Pedido Nº ' + ${pedido.id} + ' Data: ' + ${#calendars.format(pedido.registrado,'dd MMMM yyyy HH:mm')}">
-                            </strong><span class="text-right text-success glyphicon glyphicon-ok"></span></a>
+                            </strong><span class="text-right text-success glyphicon glyphicon-ok pull-right"></span></a>
                 </div>
                 <div class="panel-body panel-collapse collapse" th:id="${pedido.id}">
                     <table class="table table-striped">

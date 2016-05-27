@@ -11,6 +11,7 @@
                                 <th></th>
                                 <th>Nome</th>
                                 <th>Quantidade</th>
+                                <th>Frete combinado</th>
                                 <th class="text-center">Preço unitário</th>
                                 <th class="text-center">SubTotal</th>
                                 <th></th>
@@ -18,11 +19,11 @@
                             </thead>
                             <tbody id="tabelaCarrinho">
                             <tr th:each="produtoMap : ${carrinho.getConteudo()}" th:id="'produto' +${produtoMap.key.id}">
-                                <td class="col-xs-2">
+                                <td class="col-xs-1">
                                     <img th:src="'/'+${produtoMap.key.imagens != null and produtoMap.key.imagens.size() != 0 ? produtoMap.key.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
                                          alt="" class="thumb-img img-responsive"/>
                                 </td>
-                                <td class="col-md-4"><h5><strong th:text="${produtoMap.key.nome}"></strong></h5></td>
+                                <td class="col-md-2"><h5><strong th:text="${produtoMap.key.nome}"></strong></h5></td>
                                 <td class="col-md-2" style="text-align: center">
                                     <div class="input-group">
                                         <span class="input-group-btn">
@@ -38,11 +39,20 @@
                                         </span>
                                     </div>
                                 </td>
-                                <td class="col-md-1 text-center"><strong th:id="'valorProduto'+${produtoMap.key.id}" th:text=" 'R$ ' + ${produtoMap.key.preco}"></strong></td>
-                                <td class="col-md-1 text-center"><strong th:id="'valorTotalPorProduto'+${produtoMap.key.id}"
-                                                                         th:inline="text">
+                                <td class="col-md-3 text-center"><button class="btn btn-default" type="button" data-target="#freteValorModal"
+                                                                         data-toggle="modal" th:text="${carrinho.frete.valorPorProduto(produtoMap.key.id) == null ? 'R$ 00.00' : 'R$' +
+                                                                         #numbers.formatDecimal(carrinho.frete.valorPorProduto(produtoMap.key.id), 0, 'POINT', 2, 'POINT')}"
+                                                                         th:onclick="'adicionarFrete('+ ${produtoMap.key.id} + ');'">
+                                </button></td>
+
+                                <td class="col-md-3 text-center"><strong th:id="'valorProduto'+${produtoMap.key.id}" th:text=" 'R$ ' + ${#numbers.formatDecimal(produtoMap.key.preco, 0, 'POINT', 2, 'POINT')}"></strong></td>
+
+                                <td class="col-md-4">
+                                    <strong th:id="'valorTotalPorProduto'+${produtoMap.key.id}" th:inline="text">
                                     R$ [[${#numbers.formatDecimal((produtoMap.key.preco * produtoMap.value), 0, 'POINT', 2, 'POINT')}]]
                                 </strong></td>
+
+
                                 <td class="col-sm-1 col-md-1">
                                     <button type="button" class="btn btn-danger" th:onclick="'destroiProduto(\''+ ${produtoMap.key.id} +'\');'">
                                         <i class="glyphicon glyphicon-remove"></i>
@@ -53,6 +63,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                                 <td class="text-right"><h5>Valor Total</h5></td>
                                 <td class="text-center"><h5><strong id="valorTotal" th:inline="text">R$ [[${#numbers.formatDecimal(carrinho.custoTotal, 0, 'POINT', 2, 'POINT')}]]</strong></h5></td>
                                 <td></td>
@@ -60,11 +71,7 @@
                             </tbody>
                         </table>
                         <div class="row">
-                            <div class="col-md-9 col-md-offset-7">
-                                <a href="/" class="text-right"><button type="button" class="btn btn-default">
-                                    <span class="glyphicon glyphicon-shopping-cart"></span> Continuar Comprando
-                                </button></a>
-
+                            <div class="pull-right">
                                 <a id="urlFinalizarCompra" th:if="${carrinho != null and carrinho.totalNoCarrinho() &gt; 0}"
                                    href="/cliente/menu/finalizarCompras">
                                     <!--Finalizar Compras <span class="glyphicon glyphicon-play"></span>-->
@@ -79,5 +86,51 @@
             </div>
         </div>
     </div>
+
+    <div aria-labelledby="freteValorModalLabel" role="dialog" tabindex="-1" id="freteValorModal" class="modal fade in">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-label="Close" data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span></button>
+                    <h4 id="freteValorModalLabel" class="modal-title">Insira o valor combinado</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" id="freteForm" th:action="@{/carrinho/adicionarFrete}" th:object="${frete}" method="post">
+                       <div class="row">
+                           <div class="col-md-1">
+                               <label>R$</label>
+                           </div>
+                           <div class="col-md-2 pull-left">
+                                <input id="real" size="2" maxlength="3" min="0" class="form-control input-sm"
+                                       type="number" th:field="*{real}" value="00" required="required"/>
+                           </div>
+                           <div class="col-md-1">
+                               <label>,</label>
+                           </div>
+                           <div class="col-md-2">
+                               <input id="moeda" maxlength="2" min="0" class="form-control input-sm pull-left"
+                                      type="number" th:field="*{moeda}" required="required" value="00"/>
+                           </div>
+                       </div>
+                        <input type="hidden" th:field="*{produtoId}" id="produtoFrete" required="required"/>
+                        <div class="form-group">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+                    <button class="btn btn-custom" type="submit" form="freteForm"><i class="fa fa-paper-plane"></i> Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        function adicionarFrete(i){
+            document.getElementById('produtoFrete').value=i;
+        }
+    </script>
 </div>
 

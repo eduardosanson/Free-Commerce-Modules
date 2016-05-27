@@ -51,7 +51,7 @@ public class PagamentoServiceImpl {
 
         paymentRequest.setShippingType(ShippingType.SEDEX); // tipo de entrega
 //
-        paymentRequest.setShippingCost(new BigDecimal("2.02")); // preço da entrega
+        paymentRequest.setShippingCost(this.formatToMoney(carrinho.getFrete().freteTotal()));
 
         char[] telefone = userLogin.getCliente().getTelefone().toCharArray();
         String ddd = "";
