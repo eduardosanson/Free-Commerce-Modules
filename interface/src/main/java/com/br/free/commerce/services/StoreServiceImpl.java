@@ -5,14 +5,18 @@ import com.br.free.commerce.to.CadastrarLojaTO;
 import com.br.free.commerce.util.ImagemProcessor;
 import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
+import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by pc on 19/03/2016.
@@ -72,5 +76,31 @@ public class StoreServiceImpl implements StoreService {
     public Loja buscarLoja(Long id) {
         String url = "http://localhost:8090/v1/loja/"+id;
         return template.getForObject(url,Loja.class);
+    }
+
+    @Override
+    public List<Pedido> minhasSolicitacoes(Long id) {
+        String url = "http://localhost:8090/v1/pedido/loja?lojaId="+id;
+        List<Pedido> pedidos=null;
+        try {
+            pedidos = template.getForObject(url,List.class);
+        }catch (HttpClientErrorException httpE){
+
+            Optional.of(httpE).ifPresent(n->{
+                if(n.getMessage().contains("404 Not Found")){
+                    logger.warn("Cliente sem pedidos");
+                }else {
+                    logger.error("Erro http não mapeado");
+                }
+            });
+        }
+
+        catch (Exception e){
+            e.printStackTrace();
+
+        }finally {
+
+            return pedidos;
+        }
     }
 }

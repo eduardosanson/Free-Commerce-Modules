@@ -78,6 +78,11 @@ public class PedidoServiceImpl implements PedidoService {
         return pedidos;
     }
 
+    @Override
+    public List<Pedido> buscarSolicitacaoLoja(Long lojaId) {
+        return pedidoRepository.buscarSolicitacaoDeLoja(lojaId);
+    }
+
     private ItemPedido criarItemPedido(Produto produto,String quantidade){
         ItemPedido itemPedido = new ItemPedido();
         itemPedido.setProduto(produto);

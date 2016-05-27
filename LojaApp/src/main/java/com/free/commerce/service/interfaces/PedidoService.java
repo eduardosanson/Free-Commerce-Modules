@@ -14,4 +14,6 @@ public interface PedidoService {
     Pedido registrarPedido(RegistrarPedidoTO registrarPedidoTO);
 
     List<Pedido> buscarPedidoDeCliente(String clienteId);
+
+    List<Pedido> buscarSolicitacaoLoja(Long lojaId);
 }

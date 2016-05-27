@@ -35,6 +35,8 @@ public class Cliente {
     @OneToOne
     private Imagem perfil;
 
+    private String email;
+
     public Imagem getPerfil() {
         return perfil;
     }
@@ -135,5 +137,13 @@ public class Cliente {
 
     public void setUserLogin(UserLogin userLogin) {
         this.userLogin = userLogin;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -123,6 +123,7 @@ public class ClienteServiceImpl implements ClienteService{
         cliente.setCpf(cadastrarClienteTO.getCpf());
         cliente.setTelefone(cadastrarClienteTO.getTelefone());
         cliente.setSobrenome(cadastrarClienteTO.getSobreNome());
+        cliente.setEmail(cadastrarClienteTO.getLogin());
         return cliente;
     }
 

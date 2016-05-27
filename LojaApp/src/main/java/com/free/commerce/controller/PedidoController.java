@@ -53,6 +53,20 @@ public class PedidoController {
 
         return new ResponseEntity<List<Pedido>>(pedidos,HttpStatus.FOUND);
 
+    }
+
+    @RequestMapping("/loja")
+    public ResponseEntity<List<Pedido>> buscarSolicitacaoDeLojas(@RequestParam("lojaId") Long lojaId){
+
+
+        List<Pedido> pedidos =pedidoService.buscarSolicitacaoLoja(lojaId);
+
+        if (pedidos==null||pedidos.isEmpty()){
+            return new ResponseEntity<List<Pedido>>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Pedido>>(pedidos,HttpStatus.FOUND);
+
 
 
     }

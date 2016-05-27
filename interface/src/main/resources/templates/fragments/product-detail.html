@@ -28,7 +28,7 @@
                                         <div class="post-title">
                                             <h2><p th:text="${produto.nome}"></p></h2>
                                             <button
-                                                    th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null and #authentication.principal.userlogin.permissao =='CLIENT')}"
+                                                    th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null)}"
                                                     th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" class="pull-right btn btn-custom">
                                                 Adicionar ao carrinho
                                                 <span class="glyphicon glyphicon-shopping-cart"></span></button>
@@ -170,7 +170,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-sm-4"  th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.loja != null and #authentication.principal.userlogin.loja.id != produto.id)}">
+                        <div class="col-md-4 col-sm-4"  th:if="${#authentication.principal == 'anonymousUser' or
+                        (#authentication.principal.userlogin.loja != null and #authentication.principal.userlogin.loja.id != produto.id) or
+                        #authentication.principal.userlogin.cliente != null }">
                             <div class="widget">
                                 <div class="widget-header">
                                     <h3>Vendedor</h3>

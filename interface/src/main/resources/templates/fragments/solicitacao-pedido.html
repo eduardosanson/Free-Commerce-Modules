@@ -1,0 +1,73 @@
+<div th:fragment="solicitacao-pedido">
+    <div class="row" th:each="pedido : ${pedidos}" th:id="${'accordion'+pedido.id}">
+        <div class="col-md-12">
+            <div class="panel panel-success">
+                <div class="panel-heading "><a data-toggle="collapse" th:attr="data-parent=${'#accordion'+pedido.id}, href=${'#' + pedido.id}">
+                    <strong th:text="'Pedido Nº ' + ${pedido.id} + ' Data: ' + ${#calendars.format(pedido.registrado,'dd MMMM yyyy HH:mm')}">
+                    </strong><span class="text-right text-success glyphicon glyphicon-ok pull-right"></span></a>
+                </div>
+                <div class="panel-body panel-collapse collapse" th:id="${pedido.id}">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th>Descrição</th>
+                            <th class="text-center">Preço Unitário</th>
+                            <th class="text-center">Subtotal</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="itemPedido : ${pedido.itemPedido}">
+                            <div th:if="${itemPedido.produto.loja.id == #authentication.principal.userlogin.loja.id}">
+                                <td class="col-sm-8 col-md-6">
+                                    <div class="media">
+                                        <a class="thumbnail pull-left" href="#"> <img class="media-object" th:src="'/'+${itemPedido.produto.imagens != null and itemPedido.produto.imagens.size() != 0 ? itemPedido.produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
+                                                                                      alt="" style="width: 72px; height: 72px;"/> </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a th:href="'/produto/detail/'+ ${itemPedido.produto.id}"><strong th:text="${itemPedido.produto.nome}"></strong></a></h4>
+                                            <h5 class="media-heading"> Vendido Por: <a href="#"><strong th:text="${itemPedido.produto.loja.nome}"></strong></a></h5>
+                                        </div>
+                                    </div></td>
+                                <td class="col-md-3"><h5><strong th:text="${itemPedido.produto.descricao}"></strong></h5></td>
+                                <td class="col-md-1 text-center" th:inline="text"> R$ [[${#numbers.formatDecimal(itemPedido.produto.preco, 0, 'POINT', 2, 'POINT')}]]<strong></strong></td>
+                                <td class="col-md-1 text-center" th:inline="text"> R$ [[${#numbers.formatDecimal((itemPedido.produto.preco * itemPedido.quantidade), 0, 'POINT', 2, 'POINT')}]]<strong></strong></td>
+                                <td class="col-sm-3 col-md-3">
+                                    <div type="button" th:class="'alert ' +${itemPedido.status.value=='AGUARDANDO_PAGAMENTO' ? 'alert-warning' : itemPedido.status.value=='ENTREGUE'? 'alert-success' : 'alert-danger'}" >
+                                        <i th:class="${itemPedido.status.value=='ENTREGUE' ? 'glyphicon glyphicon-ok' : '' }"><strong th:text="${itemPedido.status.descricao}"></strong></i>
+                                    </div>
+                                </td>
+                            </div>
+                        </tr>
+                        <tr>
+                            <td  th:text="'Nome : ' + ${pedido.cliente.nome}"> </td>
+                            <td  th:text="'Cpf: ' + ${pedido.cliente.cpf}"></td>
+                            <td  th:text="'E-mail: ' + ${pedido.cliente.email}"></td>
+                            <td  th:text="'Telefone: ' + ${pedido.cliente.telefone}"></td>
+                            <!--<td  th:text="'Cidade: ' + ${pedido.cliente.enderecoEntrega.cidade}"></td>-->
+                        </tr>
+                        <tr>
+                            <td th:text="'CEP: ' + ${pedido.cliente.enderecoEntrega.cep}"> </td>
+                            <td  th:text="'Rua: ' + ${pedido.cliente.enderecoEntrega.nome}"></td>
+                            <td  th:text="'Número: ' + ${pedido.cliente.enderecoEntrega.numero}"></td>
+                            <td  th:text="'Complemento: ' + ${pedido.cliente.enderecoEntrega.complemento}"></td>
+                            <td  th:text="'Cidade: ' + ${pedido.cliente.enderecoEntrega.cidade}"></td>
+                        </tr>
+                        <tr>
+                            <td > </td>
+                            <td ></td>
+                            <td ></td>
+                            <td class="text-right"><h5>Total</h5></td>
+                            <td class="text-center"><h5>
+                                <strong th:inline="text">
+                                    R$ [[${#numbers.formatDecimal(pedido.valor, 0, 'POINT', 2, 'POINT')}]]
+                                </strong></h5></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

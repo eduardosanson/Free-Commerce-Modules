@@ -10,10 +10,7 @@ import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.*;
 import com.br.free.commerce.util.MaskUtil;
 import com.br.free.commerce.util.Page;
-import com.free.commerce.entity.Categoria;
-import com.free.commerce.entity.Imagem;
-import com.free.commerce.entity.Produto;
-import com.free.commerce.entity.UserLogin;
+import com.free.commerce.entity.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -68,6 +65,8 @@ public class LojaController {
     private static final String FRAGMENTO_EDITAR_PRODUTO="editar-produto";
     private static final String MENU_EDITAR_IMAGEM="editar-imagem";
     private static final String FRAGMENTO_EDITAR_IMAGEM="editar-imagem";
+    private static final String PAGINA_SOLICITACAO_PEDIDO="solicitacao-pedido";
+    private static final String FRAGMENTO_SOLICITACAO_PEDIDO="solicitacao-pedido";
 
     private static final String TOKEN_PAG_SEGURO="A457261FBEEE4D51AF3D6997AC12F720";
 
@@ -345,6 +344,23 @@ public class LojaController {
 
         Produto produto = produtoService.cadastrarProduto(customUserDetails.getUserlogin().getLoja(),produtoTO);
         model.addAttribute("produtoId",produto.getId());
+
+        return INDEX;
+    }
+
+    @RequestMapping(value = "/menu/solicitacoes")
+    public String verificarSolicitacoes(Model model, @AuthenticationPrincipal CustomUserDetails userDetails){
+
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
+
+        model.addAttribute(MENU_NAME,PAGINA_SOLICITACAO_PEDIDO);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENTO_SOLICITACAO_PEDIDO);
+
+        List<Pedido> pedidos = storeService.minhasSolicitacoes(userDetails.getUserlogin().getLoja().getId());
+
+        model.addAttribute("pedidos",pedidos);
+
 
         return INDEX;
     }
