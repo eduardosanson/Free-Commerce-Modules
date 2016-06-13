@@ -37,7 +37,7 @@
                         </div>
                         <div class="item-action-grid pull-right">
                             <ul>
-                                <li><a href="#" th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null)}"
+                                <li><a th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null)}"
                                        th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" data-toggle="tooltip" data-placement="top" title="Save Favorite"
                                        class="btn btn-default btn-sm"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
                                 <li><a th:href="@{/produto/detail/} + ${produto.id}" data-toggle="tooltip" data-placement="top"

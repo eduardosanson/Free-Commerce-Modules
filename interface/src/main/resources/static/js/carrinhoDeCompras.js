@@ -29,6 +29,19 @@ function CarrinhoMenos(produtoId){
 
 }
 
+function removerDoCarrinho(i){
+
+url = "/carrinho/remover/"+i;
+
+$().load(url);
+
+document.getElementById();
+document.getElementById(i).remove();
+
+
+
+}
+
 function destroiProduto(produtoId){
 
     produto = "produto"+produtoId
