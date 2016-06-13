@@ -113,7 +113,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public Categoria buscarPaiPeloFilho(String id) {
-        String url = " http://localhost:8089/v1/categoria?filho=" + id;
+        String url = "http://localhost:8089/v1/categoria?filho=" + id;
 
         Categoria categoria = null;
 

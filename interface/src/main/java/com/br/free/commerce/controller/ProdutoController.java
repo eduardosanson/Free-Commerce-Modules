@@ -2,6 +2,7 @@ package com.br.free.commerce.controller;
 
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.services.EnderecoServiceImpl;
 import com.br.free.commerce.services.Interface.CarrinhoService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
@@ -68,6 +69,10 @@ public class ProdutoController {
     @Autowired
     private MensagemServiceImpl mensagemService;
 
+    @Autowired
+    private EnderecoServiceImpl enderecoService;
+
+
     private static final Logger logger =  Logger.getLogger(ProdutoController.class);
 
 
@@ -121,7 +126,8 @@ public class ProdutoController {
 
     @RequestMapping("/detail/{productId}")
     public String productDetail(@PathVariable("productId") String id, CadastrarMensagemTO cadastrarMensagemTO,
-                                ResponderMensagemTO responderMensagemTO, Model model){
+                                ResponderMensagemTO responderMensagemTO, Model model,MensagemLoginTO mensagemLoginTO,
+                                MensagemCadastroRapidoTO mensagemCadastroRapidoTO){
         int pagina = 0;
         int limite = 5;
         model.addAttribute(PAGE_NAME,PRODUCT_DETAIL_PAGE);
@@ -206,14 +212,25 @@ public class ProdutoController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String mostrarProdutos(BuscarProdutoTO buscarProdutoTO, Model model){
+    public String mostrarProdutos(@RequestParam(value = "categoria",defaultValue = "") String categoria,
+                                  @RequestParam(value = "pagina",defaultValue = "1") String pagina,
+                                  BuscarProdutoTO buscarProdutoTO, Model model){
         model.addAttribute(PAGE_NAME,PRODUCTS_SHOW_PAGE);
         model.addAttribute(PAGE_FRAGMENT,PRODUCTS_SHOW_FRAGMENT);
+        ProdutoPage produtoPage;
 
+        buscarProdutoTO.setSize(quantidadeDeProdutoPorPagina);
+        buscarProdutoTO.setPage(pagina);
+        buscarProdutoTO.setCategoria(categoria);
 
-        ProdutoPage produtoPage = produtoService.buscarPorNomeParecido(buscarProdutoTO.getNome(),buscarProdutoTO.getNumeroDaPagina(),quantidadeDeProdutoPorPagina);
+        if ("".equalsIgnoreCase(categoria)){
+            produtoPage = produtoService.buscarProdutos(buscarProdutoTO);
+        }else {
+            produtoPage = produtoService.buscarProdutos(buscarProdutoTO);
+            buscarProdutoTO.setPage(pagina);
+        }
 
-        Page page = criarPagina(buscarProdutoTO.getNumeroDaPagina(), produtoPage);
+        Page page = criarPagina(buscarProdutoTO.getPage(), produtoPage);
 
 
         List<ProdutoView> produtosViews = criarProdutoDeVisualizacao(produtoPage);
@@ -222,6 +239,9 @@ public class ProdutoController {
         model.addAttribute("produtos",produtoPage);
         model.addAttribute("page",page);
         model.addAttribute("nomeProcurado",buscarProdutoTO.getNome());
+        model.addAttribute("categoriaProcurada",categoria);
+
+        prepararCidadesECategorias(model);
 
 
         return INDEX;
@@ -230,17 +250,18 @@ public class ProdutoController {
     private List<ProdutoView> criarProdutoDeVisualizacao(ProdutoPage produtoPage) {
 
         List<ProdutoView> produtosViews = new ArrayList<>();
-        Categoria categoria=null;
+
         for (Produto produto : produtoPage.getProdutos()) {
 
             ProdutoView produtoView = new ProdutoView();
             boolean aindaTemCategoriaParaBuscar=true;
             produtoView.setProduto(produto);
             produtoView.getCategorias().add(produto.getCategoria());
+            Categoria categoria= produto.getCategoria();
 
             do{
 
-                categoria = categoriaService.buscarPaiPeloFilho(String.valueOf(Optional.of(produto.getCategoria()).get().getId()));
+                categoria = categoriaService.buscarPaiPeloFilho(String.valueOf(Optional.of(categoria).get().getId()));
                 if (categoria==null){
                     aindaTemCategoriaParaBuscar=false;
                 }else {
@@ -254,21 +275,46 @@ public class ProdutoController {
         return produtosViews;
     }
 
-    @RequestMapping(value = "/{pageNumber}/{nomeProduto}")
-    public String showProductsPage(@PathVariable String pageNumber, @PathVariable String nomeProduto ,Model model){
+    @RequestMapping(value = "/{pageNumber}")
+    public String showProductsPage(@PathVariable String pageNumber,
+                                   @RequestParam(value = "nomeProduto",defaultValue = "") String nomeProduto ,
+                                   @RequestParam(value = "categoria",defaultValue = "") String categoria ,
+                                   Model model){
 
         model.addAttribute(PAGE_NAME,PRODUCTS_SHOW_PAGE);
         model.addAttribute(PAGE_FRAGMENT,PRODUCTS_SHOW_FRAGMENT);
+        ProdutoPage produtos;
+        BuscarProdutoTO buscarProdutoTO = new BuscarProdutoTO();
+        buscarProdutoTO.setNome(nomeProduto);
+        buscarProdutoTO.setPage(pageNumber);
+        buscarProdutoTO.setSize(quantidadeDeProdutoPorPagina);
+        buscarProdutoTO.setCategoria(categoria);
 
-        ProdutoPage produtos = produtoService.buscarPorNomeParecido(nomeProduto,pageNumber,quantidadeDeProdutoPorPagina);
+        if ("".equalsIgnoreCase(categoria)){
+            produtos = produtoService.buscarProdutos(buscarProdutoTO);
+        }else {
+            produtos = produtoService.buscarProdutos(buscarProdutoTO);
+        }
+
 
         Page page = criarPagina(pageNumber, produtos);
+
 
         model.addAttribute("produtoPage",produtos);
         model.addAttribute("page",page);
 
+        prepararCidadesECategorias(model);
+
         return "fragments/" + PAGE_LISTA_PRODUTOS + " :: " + FRAGMENT_LISTA_PRODUTOS;
     }
+
+    private void prepararCidadesECategorias(Model model) {
+        List<Categoria> categorias = categoriaService.buscarCategoriasPrincipais();
+        List<String> cidades = enderecoService.cidadesEmLojasCadastradas();
+        model.addAttribute("categorias",categorias);
+        model.addAttribute("cidades",cidades);
+    }
+
 
     @RequestMapping(value = "/addAoCarrrinho",params = {"produtoId","quantidade"})
     public String addProduto(@RequestParam("produtoId") String produtoId,

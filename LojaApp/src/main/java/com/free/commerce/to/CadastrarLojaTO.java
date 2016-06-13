@@ -31,7 +31,6 @@ public class CadastrarLojaTO {
     @NotBlank(message = "Data de criação")
     private String dataDeCriacao;
 
-    @CPF
     private String cpfOuCnpj;
 
     private String nomeJuridico;

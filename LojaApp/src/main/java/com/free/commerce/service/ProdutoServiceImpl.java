@@ -11,16 +11,17 @@ import com.free.commerce.repository.ProductRepository;
 import com.free.commerce.service.interfaces.CategoriaRepository;
 import com.free.commerce.service.interfaces.CategoriaService;
 import com.free.commerce.service.interfaces.ProdutoService;
+import com.free.commerce.to.BuscarProdutoTO;
 import com.free.commerce.to.ProdutoTO;
+import com.free.commerce.util.BuscarProdutoResolver;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * Created by eduardo.sanson on 21/03/2016.
@@ -120,6 +121,12 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    public Page<Produto> buscarProdutosPorCategoria(String categoria, Pageable pageable) {
+        Page<Produto> produtos = repository.buscarProdutoPorCategoria(categoria,pageable);
+        return produtos;
+    }
+
+    @Override
     public Produto alterarProduto(Produto produto) {
         Produto produtoPersistido = repository.findOne(produto.getId());
 
@@ -144,6 +151,36 @@ public class ProdutoServiceImpl implements ProdutoService {
         produto.setImagens(imagems);
         repository.save(produto);
     }
+
+    @Override
+    public List<Produto> recuperarUltimosCincoProduto() {
+        return repository.recuperarUltimosProdutosCadastrados(new PageRequest(0,5));
+    }
+
+    @Override
+    public Page<Produto> buscarProdutosMaisBaratos(){
+
+        return repository.findByNomeLikeOrderByPrecoDesc("%%",new PageRequest(0,5));
+    }
+
+    @Override
+    public Page<Produto> buscarProdutosPorCidade(String cidade){
+
+        return repository.findByNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc("%%",cidade,new PageRequest(0,5));
+    }
+
+    @Override
+    public Page<Produto> buscarProdutosPorCidadeECategoria(String cidade, String categoria){
+
+        return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLike("%%",cidade,categoria,new PageRequest(0,5));
+    }
+
+    @Override
+    public Page<Produto> buscarProdutos(BuscarProdutoTO buscarProdutoTO, Pageable pageable){
+
+        return new BuscarProdutoResolver(buscarProdutoTO,pageable,repository).buscarProdutos();
+    }
+
 
     private Produto updateProduto(Produto produto, Produto produtoPersistido) {
         produtoPersistido.setDescricao(produto.getDescricao());

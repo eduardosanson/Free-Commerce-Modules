@@ -1,5 +1,6 @@
 package com.br.free.commerce.services.Interface;
 
+import com.br.free.commerce.to.BuscarProdutoTO;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
 import com.free.commerce.entity.CarrinhoDeCompras;
@@ -20,7 +21,7 @@ public interface ProdutoService {
 
     Produto buscarProdutoPorId(String id);
 
-    ProdutoPage buscarPorNomeParecido(String nome,String pagina ,String intemProPagina);
+    ProdutoPage buscarProdutos(BuscarProdutoTO buscarProdutoTO);
 
     void alterarProduto(Produto produto);
 

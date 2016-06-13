@@ -11,6 +11,14 @@ produto:
     buscarProdutoPorId: ?produtoId=
     buscarProdutosPorLoja: /produto?lojaId=%s&page=%s&size=%s
     buscarPorNomeParecido: ?page=%s&size=%s&produtoNome=%s
+    categoria: categoria=
+    nome: produtoNome=
+    page: page=
+    size: size=
+    orderBy: order=
+    novo: novo=
+    cidade: cidade=
+    lojaId: lojaId=
 
 
 carrinho:

@@ -1,10 +1,9 @@
 package com.free.commerce.service.interfaces;
 
-import com.free.commerce.entity.Administrador;
-import com.free.commerce.entity.Imagem;
-import com.free.commerce.entity.Loja;
-import com.free.commerce.entity.UserLogin;
+import com.free.commerce.entity.*;
 import com.free.commerce.to.CadastrarLojaTO;
+
+import java.util.List;
 
 /**
  * Created by eduardosanson on 05/03/16.
@@ -17,11 +16,14 @@ public interface LojaService {
 
     Loja recuperarPorId(Long id);
 
+    Loja recuperarPorCpfOuCnpj(String cpfOuCnpj);
+
     Loja buscarLojasPendentesDeAutorizacao();
 
     Loja recuperarPorIdDeProduto(String id);
 
-    public void alterarPerfil(Long clienteId, Imagem imagem);
+    void alterarPerfil(Long clienteId, Imagem imagem);
 
     Loja atualizar(Loja loja);
+
 }

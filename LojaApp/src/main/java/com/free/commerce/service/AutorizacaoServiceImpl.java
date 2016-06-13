@@ -8,6 +8,7 @@ import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.service.interfaces.AutorizacaoService;
 import com.free.commerce.service.interfaces.LojaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -58,5 +59,44 @@ public class AutorizacaoServiceImpl implements AutorizacaoService {
     @Override
     public List<Loja> buscarLojasPendentesDeAutorizacao() {
         return autorizacaoLojaRepository.recuperarLojasPendentesDeAutorizacao();
+    }
+
+    @Override
+    public List<AutorizacaoLoja> buscarAutorizacoes(Pageable pageable) {
+        return (List<AutorizacaoLoja>) autorizacaoLojaRepository.encontrarTodos(pageable);
+    }
+
+    @Override
+    public List<AutorizacaoLoja> buscarPorStatus(String statusString,Pageable pageable) {
+
+        AutorizacaoStatus status = resolverAutorizacaoStatus(statusString);
+
+        return autorizacaoLojaRepository.buscarPorStatus(status,pageable);
+    }
+
+    @Override
+    public List<AutorizacaoLoja> buscarPelosNomesDeLojasEStatus(String nome, String statusString, Pageable pageable) {
+
+        AutorizacaoStatus status = resolverAutorizacaoStatus(statusString);
+
+        return (List<AutorizacaoLoja>) autorizacaoLojaRepository.recuperarAutorizacaoStatusPorNomeLoja(nome,status,pageable);
+    }
+
+    @Override
+    public List<AutorizacaoLoja> buscarPelosNomesDeLojas(String nome,Pageable pageable) {
+        return (List<AutorizacaoLoja>) autorizacaoLojaRepository.recuperarAutorizacaoPorNomeLoja(nome,pageable);
+    }
+
+    private AutorizacaoStatus resolverAutorizacaoStatus(String statusString) {
+        AutorizacaoStatus[] autorizacaoStatus = AutorizacaoStatus.values();
+        AutorizacaoStatus status = AutorizacaoStatus.AUTORIZADO;
+
+        for (int i=0;i<autorizacaoStatus.length;i++){
+            if (autorizacaoStatus[i].name().equalsIgnoreCase(statusString)){
+                status = autorizacaoStatus[i];
+                break;
+            }
+        }
+        return status;
     }
 }

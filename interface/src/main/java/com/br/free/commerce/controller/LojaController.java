@@ -1,12 +1,17 @@
 package com.br.free.commerce.controller;
 
+import br.com.caelum.stella.validation.CNPJValidator;
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.exception.RegraDeNegocioException;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.services.UserDetailsServiceImpl;
+import com.br.free.commerce.services.UserServiceImpl;
 import com.br.free.commerce.to.*;
 import com.br.free.commerce.util.MaskUtil;
 import com.br.free.commerce.util.Page;
@@ -23,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +100,9 @@ public class LojaController {
 
     @Autowired
     private ProdutoService getProdutoService;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     private Logger logger = Logger.getLogger(LojaController.class);
 
@@ -197,13 +206,71 @@ public class LojaController {
         model.addAttribute(PAGE_NAME,PAGE_REGISTRATION);
         model.addAttribute(PAGE_FRAGMENT,REGISTRATION_FRAGMENT);
 
+        CPFValidator cpfValidator = new CPFValidator();
+        CNPJValidator cnpjValidator = new CNPJValidator();
+
         cadastrarLojaTO.setTelefone(MaskUtil.removeTelefoneMask(cadastrarLojaTO.getTelefone()));
+        cadastrarLojaTO.setCep(MaskUtil.removeCepMask(cadastrarLojaTO.getCep()));
+        cadastrarLojaTO.setCpfOuCnpj(MaskUtil.removeCpfOuCnpjMask(cadastrarLojaTO.getCpfOuCnpj()));
+
+        if (cadastrarLojaTO.getCpfOuCnpj().length()<12){
+            try {
+                cpfValidator.assertValid(cadastrarLojaTO.getCpfOuCnpj());
+            }catch (InvalidStateException e){
+                model.addAttribute("cpfOuCpjErro","CPF inválido");
+                return INDEX;
+            }
+        }else {
+            try {
+                cnpjValidator.assertValid(cadastrarLojaTO.getCpfOuCnpj());
+            }catch (InvalidStateException e){
+                model.addAttribute("cpfOuCpjErro","CNPJ inválido");
+                return INDEX;
+            }
+        }
+
+        if(!cadastrarLojaTO.isAceitoTermosECondicoes()){
+            model.addAttribute("termosECondicoesErro","Falta aceitar os termos e condições");
+            return INDEX;
+        }
 
             if (bindingResult.hasErrors()){
                 System.out.println("ocorreu um erro");
                 return INDEX;
             }
-            UserLogin user = storeService.cadastrar(cadastrarLojaTO);
+
+        if (!cadastrarLojaTO.getEmail().equalsIgnoreCase(cadastrarLojaTO.getConfirmacaoEmail())){
+            model.addAttribute("emailErro","E-mails passados estão diferentes");
+            return INDEX;
+        }
+
+        if (!cadastrarLojaTO.getPassword().equalsIgnoreCase(cadastrarLojaTO.getConfirmacaoPassword())){
+            model.addAttribute("passwordErro","senhas passadas estão diferentes");
+            return INDEX;
+        }
+
+        try {
+                UserLogin userLogin = userService.recuperarPorEmail(cadastrarLojaTO.getEmail());
+
+                if (userLogin!=null){
+                    model.addAttribute("emailErro","E-mail já se encontra cadastrado");
+                    return INDEX;
+                }
+
+            }catch (RegraDeNegocioException e) {
+                logger.info("Usuario não cadastrado");
+            }
+
+        try {
+
+            storeService.buscarLojaPorCpfOuCnpj(cadastrarLojaTO.getCpfOuCnpj());
+            model.addAttribute("cpfOuCpjErro","Cpf ou cnpj já cadastrado");
+        }catch (HttpClientErrorException err){
+            logger.warn("busca por cpf ou cnpj não retornou sucesso");
+        }
+
+
+        UserLogin user = storeService.cadastrar(cadastrarLojaTO);
 
             if (user==null){
                 return INDEX;
@@ -381,6 +448,11 @@ public class LojaController {
     public String responderMensagem(ResponderMensagemTO responderMensagemTO){
 
         return "redirect:/produto/detail/"+ responderMensagemTO.getProdutoId();
+    }
+
+    @RequestMapping(value = "/menu/alterarSenha",method = RequestMethod.POST)
+    public String alterarSenha(AlterarSenhaTO alterarSenhaTO){
+        return "redirect:/store/menu";
     }
 
 

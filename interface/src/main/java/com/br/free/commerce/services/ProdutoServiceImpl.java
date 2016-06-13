@@ -2,6 +2,7 @@ package com.br.free.commerce.services;
 
 import com.br.free.commerce.config.ProdutoSettings;
 import com.br.free.commerce.services.Interface.ProdutoService;
+import com.br.free.commerce.to.BuscarProdutoTO;
 import com.br.free.commerce.to.ProdutoCadastroTo;
 import com.br.free.commerce.to.ProdutoPage;
 import com.br.free.commerce.to.ProdutoTO;
@@ -48,15 +49,18 @@ public class ProdutoServiceImpl implements ProdutoService {
         Integer pageIdice = new Integer(page)- 1;
         Integer pageSize = new Integer(size)- 1;
 
+        produtoControlerApiConfig
+                .buildURL()
+                .paramSize(pageSize.toString())
+                .paramPage(pageIdice.toString())
+                .paramLojaId(loja.getId().toString());
 
-        logger.info(produtoControlerApiConfig.buscarProdutosPorLojaPaginandoOReTornoUrl(loja.getId().toString(),
-                    pageIdice.toString(),pageSize.toString()));
+
+        logger.info( produtoControlerApiConfig.callBuildURL());
         ProdutoPage produtoPage = null;
         try {
 
-            produtoPage = restTemplate.getForObject(produtoControlerApiConfig.
-                                buscarProdutosPorLojaPaginandoOReTornoUrl(loja.getId().toString(),
-                                    pageIdice.toString(),pageSize.toString()), ProdutoPage.class);
+            produtoPage = restTemplate.getForObject(produtoControlerApiConfig.callBuildURL(), ProdutoPage.class);
 
             logger.info(produtoPage);
 
@@ -86,26 +90,33 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public ProdutoPage buscarPorNomeParecido(String nome, String pagina, String intemProPagina) {
-        Integer pageIdice = new Integer(pagina)-1;
-        Integer pageSize = new Integer(intemProPagina);
+    public ProdutoPage buscarProdutos(BuscarProdutoTO buscarProdutoTO) {
+        Integer pageIdice = new Integer(buscarProdutoTO.getPage())-1;
+        Integer pageSize = new Integer(buscarProdutoTO.getSize());
+
+        produtoControlerApiConfig
+                .buildURL()
+                .paramSize(pageSize.toString())
+                .paramPage(pageIdice.toString())
+                .paramProdutoNome(buscarProdutoTO.getNome())
+                .paramNovo(buscarProdutoTO.getNovo())
+                .paramOrderBy(buscarProdutoTO.getOrderBy())
+                .paramCategoria(buscarProdutoTO.getCategoria())
+                .paramCidade(buscarProdutoTO.getCidade());
 
 
-        logger.info(produtoControlerApiConfig.buscarProdutosPorNomeParecido(
-                pageIdice.toString(),pageSize.toString(),nome));
+        logger.info(produtoControlerApiConfig.callBuildURL());
+
         ProdutoPage produtoPage = null;
-        try {
 
-            produtoPage = restTemplate.getForObject(produtoControlerApiConfig.buscarProdutosPorNomeParecido(
-                            pageIdice.toString(),pageSize.toString(),nome), ProdutoPage.class);
+        produtoPage = restTemplate.getForObject(produtoControlerApiConfig.callBuildURL(), ProdutoPage.class);
 
-            logger.info(produtoPage);
+        logger.info(produtoPage);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return produtoPage;
     }
+
+
 
     @Override
     public void alterarProduto(Produto produto) {

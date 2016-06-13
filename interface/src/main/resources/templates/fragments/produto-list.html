@@ -53,6 +53,7 @@
     <div class="col-xs-9">
         <ul class="pagination table-pagination"  th:each="i : ${page.primeiraMetade}">
             <li><input th:class="${i}==${page.paginaAtual}?'btn btn-default active disabled' : 'btn'" type="button" onclick="productPage(this.value)" th:value="${i}"/></li>
+            <input type="hidden" th:value="${categoriaSelecionada}" id="categoriaSelecionada"/>
         </ul>
     </div>
 </div>

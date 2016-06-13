@@ -1,6 +1,7 @@
 package com.br.free.commerce.controller;
 
 import com.br.free.commerce.entity.CustomUserDetails;
+import com.br.free.commerce.services.EnderecoServiceImpl;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.ProdutoService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -45,6 +47,9 @@ public class HomeController {
     @Autowired
     private CategoriaService categoriaService;
 
+    @Autowired
+    private EnderecoServiceImpl enderecoService;
+
     private Logger logger = Logger.getLogger(LojaController.class);
 
 
@@ -53,6 +58,10 @@ public class HomeController {
     public String showHome(Model model, CadastrarClienteTO cadastrarClienteTO, BuscarProdutoTO buscarProdutoTO){
         model.addAttribute("pageName", PAGE_NAME);
         model.addAttribute("pageFragment", PAGE_FRAGMENT);
+
+        List<String> cidades = enderecoService.cidadesEmLojasCadastradas();
+
+        model.addAttribute("cidades",cidades);
 
         return "index";
     }

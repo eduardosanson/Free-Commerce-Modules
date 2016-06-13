@@ -1,27 +1,71 @@
-            $("#cpfcnpj").keydown(function(){
-                try {
-                    $("#cpfcnpj").unmask();
-                } catch (e) {}
+ function mascaraMutuario(o,f){
+     v_obj=o
+     v_fun=f
+     setTimeout('execmascara()',1)
+ }
 
-                var tamanho = $("#cpfcnpj").val().length;
+ function execmascara(){
+     v_obj.value=v_fun(v_obj.value)
+ }
 
-                if(tamanho < 11){
-                    $("#cpfcnpj").mask("999.999.999-99");
-                } else {
-                    $("#cpfcnpj").mask("99.999.999/9999-99");
-                }
-            });
+ function cpfCnpj(v){
 
- $("#telefone").mask("(99) 9999?9-9999");
+     //Remove tudo o que não é dígito
+     v=v.replace(/\D/g,"")
 
-            $("#telefone").on("blur", function() {
-                var last = $(this).val().substr( $(this).val().indexOf("-") + 1 );
+     if (v.length <= 13) { //CPF
 
-                if( last.length == 3 ) {
-                    var move = $(this).val().substr( $(this).val().indexOf("-") - 1, 1 );
-                    var lastfour = move + last;
-                    var first = $(this).val().substr( 0, 9 );
+         //Coloca um ponto entre o terceiro e o quarto dígitos
+         v=v.replace(/(\d{3})(\d)/,"$1.$2")
 
-                    $(this).val( first + '-' + lastfour );
-                }
-            });
+         //Coloca um ponto entre o terceiro e o quarto dígitos
+         //de novo (para o segundo bloco de números)
+         v=v.replace(/(\d{3})(\d)/,"$1.$2")
+
+         //Coloca um hífen entre o terceiro e o quarto dígitos
+         v=v.replace(/(\d{3})(\d{1,2})$/,"$1-$2")
+
+     } else { //CNPJ
+
+         //Coloca ponto entre o segundo e o terceiro dígitos
+         v=v.replace(/^(\d{2})(\d)/,"$1.$2")
+
+         //Coloca ponto entre o quinto e o sexto dígitos
+         v=v.replace(/^(\d{2})\.(\d{3})(\d)/,"$1.$2.$3")
+
+         //Coloca uma barra entre o oitavo e o nono dígitos
+         v=v.replace(/\.(\d{3})(\d)/,".$1/$2")
+
+         //Coloca um hífen depois do bloco de quatro dígitos
+         v=v.replace(/(\d{4})(\d)/,"$1-$2")
+
+     }
+
+     return v
+
+ }
+
+ function check(e,value)
+ {
+     //Check Charater
+     var unicode=e.charCode? e.charCode : e.keyCode;
+     if (value.indexOf(".") != -1)if( unicode == 46 )return false;
+     if (unicode!=8)if((unicode<48||unicode>57)&&unicode!=46)return false;
+ }
+ function checkLength()
+ {
+     var fieldLength = document.getElementById('cpfcnpj').value.length;
+     //Suppose u want 4 number of character
+     if(fieldLength <= 17
+
+
+     ){
+         return true;
+     }
+     else
+     {
+         var str = document.getElementById('cpfcnpj').value;
+         str = str.substring(0, str.length - 1);
+         document.getElementById('cpfcnpj').value = str;
+     }
+ }

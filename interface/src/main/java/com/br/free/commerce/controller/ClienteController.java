@@ -10,10 +10,7 @@ import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.LoginService;
 import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.UserDetailsServiceImpl;
-import com.br.free.commerce.to.CadastrarClienteTO;
-import com.br.free.commerce.to.FinalizarCadastroTO;
-import com.br.free.commerce.to.ProdutoPedido;
-import com.br.free.commerce.to.RegistrarPedidoTO;
+import com.br.free.commerce.to.*;
 import com.free.commerce.entity.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +86,9 @@ public class ClienteController {
 
     @Autowired
     private PagamentoServiceImpl pagamentoServiceImpl;
+
+    @Autowired
+    private MensagemController mensagemController;
 
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
 
@@ -282,8 +282,7 @@ public class ClienteController {
 
     @RequestMapping(value = "/form",method = RequestMethod.POST)
     public String singUp(@Valid CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult,
-                         Model model, HttpServletRequest request,RedirectAttributes redirectAttrs,
-                         HttpServletResponse response){
+                         Model model, HttpServletRequest request,RedirectAttributes redirectAttrs){
         model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
         model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
 
@@ -316,6 +315,36 @@ public class ClienteController {
         }
         return "redirect:/";
 
+    }
+
+    @RequestMapping(value = "/form/mensagem",method = RequestMethod.POST)
+    public String singUpMEnsage(MensagemCadastroRapidoTO mensagemCadastroRapidoTO, BindingResult bindingResult,
+                         Model model, HttpServletRequest request, RedirectAttributes redirectAttrs, @AuthenticationPrincipal CustomUserDetails userDetails){
+        CadastrarClienteTO cadastrarClienteTO = new CadastrarClienteTO();
+
+        cadastrarClienteTO.setNome(mensagemCadastroRapidoTO.getNome());
+        cadastrarClienteTO.setLogin(mensagemCadastroRapidoTO.getLogin());
+        cadastrarClienteTO.setSenha(mensagemCadastroRapidoTO.getSenha());
+
+        String response = singUp(cadastrarClienteTO,bindingResult,model,request,redirectAttrs);
+
+        if (response.equalsIgnoreCase("redirect:/")){
+            return "redirect:/produto/detail/"+mensagemCadastroRapidoTO.getProdutoId();
+
+        }
+
+        userDetails = (CustomUserDetails) userDetailsServiceImpl.loadUserByUsername(mensagemCadastroRapidoTO.getLogin());
+
+        CadastrarMensagemTO cadastrarMensagemTO = new CadastrarMensagemTO();
+        cadastrarMensagemTO.setProdutoId(mensagemCadastroRapidoTO.getProdutoId());
+
+        Mensagem mensagem = new Mensagem();
+        mensagem.setCliente(userDetails.getUserlogin().getCliente());
+        mensagem.setPergunta(mensagemCadastroRapidoTO.getMensagem());
+
+        cadastrarMensagemTO.setMensagem(mensagem);
+
+        return mensagemController.cadastrarMensagem(cadastrarMensagemTO,model,userDetails);
     }
 
     private RegistrarPedidoTO CriarRegistrarPedido() {

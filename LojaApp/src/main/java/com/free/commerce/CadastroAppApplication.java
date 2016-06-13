@@ -25,6 +25,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.util.Date;
+
 @SpringBootApplication
 @EnableSwagger
 @EnableAutoConfiguration
@@ -75,6 +77,7 @@ public class CadastroAppApplication {
                 loja.setNomeEmpresa("Grupo Empreiteira LTDA");
                 loja.setTelefone("219855531620");
                 loja.setUserLogin(login);
+                loja.setRegistrado(new Date());
 
                 Loja loja1 = repository.save(loja);
 

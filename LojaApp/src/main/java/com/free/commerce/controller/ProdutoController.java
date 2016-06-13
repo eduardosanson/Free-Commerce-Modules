@@ -6,6 +6,7 @@ import com.free.commerce.entity.Produto;
 import com.free.commerce.service.interfaces.CarrinhoService;
 import com.free.commerce.service.interfaces.LojaService;
 import com.free.commerce.service.interfaces.ProdutoService;
+import com.free.commerce.to.BuscarProdutoTO;
 import com.free.commerce.to.CarrinhoDeComprasTO;
 import com.free.commerce.to.ProdutoPage;
 import com.free.commerce.to.ProdutoTO;
@@ -28,7 +29,8 @@ import java.util.List;
 /**
  * Created by pc on 21/03/2016.
  */
-@RestController("/produto")
+@RestController
+@RequestMapping("/produto")
 public class ProdutoController {
 
     @Autowired
@@ -73,15 +75,30 @@ public class ProdutoController {
         return new ResponseEntity<ProdutoPage>(produtoPage ,HttpStatus.OK);
     }
 
-    @RequestMapping(params = {"page","size","produtoNome"})
-    public ResponseEntity<ProdutoPage> buscarProdutos(@RequestParam("page") String page,
-                                                      @RequestParam("size") String size,
-                                                      @RequestParam("produtoNome") String produtoNome){
-        Page<Produto> produtos = produtoService.buscarProdutosParecidosPorNome(produtoNome,pegarPagina(page,size));
+    @RequestMapping(value = "/lastFive",method = RequestMethod.GET)
+    public ResponseEntity<List> ultimosCinco(){
 
-        ProdutoPage produtoPage = criarProdutoPage(produtos);
+        return new ResponseEntity<List>(produtoService.recuperarUltimosCincoProduto(),HttpStatus.OK);
+    }
 
-        return new ResponseEntity<ProdutoPage>(produtoPage ,HttpStatus.OK);
+    @RequestMapping
+    public ResponseEntity<ProdutoPage> produtoPorPreco(@RequestParam(value = "cidade",defaultValue = "")String cidade,
+                                                @RequestParam(value = "categoria",defaultValue = "") String categoria,
+                                                @RequestParam(value = "produtoNome",defaultValue = "") String nome,
+                                                @RequestParam(value = "novo",defaultValue = "") String novo,
+                                                @RequestParam(value = "order",defaultValue = "") String orderBy,
+                                                @RequestParam(value = "page") Integer pagina,
+                                                @RequestParam(value = "size") Integer size){
+        BuscarProdutoTO buscarProdutoTO = new BuscarProdutoTO();
+
+        buscarProdutoTO.setCategoria(categoria);
+        buscarProdutoTO.setCidade(cidade);
+        buscarProdutoTO.setNome(nome);
+        buscarProdutoTO.setNovo(novo);
+        buscarProdutoTO.setOrderBy(orderBy);
+
+        return new ResponseEntity(criarProdutoPage(produtoService.buscarProdutos(buscarProdutoTO,new PageRequest(pagina,size))),HttpStatus.OK);
+
     }
 
     @RequestMapping(params = "produtoId",method = RequestMethod.GET)

@@ -16,21 +16,27 @@
                                             <div class="col-md-6">
                                                 <div class="input-group">
                                                      <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                    <input th:field="*{email}" type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                                    <input th:field="*{email}" type="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$"
                                                            placeholder="E-mail" class="form-control input-md"
                                                            size="50"/>
                                                 </div>
                                                 <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger form-control input-md"
                                                      th:errors="*{email}" role="alert">
                                                 </div>
+                                                <div th:if="${emailErro !=null}" class="alert alert-danger form-control input-md"
+                                                     role="alert" th:text="${emailErro}">
+                                                </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" 
+                                                    <input th:field="*{confirmacaoEmail}" type="email"  pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,4}$"
                                                            placeholder="Confirme o E-mail" class="form-control input-md"
                                                            name="confirmEmail" size="50"/>
+                                                </div>
+                                                <div th:if="${emailErro !=null}" class="alert alert-danger form-control input-md"
+                                                     role="alert" th:text="${emailErro}">
                                                 </div>
                                             </div>
                                         </div>
@@ -46,13 +52,19 @@
                                                 <div th:if="${#fields.hasErrors('password')}" class="alert alert-danger form-control input-md"
                                                      th:errors="*{password}" role="alert">
                                                 </div>
+                                                <div th:if="${passwordErro !=null}" class="alert alert-danger form-control input-md"
+                                                     role="alert" th:text="${passwordErro}">
+                                                </div>
                                             </div>
 
                                             <div class="col-md-6">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                    <input type="password" placeholder="Confirme o password" size="50"
+                                                    <input th:field="*{confirmacaoPassword}" type="password" placeholder="Confirme o password" size="50"
                                                            class="form-control input-md" />
+                                                </div>
+                                                <div th:if="${passwordErro !=null}" class="alert alert-danger form-control input-md"
+                                                     role="alert" th:text="${passwordErro}">
                                                 </div>
                                             </div>
 
@@ -93,10 +105,14 @@
                                             <div class="col-md-4 form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                    <input name="cpfcnpj" id="cpfcnpj" th:field="*{cpfOuCnpj}" type="text" placeholder="Cpf ou cnpj" class="form-control input-md"/>
+                                                    <input name="cpfcnpj" id="cpfcnpj" th:field="*{cpfOuCnpj}" type="text" placeholder="Cpf ou cnpj" class="form-control input-md"
+                                                           onkeypress='mascaraMutuario(this,cpfCnpj); return check(event,value)' onInput="checkLength()" onblur='clearTimeout()'
+                                                           onpaste="mascaraMutuario(this,cpfCnpj); return check(event,value);checkLength()"
+                                                           onmouseout="mascaraMutuario(this,cpfCnpj); return check(event,value);checkLength()"
+                                                           onload="mascaraMutuario(this,cpfCnpj); return check(event,value);checkLength()"/>
                                                 </div>
-                                                <div th:if="${#fields.hasErrors('cpfOuCnpj')}" class="alert alert-danger form-control input-md"
-                                                     th:errors="*{cpfOuCnpj}" role="alert">
+                                                <div th:if="${cpfOuCpjErro !=null}" class="alert alert-danger form-control input-md"
+                                                     role="alert" th:text="${cpfOuCpjErro}">
                                                 </div>
                                             </div>
 
@@ -131,7 +147,8 @@
                                             <div class="col-sm-2 col-xs-1 form-group">
                                                 <div class="input-group">
                                                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                                    <input id="cep" th:field="*{cep}" type="text" placeholder="CEP" class="form-control input-md"  onblur="pesquisacep(this.value);" />
+                                                    <input id="cep" th:field="*{cep}" type="text" placeholder="CEP"
+                                                           class="form-control input-md"  onblur="pesquisacep(this.value);" />
                                                 </div>
                                                 <div th:if="${#fields.hasErrors('cep')}" class="alert alert-danger form-control input-md"
                                                      th:errors="*{cep}" role="alert">
@@ -206,9 +223,12 @@
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label for="terms" class="string optiona">
-                                                            <input type="checkbox" style="" id="terms"/>
-                                                            I Agree with Term and Conditions
+                                                            <input th:field="*{aceitoTermosECondicoes}" type="checkbox" style="" id="terms"/>
+                                                            Aceito os termos e Condições
                                                         </label>
+                                                    </div>
+                                                    <div th:if="${termosECondicoesErro !=null}" class="alert alert-danger form-control input-md"
+                                                         th:text="${termosECondicoesErro}" role="alert">
                                                     </div>
                                                 </div>
                                             </div>
@@ -236,6 +256,7 @@
         <script th:inline="javascript">
         /*<![CDATA[*/
 
+            $("#cep").mask("99999-999");
 
             $("#telefone").mask("(99) 9999?9-9999");
 
@@ -251,16 +272,16 @@
                 }
             });
 
+            <!--$("#cpfcnpj").mask("999.999.999-99");-->
+
             <!--$("#cpfcnpj").keydown(function(){-->
                 <!--try {-->
-                    <!--$("#cpfcnpj").unmask();-->
+                    <!--&lt;!&ndash;$("#cpfcnpj").unmask();&ndash;&gt;-->
                 <!--} catch (e) {}-->
 
-                <!--var tamanho = $("#cpfcnpj").val().replace(/\-|[\/"]|.|_/g,'').length;-->
+                <!--var tamanho = $("#cpfcnpj").val().replace(/[^0-9]+/g,'').length;-->
 
-                <!--if(tamanho < 11){-->
-                    <!--$("#cpfcnpj").mask("999.999.999-99");-->
-                <!--} else {-->
+                <!--if(tamanho > 10){-->
                     <!--$("#cpfcnpj").mask("99.999.999/9999-99");-->
                 <!--}-->
             <!--});-->

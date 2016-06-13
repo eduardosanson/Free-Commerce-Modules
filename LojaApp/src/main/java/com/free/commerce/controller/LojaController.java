@@ -139,6 +139,28 @@ public class LojaController extends WebMvcConfigurerAdapter {
 
     }
 
+    @RequestMapping
+    public ResponseEntity<Loja> buscarPorCpfOuCnpj(@RequestParam("cpfOuCnpj") String cpfOuCnpj){
+        Loja loja = null;
+
+        try {
+
+            loja = lojaService.recuperarPorCpfOuCnpj(cpfOuCnpj);
+
+            if (loja==null){
+                return new ResponseEntity<Loja>(HttpStatus.NOT_FOUND);
+            }else {
+                return new ResponseEntity<Loja>(loja,HttpStatus.FOUND);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+
+            return new ResponseEntity<Loja>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @RequestMapping(value = "/perfil",method = RequestMethod.PUT)
     public ResponseEntity salvarPerfil(@RequestParam("lojaId") long lojaId, @RequestBody Imagem imagem){
 

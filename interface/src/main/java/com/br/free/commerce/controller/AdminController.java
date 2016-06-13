@@ -6,6 +6,8 @@ import com.br.free.commerce.services.Interface.AutorizacaoLojaService;
 import com.br.free.commerce.services.Interface.CategoriaService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.to.CategoriaTO;
+import com.br.free.commerce.util.Page;
+import com.free.commerce.entity.AutorizacaoLoja;
 import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Loja;
 import org.apache.log4j.Logger;
@@ -44,6 +46,7 @@ public class AdminController {
     private static final String FRAGMENT_CREATE_CATEGORY ="cadastrar-categoria";
     private static final String RESULT_BLOCK = "resultBlock";
     private static final String BUTTON_ENVIAR_CATEGORIA = "enviarCategoria";
+    private static final String FRAGMENT_LOJA_DATA = "lojaData";
 
     private static final String URL_ALTERAR_FOTO_PERFIL="/menu/profileFoto";
     private static final String CONTEXTO="/admin";
@@ -60,6 +63,9 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    private int limiteDeLojasPorPagina=5;
+    private int paginaInicial=0;
+
     private Logger logger = Logger.getLogger(AdminController.class);
 
 
@@ -74,9 +80,19 @@ public class AdminController {
         model.addAttribute(MENU_NAME,MENU_NAME_HOME);
         model.addAttribute(MENU_FRAGMENT,MENU_FRAGMENT_HOME);
 
-        List<Loja> lojas = autorizacaoLojaService.buscarLojasPendentes();
-        model.addAttribute("lojas",lojas);
+        List<AutorizacaoLoja> autorizacao = autorizacaoLojaService.buscarautorizacao(paginaInicial,limiteDeLojasPorPagina);
+        model.addAttribute("autorizacoes",autorizacao);
         model.addAttribute("profileFotoSendFormUrl",CONTEXTO+URL_ALTERAR_FOTO_PERFIL);
+
+        int qtdDeAutorizacoes = autorizacao.size();
+        int qtdDePaginas =  qtdDeAutorizacoes%limiteDeLojasPorPagina>0?(qtdDeAutorizacoes/limiteDeLojasPorPagina)+1 : qtdDeAutorizacoes/limiteDeLojasPorPagina;
+
+        Page page = new Page();
+        page.setPaginaAtual(paginaInicial);
+        page.setQtdElementosPorPagina(limiteDeLojasPorPagina);
+        page.setTotalDePaginas(qtdDePaginas);
+
+        model.addAttribute("page",page);
 
         return INDEX;
     }
@@ -99,11 +115,85 @@ public class AdminController {
     public String mostrarSolicitacoes(Model model){
         logger.info("usando ajax de create product");
 
-        List<Loja> lojas = autorizacaoLojaService.buscarLojasPendentes();
-        model.addAttribute("lojas",lojas);
+        List<AutorizacaoLoja> autorizacao = autorizacaoLojaService.buscarautorizacao(paginaInicial,limiteDeLojasPorPagina);
+        model.addAttribute("autorizacoes",autorizacao);
+
+        int qtdDeAutorizacoes = autorizacao.size();
+        int qtdDePaginas =  qtdDeAutorizacoes%limiteDeLojasPorPagina>0?(qtdDeAutorizacoes/limiteDeLojasPorPagina)+1 : qtdDeAutorizacoes/limiteDeLojasPorPagina;
+
+        Page page = new Page();
+        page.setPaginaAtual(paginaInicial);
+        page.setQtdElementosPorPagina(limiteDeLojasPorPagina);
+        page.setTotalDePaginas(qtdDePaginas);
+
+        model.addAttribute("page",page);
 
 
         return "fragments/"+ MENU_NAME_HOME +" :: " + MENU_FRAGMENT_HOME;
+    }
+
+    @RequestMapping("/menu/novasSolicitacoes/porStatus")
+    public String mostrarSolicitacoesPorStatus(@RequestParam("status") String status , Model model){
+        logger.info("usando ajax de create product");
+
+        List<AutorizacaoLoja> autorizacao = autorizacaoLojaService.buscarautorizacaoPorStatus(status,paginaInicial,limiteDeLojasPorPagina);
+        model.addAttribute("autorizacoes",autorizacao);
+        model.addAttribute("status",status);
+
+        int qtdDeAutorizacoes = autorizacao.size();
+        int qtdDePaginas =  qtdDeAutorizacoes%limiteDeLojasPorPagina>0?(qtdDeAutorizacoes/limiteDeLojasPorPagina)+1 : qtdDeAutorizacoes/limiteDeLojasPorPagina;
+
+        Page page = new Page();
+        page.setPaginaAtual(paginaInicial);
+        page.setQtdElementosPorPagina(limiteDeLojasPorPagina);
+        page.setTotalDePaginas(qtdDePaginas);
+
+        model.addAttribute("page",page);
+
+        return "fragments/"+ MENU_NAME_HOME +" :: " + MENU_FRAGMENT_HOME;
+    }
+
+    @RequestMapping("/menu/novasSolicitacoes/porStatusEnomePaginas")
+    public String mostrarSolicitacoesPorStatusEnomePaginas(@RequestParam("status") String status ,
+                                                           @RequestParam("nome") String nome,
+                                                           @RequestParam("paginaAtual") int paginaAtual,
+                                                           Model model){
+        List<AutorizacaoLoja> autorizacao = autorizacaoLojaService.buscarautorizacaoPorStatusENome(status,nome,paginaAtual-1,limiteDeLojasPorPagina);
+        model.addAttribute("autorizacoes",autorizacao);
+        model.addAttribute("status",status);
+
+        int qtdDeAutorizacoes = autorizacao.size();
+        int qtdDePaginas =  qtdDeAutorizacoes%limiteDeLojasPorPagina>0?(qtdDeAutorizacoes/limiteDeLojasPorPagina)+1 : qtdDeAutorizacoes/limiteDeLojasPorPagina;
+
+        Page page = new Page();
+        page.setPaginaAtual(paginaAtual);
+        page.setQtdElementosPorPagina(limiteDeLojasPorPagina);
+        page.setTotalDePaginas(qtdDePaginas);
+
+        model.addAttribute("page",page);
+
+        return "fragments/"+ MENU_NAME_HOME +" :: " + FRAGMENT_LOJA_DATA;
+    }
+
+    @RequestMapping("/menu/novasSolicitacoes/porStatusEnome")
+    public String mostrarSolicitacoesPorStatusEnome(@RequestParam("status") String status,@RequestParam("nome") String nome , Model model){
+        logger.info("usando ajax de create product");
+
+        List<AutorizacaoLoja> autorizacao = autorizacaoLojaService.buscarautorizacaoPorStatusENome(status,nome,paginaInicial,limiteDeLojasPorPagina);
+        model.addAttribute("autorizacoes",autorizacao);
+        model.addAttribute("status",status);
+
+        int qtdDeAutorizacoes = autorizacao.size();
+        int qtdDePaginas =  qtdDeAutorizacoes%limiteDeLojasPorPagina>0?(qtdDeAutorizacoes/limiteDeLojasPorPagina)+1 : qtdDeAutorizacoes/limiteDeLojasPorPagina;
+
+        Page page = new Page();
+        page.setPaginaAtual(paginaInicial);
+        page.setQtdElementosPorPagina(limiteDeLojasPorPagina);
+        page.setTotalDePaginas(qtdDePaginas);
+
+        model.addAttribute("page",page);
+
+        return "fragments/"+ MENU_NAME_HOME +" :: " + FRAGMENT_LOJA_DATA;
     }
 
     @RequestMapping(value = "/menu/criarCategoria")

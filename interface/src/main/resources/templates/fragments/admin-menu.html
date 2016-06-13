@@ -16,6 +16,9 @@
         </div>
     </div>
     <script type="text/javascript">
+   /*<![CDATA[*/
+
+
 
         function showNovasSolicitacoes() {
             var url = '/admin/menu/novasSolicitacoes';
@@ -28,6 +31,38 @@
 
             $("#resultsBlock").load(url);
         };
+
+        function lojaPorstatus(status) {
+            var url = '/admin/menu/novasSolicitacoes/porStatus?status='+status;
+
+            $("#resultsBlock").load(url);
+        }
+
+        function buscarLojaPorNome() {
+        var url = '/admin/menu/novasSolicitacoes/porStatusEnome?nome=';
+         nome = document.getElementById('buscarPornome').value;
+         status = document.getElementById('status').value;
+
+         if(nome.length>2){
+         url = url + nome + '&status=' + status;
+            $("#resultProduct").load(url);
+         }
+
+        }
+
+        function buscarLojaPorNomePaginas(i) {
+        var url = '/admin/menu/novasSolicitacoes/porStatusEnomePaginas?nome=';
+         nome = document.getElementById('buscarPornome').value;
+         status = document.getElementById('status').value;
+
+         if(nome.length>2){
+         url = url + nome + '&status=' + status + '&paginaAtual='+i;
+            $("#resultProduct").load(url);
+         }
+
+        }
+
+        /*]]>*/
 
     </script>
 </div>

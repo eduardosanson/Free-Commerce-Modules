@@ -1,8 +1,10 @@
 package com.free.commerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,6 +49,10 @@ public class Loja {
 
     @OneToOne
     private Imagem perfil;
+
+    @Column
+    @Type(type="timestamp")
+    private Date registrado;
 
     public List<Produto> getProdutos() {
         return produtos;
@@ -149,5 +155,13 @@ public class Loja {
 
     public void setNomeJuridico(String nomeJuridico) {
         this.nomeJuridico = nomeJuridico;
+    }
+
+    public Date getRegistrado() {
+        return registrado;
+    }
+
+    public void setRegistrado(Date registrado) {
+        this.registrado = registrado;
     }
 }

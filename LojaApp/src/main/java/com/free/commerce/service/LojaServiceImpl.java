@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -52,6 +54,7 @@ public class LojaServiceImpl implements LojaService {
         UserLogin login = criarLogin(cadastrarLojaTO);
         loja.setEndereco(endereco);
         loja.setUserLogin(login);
+        loja.setRegistrado(new Date());
 
 
         logger.info("Iniciando cadastro de Cliente");
@@ -81,6 +84,11 @@ public class LojaServiceImpl implements LojaService {
     @Override
     public Loja recuperarPorId(Long id) {
         return repository.findOne(id);
+    }
+
+    @Override
+    public Loja recuperarPorCpfOuCnpj(String cpfOuCnpj) {
+        return repository.recuperarLojaPeloCpfOuCnpj(cpfOuCnpj);
     }
 
     @Override
@@ -121,6 +129,8 @@ public class LojaServiceImpl implements LojaService {
     public Loja atualizar(Loja loja) {
         return repository.save(loja);
     }
+
+
 
     private UserLogin criarLogin(CadastrarLojaTO cadastrarLojaTO) {
         UserLogin login = new UserLogin();

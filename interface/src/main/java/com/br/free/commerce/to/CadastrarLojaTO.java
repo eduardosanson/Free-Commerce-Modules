@@ -1,7 +1,9 @@
 package com.br.free.commerce.to;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotNull;
@@ -16,9 +18,18 @@ public class CadastrarLojaTO {
     @Email
     private String email;
 
+    @NotBlank
+    @NotNull
+    @Email
+    private String confirmacaoEmail;
+
     @NotNull
     @NotBlank
     private String password;
+
+    @NotNull
+    @NotBlank
+    private String confirmacaoPassword;
 
     @NotBlank(message = "Defina um nome para sua empresa")
     @NotNull
@@ -31,7 +42,6 @@ public class CadastrarLojaTO {
     @NotBlank(message = "Data de criação")
     private String dataDeCriacao;
 
-    @CPF
     private String cpfOuCnpj;
 
     private String nomeJuridico;
@@ -61,6 +71,8 @@ public class CadastrarLojaTO {
     @NotBlank
     private  String cidade;
 
+    private boolean aceitoTermosECondicoes;
+
     @Override
     public String toString() {
         return "CadastrarLojaTO{" +
@@ -79,6 +91,22 @@ public class CadastrarLojaTO {
                 ", uf='" + uf + '\'' +
                 ", cidade='" + cidade + '\'' +
                 '}';
+    }
+
+    public String getConfirmacaoEmail() {
+        return confirmacaoEmail;
+    }
+
+    public void setConfirmacaoEmail(String confirmacaoEmail) {
+        this.confirmacaoEmail = confirmacaoEmail;
+    }
+
+    public String getConfirmacaoPassword() {
+        return confirmacaoPassword;
+    }
+
+    public void setConfirmacaoPassword(String confirmacaoPassword) {
+        this.confirmacaoPassword = confirmacaoPassword;
     }
 
     public String getEmail() {
@@ -193,4 +221,11 @@ public class CadastrarLojaTO {
         this.cidade = cidade;
     }
 
+    public boolean isAceitoTermosECondicoes() {
+        return aceitoTermosECondicoes;
+    }
+
+    public void setAceitoTermosECondicoes(boolean aceitoTermosECondicoes) {
+        this.aceitoTermosECondicoes = aceitoTermosECondicoes;
+    }
 }

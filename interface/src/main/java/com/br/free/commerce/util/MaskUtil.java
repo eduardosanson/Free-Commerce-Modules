@@ -8,4 +8,12 @@ public class MaskUtil {
     public static String removeTelefoneMask(String telefone){
         return telefone.replace("()-","");
     }
+
+    public static String removeCepMask(String cep){
+        return cep.replace("-","");
+    }
+
+    public static String removeCpfOuCnpjMask(String cpfOuCnpj){
+        return cpfOuCnpj.replaceAll("[^0-9]+","");
+    }
 }

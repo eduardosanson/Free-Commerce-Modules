@@ -79,6 +79,12 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public Loja buscarLojaPorCpfOuCnpj(String cpfOuCnpj) {
+        String url = "http://localhost:8090/v1/loja?cpfOuCnpj="+cpfOuCnpj;
+        return template.getForObject(url,Loja.class);
+    }
+
+    @Override
     public List<Pedido> minhasSolicitacoes(Long id) {
         String url = "http://localhost:8090/v1/pedido/loja?lojaId="+id;
         List<Pedido> pedidos=null;

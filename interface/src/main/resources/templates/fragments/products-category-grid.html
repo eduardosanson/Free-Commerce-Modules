@@ -1,134 +1,59 @@
 <!DOCTYPE html>
-<html>  
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="robots" content="index, follow">
-        <title>Dlapak - General Listing Template</title>
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:regular,700,600&amp;latin" type="text/css" />
-        <!-- Essential styles -->
-        <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" type="text/css">
-        <link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.css" type="text/css"> 
-
-        <!-- Dlapak styles -->
-        <link id="theme_style" type="text/css" href="assets/css/style1.css" rel="stylesheet" media="screen">
-
-
-        <!-- Favicon -->
-        <link href="assets/img/favicon.png" rel="icon" type="image/png">
-
-        <!-- Assets -->
-        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.carousel.css">
-        <link rel="stylesheet" href="assets/plugins/owl-carousel/owl.theme.css">
-    
-        <!-- JS Library -->
-        <script src="assets/js/jquery.js"></script>
-
-    </head>
+<html>
     <body>
-        <div class="wrapper">
-            <header  class="navbar navbar-default navbar-fixed-top navbar-top">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a href="index.html" class="navbar-brand"><span class="logo"><i class="fa fa-recycle"></i> Dlapak</span></a>
+    <div class="wrapper">
+        <div class="category-search">
+            <div class="container">
+                <div class="row category-search-box">
+                    <form id="buscarProdutoForm" th:action="@{/produto}" th:object="${buscarProdutoTO}" method="get">
+
+                        <input id="orderBy" th:field="*{orderBy}" type="hidden"/>
+
+                        <input id="novo" th:field="*{novo}" type="hidden"/>
+
+                        <input id="page" th:field="*{page}" type="hidden"/>
+
+                        <div class="col-md-3 col-sm-3  cat-search-input">
+                            <select th:field="*{categoria}" class="form-control">
+                                <option selected="selected" value="">Todas as categorias</option>
+                                <option th:each="categoria : ${categorias}"
+                                        th:value="${categoria.descricao}"
+                                        th:text="${categoria.descricao}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-3  cat-search-input">
+
+                            <select th:field="*{cidade}" class="form-control">
+                                <option th:each="cidade : ${cidades}"
+                                        th:value="${cidade}"
+                                        th:text="${cidade =='' ? 'Escolha uma cidade' : cidade}"></option>
+
+                                <option selected="selected" value="">Qualquer Cidade</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 col-sm-3  cat-search-input">
+                            <input th:field="*{nome}" type="text" class="form-control" placeholder="O que deseja Encontrar..."/>
+                        </div>
+                        <div class="col-md-3 col-sm-3  cat-search-input">
+                            <button type="button" onclick="enviarFormBuscaCompleta()" class="btn btn-custom btn-block"><i class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <section class="category-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        &nbsp;
                     </div>
-
-                    <div class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="new-ads"><a href="account_create_post.html" class="btn btn-ads btn-block">Advertise</a></li>
-                            <li><a href="signup.html">Signup</a></li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><strong class="caret"></strong>&nbsp;Pages</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="account_posts.html">My Ads</a></li>
-                                    <li><a href="account_create_post.html">Create Ads</a></li>
-                                    <li><a href="account_profile.html">My Profile</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="fa fa-user"></i> <strong class="caret"></strong>&nbsp;</a>
-                                <div class="dropdown-menu dropdown-login" style="padding:15px;min-width:250px">
-                                    <form>                       
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon addon-login"><i class="fa fa-user"></i></span>
-                                                <input type="text" placeholder="Username or email" required="required" class="form-control input-login">                                            
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <span class="input-group-addon addon-login"><i class="addon fa fa-lock"></i></span>
-                                                <input type="password" placeholder="Password" required="required" class="form-control input-login">                                            
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="checkbox">
-                                                <label class="string optional" for="user_remember_me">
-                                                    <input type="checkbox" id="user_remember_me" style="">
-                                                    Remember me
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <input type="submit" class="btn btn-custom btn-block" value="Sign In">
-                                        <a href="forgot_password.html" class="btn-block text-center">Forgot password?</a>
-                                    </form>                                    
-                                </div>
-                            </li>
-
+                    <div class="col-md-4">
+                        <ul class="breadcrumb pull-right">
+                            <li><a href="/">Pagina Inicial</a></li>
+                            <li>Você esta procurou por:</li>
                         </ul>
                     </div>
                 </div>
-            </header>
-            <div class="category-search">
-                <div class="container">
-                    <div class="row category-search-box">
-                        <form>
-                            <div class="col-md-3 col-sm-3  cat-search-input">
-                                <select class="form-control">
-                                    <option>All Category</option>
-                                    <option selected>Hand Phone</option>
-                                    <option>Motorcycle</option>
-                                    <option>Properti</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-3  cat-search-input">
-                                <select class="form-control">
-                                    <option selected="">All Location</option>
-                                    <option>New York</option>
-                                    <option>Washington</option>
-                                    <option>California</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-3  cat-search-input">
-                                <input type="text" class="form-control" placeholder="I want to find...">
-                            </div>
-                            <div class="col-md-3 col-sm-3  cat-search-input">
-                                <button class="btn btn-custom btn-block"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <section class="category-wrapper">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            &nbsp;
-                        </div>
-                        <div class="col-md-4">
-                            <ul class="breadcrumb pull-right">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="category.html">Category</a></li>
-                                <li>Detail Product</li>
-                            </ul>
-                        </div>
-                    </div>
 
                     <div class="row">
                         <div class="col-md-3 col-sm-3">
@@ -199,7 +124,6 @@
                                             <div class="item-meta">
                                                 <ul>
                                                     <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
                                                     <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
                                                     <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
                                                 </ul>

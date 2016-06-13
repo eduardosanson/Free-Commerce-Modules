@@ -1,6 +1,7 @@
 package com.br.free.commerce.services;
 
 import com.br.free.commerce.services.Interface.AutorizacaoLojaService;
+import com.free.commerce.entity.AutorizacaoLoja;
 import com.free.commerce.entity.Loja;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -16,6 +17,7 @@ import java.util.List;
 public class AutorizacaoLojaServiceImpl implements AutorizacaoLojaService {
 
     private RestTemplate restService = new RestTemplate();
+//    autorizacao
 
     @Override
     public List<Loja> buscarLojasPendentes() {
@@ -48,5 +50,59 @@ public class AutorizacaoLojaServiceImpl implements AutorizacaoLojaService {
 
         Object object = restService.getForObject(url,Object.class);
 
+    }
+
+    @Override
+    public List<AutorizacaoLoja> buscarautorizacao(int pagina,int limite) {
+        String url = "http://localhost:8090/v1/autorizacao?pagina="+pagina+"&limite="+limite;
+        List<AutorizacaoLoja> autorizacoes=null;
+
+        try{
+            autorizacoes = restService.getForObject(url, ArrayList.class);
+
+        }catch (HttpClientErrorException httpError){
+
+            if (httpError.getMessage().contains("404")){
+                return null;
+            }
+
+        }
+        return autorizacoes;
+    }
+
+    @Override
+    public List<AutorizacaoLoja> buscarautorizacaoPorStatus(String status,int pagina,int limite) {
+        String url = "http://localhost:8090/v1/autorizacao?status="+status +"&pagina="+pagina+"&limite="+limite;
+        List<AutorizacaoLoja> autorizacoes=null;
+
+        try{
+            autorizacoes = restService.getForObject(url, ArrayList.class);
+
+        }catch (HttpClientErrorException httpError){
+
+            if (httpError.getMessage().contains("404")){
+                return null;
+            }
+
+        }
+        return autorizacoes;
+    }
+
+    @Override
+    public List<AutorizacaoLoja> buscarautorizacaoPorStatusENome(String status, String nome,int pagina,int limite) {
+        String url = "http://localhost:8090/v1/autorizacao?status="+status+"&nome="+nome + "&pagina="+pagina+"&limite="+limite;
+        List<AutorizacaoLoja> autorizacoes=null;
+
+        try{
+            autorizacoes = restService.getForObject(url, ArrayList.class);
+
+        }catch (HttpClientErrorException httpError){
+
+            if (httpError.getMessage().contains("404")){
+                return null;
+            }
+
+        }
+        return autorizacoes;
     }
 }

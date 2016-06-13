@@ -12,7 +12,7 @@
 
                             <span class="item-info">
                                 <span th:text="${produtoMap.key.nome}"></span>
-                                <span th:text=" 'R$ ' + ${produtoMap.key.preco}"></span>
+                                <span th:text=" 'R$ ' + ${#numbers.formatDecimal(produtoMap.key.preco, 0, 'POINT', 2, 'POINT')}"></span>
                                 <span th:text="'Quatidade ' + ${produtoMap.value}"></span>
                             </span>
                         </span>

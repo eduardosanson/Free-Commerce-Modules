@@ -20,5 +20,7 @@ public interface StoreService {
 
     Loja buscarLoja(Long id);
 
+    Loja buscarLojaPorCpfOuCnpj(String cpfOuCnpj);
+
     List<Pedido> minhasSolicitacoes(Long id);
 }

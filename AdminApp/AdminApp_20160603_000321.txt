@@ -1,0 +1,8 @@
+ERROR - 00:03:21: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 00:03:33: Convert AdminApp
+ERROR - 00:03:33: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 00:03:54: Convert AdminApp
+ERROR - 00:03:54: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 00:09:23: Convert AdminApp
+ERROR - 00:09:23: com.sun.org.apache.xerces.internal.impl.io.MalformedByteSequenceException: Byte inválido 2 da sequência UTF-8 do byte 2.
+ERROR - 00:09:23: com.sun.org.apache.xerces.internal.impl.io.MalformedByteSequenceException: Byte inválido 2 da sequência UTF-8 do byte 2.

@@ -1,4 +1,5 @@
-<div th:fragment="product-detail" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:fragment="product-detail" xmlns:th="http://www.w3.org/1999/xhtml" >
+    <!--th:with="produtoId=${produto.id}"-->
     <script defer="defer" src="/plugins/flexslider/jquery.flexslider.js"
             th:src="@{/plugins/flexslider/jquery.flexslider.js}"></script>
 
@@ -91,14 +92,16 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <form th:action="@{/mensagem}" th:object="${cadastrarMensagemTO}" id="usrform" method="post">
+                                    <form th:action="@{/mensagem}" th:object="${cadastrarMensagemTO}" id="msgform" method="post">
                                         <input type="hidden" th:field="*{produtoId}" th:value="${produto.id}" />
                                         <textarea id="mensagemId" th:field="*{mensagem.pergunta}" class="form-control" rows="3" cols="80" name="comment"
-                                                  form="usrform" placeholder="Digite sua dúvida aqui" required="required">
+                                                  form="msgform" placeholder="Digite sua dúvida aqui" required="required">
                                         </textarea>
                                         <br/>
                                         <div class="pull-right">
-                                            <button class="btn btn-info btn-block"><i class="fa fa-envelope"></i> Envie sua pergunta</button>
+                                            <button type="button" class="btn btn-info btn-block"
+                                                    th:onclick="${#authorization.expression('isAuthenticated()')} ? 'enviarPergunta()' : 'exibirLogin()'">
+                                                <i class="fa fa-envelope"></i> Envie sua pergunta</button>
                                         </div>
                                     </form>
                                 </div>
@@ -149,7 +152,7 @@
                                 </div>
                             </div>
 
-                            <div class="row" th:if="${mensagens != null}">
+                            <div class="row" th:if="${mensagens != null or not #lists.isEmpty(mensagens)}">
                                 <div class="col-sm-12">
                                     <h3>Perguntas</h3><br/>
                                 </div><!-- /col-sm-12 -->
@@ -293,6 +296,114 @@
             </div>
         </div>
     </div>
+
+    <!-- Login modal start-->
+    <div aria-labelledby="loginModalLabel" role="dialog" tabindex="-1" id="loginModal" class="modal fade in">
+        <div role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <section class="main">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-5 login-form">
+                                    <div class="panel panel-default">
+                                        <div class="panel-intro text-center">
+                                            <h1 class="logo"><i class="fa fa-recycle"></i>Free Commerce</h1>
+                                        </div>
+                                        <div class="panel-body">
+                                            <p th:if="${loginError}"> Senha ou Login não conferem</p>
+                                            <form th:action="@{/public/login/mensagem}" th:object="${mensagemLoginTO}" method="post">
+                                                <input type="hidden" th:field="*{mensagem}" name="mensagemComLogin" />
+                                                <input type="hidden" th:field="*{produtoId}" th:value="${produto.id}" name="produtoLogin"/>
+                                                <div class="form-group">
+                                                    <input type="text" th:field="*{login}"
+                                                           placeholder="Email or Username" class="form-control input-lg"/>
+                                                </div>
+                                                <!--<input type="hidden" name="UrlNegada" th:value="${#httpServletRequest.getAttribute('UrlNegada')}"/>-->
+                                                <div class="form-group">
+                                                    <input type="password" th:field="*{senha}"
+                                                           placeholder="Password" class="form-control input-lg"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <button type="submit" class="btn btn-block btn-custom">Entrar</button>
+                                                    <button type="button"
+                                                            class="btn btn-block btn-danger"
+                                                            onclick="fecharLoginModal()">Cancelar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <p class="text">
+                                                Para enviar sua mensagem por favor efetue o login
+                                            </p>
+                                            <div style=" clear:both"></div>
+                                        </div>
+                                    </div>
+                                    <p class="text-center">Caso não seja cadastrado <a href="#" onclick="showQuickSingUpModal()"><strong>Cadastre-se aqui</strong></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Login modal end-->
+
+    <!-- Quick sing up modal start-->
+    <div aria-labelledby="quickModalLabel" role="dialog" tabindex="-1" id="quickModal" class="modal fade in">
+        <div role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <section class="main">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-5 login-form">
+                                    <div class="panel panel-default">
+                                        <div class="panel-intro text-center">
+                                            <h1 class="logo">Faça seu cadastro rápido aqui</h1>
+                                        </div>
+                                        <form th:action="@{/cliente/form/mensagem}" th:object="${mensagemCadastroRapidoTO}" method="post">
+                                            <div class="form-group">
+                                                <input th:field="*{nome}" type="text" class="form-control input-lg" placeholder="Name" required="required"/>
+                                                <input type="hidden" th:field="*{produtoId}" th:value="${produto.id}" name="produtoLogin" />
+                                                <input type="hidden" th:field="*{mensagem}" name="mensagemComLogin" />
+                                                <div th:if="${#fields.hasErrors('nome')}" class="alert alert-danger form-control input-md"
+                                                     th:errors="*{nome}" role="alert"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input th:field="*{login}" type="text" class="form-control input-lg" placeholder="Email" required="required"/>
+                                                <div th:if="${#fields.hasErrors('login')}" class="alert alert-danger form-control input-md"
+                                                     th:errors="*{login}" role="alert"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <input th:field="*{senha}" type="password" class="form-control input-lg" placeholder="Password" required="required"/>
+                                                <div th:if="${#fields.hasErrors('senha')}" class="alert alert-danger form-control input-md"
+                                                     th:errors="*{senha}" role="alert"></div>
+                                            </div>
+                                            <div class="form-group">
+
+                                                    <label class="string optional" for="terms">
+                                                        <input type="checkbox" id="terms" style=""/>
+                                                        <a href="#">aceito os termos e condições</a>
+                                                    </label>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-block btn-custom">Cadastrar</button>
+                                                <button type="button" onclick="closeQuickSingUpModal()" class="btn btn-block btn-danger">Cancelar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Quick sing up modal end-->
         <script type="text/javascript">
         /*<![CDATA[*/
             $(document).ready(function () {

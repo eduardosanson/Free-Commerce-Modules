@@ -9,12 +9,31 @@
                     <div class="col-xs-6">
                         <!--<a href="/" class="btn btn-custom"><i class="fa fa-plus"></i> New Ads</a>-->
                     </div>
-                    <div class="col-xs-6">
-                        <form class="form-inline pull-right">
+                    <div class="col-xs-10">
+                        <form class="form-inline pull-left">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" name="q" placeholder="Type keyword ..." class="form-control"/>
-                                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                    <button type="button" onclick="lojaPorstatus('CANCELADO')"
+                                            th:class="${status != null and status== 'CANCELADO' ? 'btn btn-danger active' : 'btn btn-danger'} ">Cancelados </button>
+
+                                </div>
+                                <div class="input-group">
+                                    <button type="button" onclick="lojaPorstatus('PENDENTE_AUTORIZACAO')"
+                                            th:class="${status != null and status== 'PENDENTE_AUTORIZACAO' ? 'btn btn-warning active' : 'btn btn-warning'} "> Pendentes </button>
+
+                                </div>
+                                <div class="input-group">
+                                    <button type="button" onclick="lojaPorstatus('AUTORIZADO')"
+                                            th:class="${status != null and status== 'AUTORIZADO' ? 'btn btn-success active' : 'btn btn-success'} ">Autorizados </button>
+                                </div>
+                                <div class="input-group">
+                                    <button type="button" onclick="showNovasSolicitacoes()"
+                                            th:class="${status == null ? 'btn btn-default active' : 'btn btn-default'} ">Todos</button>
+                                </div>
+
+                                <div class="input-group">
+                                    <input id="buscarPornome" type="text" onkeydown="buscarLojaPorNome()" placeholder="Buscar pelo nome" class="input-sm" />
+                                    <input type="hidden" th:value="${status}" id="status" />
                                 </div>
                             </div>
                         </form>
@@ -22,38 +41,43 @@
                 </div>
             </div>
             <div id="resultProduct">
-                <table class="table table-bordered" >
+                <table class="table table-bordered" th:fragment="lojaData">
                     <thead>
                     <tr>
                         <th><input id="checkAll" type="checkbox" /></th>
                         <th>Nome da Empresa</th>
+                        <th>Status</th>
                         <th>Opções</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="loja  : ${lojas}" >
+                    <tr th:each="autorizacao  : ${autorizacoes}" >
                         <td><input type="checkbox" /></td>
                         <!--<td><img alt="" class="thumb-img img-responsive"-->
                                  <!--src="${produto.fotoPrincipal.path}"-->
                                  <!--th:src="'/'+${produto.fotoPrincipal.path}"/></td>-->
                         <td>
-                            <div class="item-title"><a th:href="@{/loja/detail/} + ${loja.id}" target="_blank"><strong th:text="${loja.nome}"></strong></a></div>                            <div class="item-meta">
+                            <div class="item-title"><a th:href="@{/loja/detail/} + ${autorizacao.loja.id}" target="_blank"><strong th:text="${autorizacao.loja.nome}"></strong></a></div>                            <div class="item-meta">
                                 <ul>
-                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                    <li class="item-type"><i class="fa fa-bookmark"></i> Used</li>
+                                    <li th:if="${autorizacao.loja.registrado != null}" class="item-date"><i class="fa fa-clock-o" th:text="${#dates.format(autorizacao.loja.registrado, 'dd/MM/yyyy HH:mm')}"></i></li>
+                                    <li class="item-location"><a href="#"><i class="fa fa-map-marker" th:text="${autorizacao.loja.endereco.cidade}"></i></a></li>
                                 </ul>
                             </div>
                         </td>
                         <td>
+                            <li th:text="${autorizacao.status}"></li>
+                        </td>
+                        <td>
                             <ul class="actions-table">
-                                <li><a class="label label-success" th:href="@{/admin/menu/autorizarSolicitacao/} + ${loja.id}"><i class="fa fa-pencil"></i>Autorizar</a></li>
-                                <li><a class="label label-warning" th:href="@{/admin/menu/cancelarSolicitacao/} + ${loja.id}"><i class="fa fa-close"></i>Cancelar</a></li>
+                                <li th:if="${autorizacao.status == 'PENDENTE_AUTORIZACAO' OR autorizacao.status == 'CANCELADO'}">
+                                    <a class="label label-success" th:href="@{/admin/menu/autorizarSolicitacao/} + ${autorizacao.loja.id}"><i class="fa fa-pencil"></i>Autorizar</a></li>
+                                <li th:if="${autorizacao.status == 'AUTORIZADO'}"><a class="label label-warning" th:href="@{/admin/menu/cancelarSolicitacao/} + ${autorizacao.loja.id}"><i class="fa fa-close"></i>Cancelar</a></li>
                             </ul>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+
                 <!--<div class="row">-->
                     <!--<div class="col-xs-3">-->
                         <!--<select class="form-control">-->
@@ -69,6 +93,15 @@
                     <!--</div>-->
                 </div>
             </div>
+        <div class="row">
+            <div class="col-md-10 pull-left">
+                <ul class="pagination table-pagination"  th:each="i : ${page.primeiraMetade}">
+                    <li><input th:class="${i}==${page.paginaAtual}?'btn btn-default active disabled' : 'btn'"
+                               onclick="buscarLojaPorNomePaginas(this.value)" type="button" th:value="${i}"/></li>
+                    <!--th:onclick="'maisMensagens(this.value,'+ ${produto.id} +');'"-->
+                </ul>
+            </div>
+        </div>
         </div>
 
 
@@ -79,6 +112,13 @@
 
             $("#resultProduct").load(url+page);
         }
+
+        function showProductPage(status) {
+            var url = '/admin/menu/novasSolicitacoes/porStatus?status='+status;
+
+            $("#resultProduct").load(url);
+        }
+
 
     </script>
 

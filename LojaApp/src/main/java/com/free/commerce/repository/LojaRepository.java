@@ -21,5 +21,12 @@ public interface LojaRepository extends CrudRepository<Loja,Long> {
     @Query("select l from Produto p inner join p.loja l  where p = :#{#produto} ")
     Loja recuperarLojaPeloProduto(@Param("produto")Produto produto);
 
+    @Query("select l from Loja l where l.cnpjOuCpf = :cpfOuCnpj")
+    Loja recuperarLojaPeloCpfOuCnpj(@Param("cpfOuCnpj") String cpfOuCnpj);
+
+    @Query("select distinct e.cidade from Loja l " +
+            "inner join l.endereco e")
+    List<String> recuperarCidadesDeLojasCadastradas();
+
 
 }
