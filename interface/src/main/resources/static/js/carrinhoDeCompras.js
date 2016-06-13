@@ -33,12 +33,13 @@ function removerDoCarrinho(i){
 
 url = "/carrinho/remover/"+i;
 
-$().load(url);
+$("#carrinho").load(url);
 
-document.getElementById();
-document.getElementById(i).remove();
-
-
+//var qtd = document.getElementById("qtd"+i).innerHTML;
+//var totalCarrinho = document.getElementById("totalCarrinho").innerHTML;
+//total = totalCarrinho-qtd;
+//document.getElementById("totalCarrinho").innerHTML=total;
+//document.getElementById(i).remove();
 
 }
 
