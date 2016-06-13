@@ -50,7 +50,7 @@
                         <div class="col-md-4">
                             <ul class="breadcrumb pull-right">
                                 <li><a href="/">Pagina Inicial</a></li>
-                                <li>Você esta procurou por:</li>
+                                <li th:text="'Você pesquisou: ' + ${nomeProcurado==null ? categoriaProcurada : nomeProcurado}"></li>
                             </ul>
                         </div>
                     </div>
@@ -59,18 +59,15 @@
                         <div class="col-md-3 col-sm-3">
                             <div class="widget">
                                 <div class="widget-header">
-                                    <h3>Browse by Category</h3>
+                                    <h3>Categorias Semelhantes</h3>
                                 </div>
                                 <div class="widget-body">
                                     <ul class="trends">
-                                        <li><a href="#">Smartphone &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Watch &amp; Jewelry &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Clothes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Shoes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Music &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Furniture &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Photography &nbsp;<span class="item-numbers">(242)</span></a></li>
-                                        <li><a href="#">Web Development &nbsp;<span class="item-numbers">(2,342)</span></a></li>
+                                        <li th:each="categoria : ${categoriasSemelhantes}">
+                                            <a th:id="'catSemelhante' + ${categoria.id}" href="#" th:onclick="'buscarPorCategoria(\'catSemelhante' + ${categoria.id} + '\')'" th:value="${categoria.descricao}"
+                                               th:text="${categoria.descricao}"></a></li>
+
+                                        <!--<li><a href="#">Watch &amp; Jewelry &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
                                     </ul>
                                 </div>
                             </div>
@@ -104,7 +101,7 @@
                             <div class="search-results-box">
                                 <div class="row">
                                     <div class="col-md-12 search-results">
-                                        Busca para : <span id="produtoPesquisado" th:text="${nomeProcurado}"></span>  Results : <span>23.452</span> items
+                                        Busca para : <span id="produtoPesquisado" th:text="${nomeProcurado==null ? categoriaProcurada : nomeProcurado}"></span>  Resultados : <span th:text="${produtos.totalElements}"></span> items
                                     </div>
                                 </div>
                             </div>
