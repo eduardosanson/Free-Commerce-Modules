@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html>
-    <body>
+<div th:fragment="products-category-grid" xmlns="http://www.w3.org/1999/html">
     <div class="wrapper">
         <div class="category-search">
             <div class="container">
@@ -110,195 +108,38 @@
                             </div>
                             <div class="list-results">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-4" th:each="produtoView : ${produtoPage}">
                                         <div class="item-ads-grid">
                                             <div class="item-badge-grid featured-ads">
                                                 <a href="#">Featured Ads</a>
                                             </div>
                                             <div class="item-img-grid">
-                                                <img alt="" src="assets/img/products/product-1.jpg" class="img-responsive img-center">
+                                                <img alt="" class="thumb-img img-responsive"
+                                                     th:src="'/'+${produtoView.produto.imagens != null and produtoView.produto.imagens.size() != 0 ? produtoView.produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"/>
+
                                             </div>
                                             <div class="item-title">
-                                                <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
+                                                <h4><a th:href="@{/produto/detail/} + ${produtoView.produto.id}" th:text="${produtoView.produto.nome}"></a></h4>
                                             </div>
                                             <div class="item-meta">
                                                 <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
+                                                    <li class="item-date"><i class="fa fa-clock-o" th:text="' '+${#dates.format(produtoView.produto.registrado, 'dd/MM/yyyy HH:mm')}"></i></li>
+                                                    <li class="item-location hidden-xs"><i class="fa fa-map-marker" th:text="' ' + ${produtoView.produto.loja.endereco.cidade}"></i></li>
+                                                    <li class="item-type"><i class="fa fa-bookmark" th:text="${produtoView.produto.novo ==true ? ' Novo' : ' Usado'}"></i></li>
                                                 </ul>
                                             </div>
                                             <div class="product-footer">
                                                 <div class="item-price-grid pull-left">
-                                                    <h3>$ 100</h3>
-                                                    <span>Negotiable</span>
+                                                    <h4 class="h4" th:text=" 'R$ ' + ${#numbers.formatDecimal(produtoView.produto.preco, 0, 'POINT', 2, 'POINT')}"></h4>
                                                 </div>
                                                 <div class="item-action-grid pull-right">
                                                     <ul>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                        <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="item-ads-grid highlight-ads">
-                                            <div class="item-badge-grid hot-ads">
-                                                <a href="#">Featured Ads</a>
-                                            </div>
-                                            <div class="item-img-grid">
-                                                <img alt="" src="assets/img/products/product-2.jpg" class="img-responsive img-center">
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Samsung Galaxy Grand Prime 530 8GB Grey</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-footer">
-                                                <div class="item-price-grid pull-left">
-                                                    <h3>$ 100</h3>
-                                                    <span>Negotiable</span>
-                                                </div>
-                                                <div class="item-action-grid pull-right">
-                                                    <ul>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                        <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="item-ads-grid">
-                                            <div class="item-badge-grid premium-ads">
-                                                <a href="#">Featured Ads</a>
-                                            </div>
-                                            <div class="item-img-grid">
-                                                <img alt="" src="assets/img/products/product-6.jpg" class="img-responsive img-center">
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Samsung Tab 3 V 116</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-footer">
-                                                <div class="item-price-grid pull-left">
-                                                    <h3>$ 100</h3>
-                                                    <span>Negotiable</span>
-                                                </div>
-                                                <div class="item-action-grid pull-right">
-                                                    <ul>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                        <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="item-ads-grid highlight-ads">
-                                            <div class="item-img-grid">
-                                                <img alt="" src="assets/img/products/product-7.jpg" class="img-responsive img-center">
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Sony Experia Z2 LTE</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-footer">
-                                                <div class="item-price-grid pull-left">
-                                                    <h3>$ 100</h3>
-                                                    <span>Negotiable</span>
-                                                </div>
-                                                <div class="item-action-grid pull-right">
-                                                    <ul>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                        <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="item-ads-grid">
-                                            <div class="item-badge-grid hot-ads">
-                                                <a href="#">Featured Ads</a>
-                                            </div>
-                                            <div class="item-img-grid">
-                                                <img alt="" src="assets/img/products/product-1.jpg" class="img-responsive img-center">
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-footer">
-                                                <div class="item-price-grid pull-left">
-                                                    <h3>$ 100</h3>
-                                                    <span>Negotiable</span>
-                                                </div>
-                                                <div class="item-action-grid pull-right">
-                                                    <ul>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                        <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="item-ads-grid">
-                                            <div class="item-badge-grid featured-ads">
-                                                <a href="#">Featured Ads</a>
-                                            </div>
-                                            <div class="item-img-grid">
-                                                <img alt="" src="assets/img/products/product-1.jpg" class="img-responsive img-center">
-                                            </div>
-                                            <div class="item-title">
-                                                <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
-                                            </div>
-                                            <div class="item-meta">
-                                                <ul>
-                                                    <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                                                    <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                                                    <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                                                    <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-footer">
-                                                <div class="item-price-grid pull-left">
-                                                    <h3>$ 100</h3>
-                                                    <span>Negotiable</span>
-                                                </div>
-                                                <div class="item-action-grid pull-right">
-                                                    <ul>
-                                                        <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                                        <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
+                                                        <li><a href="#" th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null)}"
+                                                               th:onclick="'addAoCarrinho(\'' + ${produtoView.produto.id} + '\',1);'" data-toggle="tooltip" data-placement="top" title="Adicionar no Carrinho"
+                                                               class="btn btn-default btn-sm"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+                                                        <li><a th:href="@{/produto/detail/} + ${produtoView.produto.id}" data-toggle="tooltip" data-placement="top"
+                                                               title="Ver Detalhes" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
+
                                                     </ul>
                                                 </div>
                                             </div>
@@ -307,43 +148,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-12 text-right">
-                                    <ul class="pagination">
-                                        <li><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li class="active"><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
+                                <div class="col-xs-9">
+                                    <ul class="pagination table-pagination"  th:each="i : ${page.primeiraMetade}">
+                                        <li><input th:class="${i}==${page.paginaAtual}?'btn btn-default active disabled' : 'btn'" type="button" onclick="enviarFormBuscaPorIndice(this.value)" th:value="${i}"/></li>
                                     </ul>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                 </div>
-            </section>
-            <div class="footer">
-                <div class="container">
-                <ul class="pull-left footer-menu">
-                    <li>
-                        <a href="index.html"> Home </a>
-                        <a href="about.html"> About us </a>
-                        <a href="contact.html"> Contact us </a>
-                    </li>
-                </ul>
-                <ul class="pull-right footer-menu">
-                    <li> &copy; 2015 Dlapak </li>
-                </ul>
-                </div>
-            </div>
-        </div>
-        <!-- Essentials -->
-        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-        <script src="assets/plugins/owl-carousel/owl.carousel.js"></script>
-        <script src="assets/plugins/counter/jquery.countTo.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        </script>
-    </body>
-</html> 
+        </section>
+    </div>
+</div>
