@@ -8,7 +8,7 @@ import com.free.commerce.repository.FotoRepository;
 import com.free.commerce.repository.ImageRepository;
 import com.free.commerce.repository.LojaRepository;
 import com.free.commerce.repository.ProductRepository;
-import com.free.commerce.service.interfaces.CategoriaRepository;
+import com.free.commerce.repository.CategoriaRepository;
 import com.free.commerce.service.interfaces.CategoriaService;
 import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.BuscarProdutoTO;
@@ -172,13 +172,15 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public Page<Produto> buscarProdutosPorCidadeECategoria(String cidade, String categoria){
 
-        return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLike("%%",cidade,categoria,new PageRequest(0,5));
+        List<String> categorias = categoriaService.categoriasAssociadas(categoriaService.buscarCategoriaPelaDescricao(categoria));
+
+        return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn("%%",cidade,categorias,new PageRequest(0,5));
     }
 
     @Override
     public Page<Produto> buscarProdutos(BuscarProdutoTO buscarProdutoTO, Pageable pageable){
 
-        return new BuscarProdutoResolver(buscarProdutoTO,pageable,repository).buscarProdutos();
+        return new BuscarProdutoResolver(buscarProdutoTO,pageable,repository,buscarProdutoTO.getCategorias()).buscarProdutos();
     }
 
 

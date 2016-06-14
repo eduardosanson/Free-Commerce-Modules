@@ -1,58 +1,63 @@
 <div class="row" th:fragment="productCategory">
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="#" onclick="buscarPorCategoria('catInfo')"><i style="line-height: 0.7;" class="glyphicon glyphicon-hdd shortcut-icon icon-blue"></i></a>
-            <a id="catInfo" href="#" onclick="buscarPorCategoria('catInfo')"><h3>Informática</h3></a>
-            <span class="total-items">234,567</span>
+            <a href="#" onclick="buscarPorCategoriaValue('catInfo')"><i style="line-height: 0.7;" class="glyphicon glyphicon-hdd shortcut-icon icon-blue"></i></a>
+            <a  href="#" onclick="buscarPorCategoriaValue('catInfo')"><h3>Informática</h3></a>
+            <input id="catInfo" value="Informática" type="hidden" />
+            <!--<span class="total-items">234,567</span>-->
         </div>
     </div>
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="#" onclick="buscarPorCategoria('catGame')"><i class="fa fa-gamepad shortcut-icon icon-green"></i></a>
-            <a id="catGame" href="#" onclick="buscarPorCategoria('catGame')"><h3>Games</h3></a>
-            <span class="total-items">25,366</span>
+            <a href="#" onclick="buscarPorCategoriaValue('catGame')"><i class="fa fa-gamepad shortcut-icon icon-green"></i></a>
+            <a  href="#" onclick="buscarPorCategoriaValue('catGame')"><h3>Games</h3></a>
+            <input id="catGame" value="Games" type="hidden" />
+            <!--<span class="total-items">25,366</span>-->
         </div>
     </div>
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="#" onclick="buscarPorCategoria('catLivros')"><i class="fa fa-book shortcut-icon icon-brown"></i></a>
-            <a id="catLivros" href="#" onclick="buscarPorCategoria('catLivros')"><h3>Livros</h3></a>
-            <span class="total-items">252,546</span>
+            <a href="#" onclick="buscarPorCategoriaValue('catLivros')"><i class="fa fa-book shortcut-icon icon-brown"></i></a>
+            <a href="#" onclick="buscarPorCategoriaValue('catLivros')"><h3>Livros</h3></a>
+            <input id="catLivros" value="Games" type="hidden" />
+            <!--<span class="total-items">252,546</span>-->
         </div>
     </div>
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="#" onclick="buscarPorCategoria('vestId')"><i class="fa fa-female shortcut-icon icon-violet"></i></a>
-            <a id="vestId" href="#" onclick="buscarPorCategoria('vestId')" th:value="@{Calçados, Roupas e Bolsas}"><h3>Vestuário</h3></a>
-            <span class="total-items">52,546</span>
+            <a href="#" onclick="buscarPorCategoriaValue('vestId')"><i class="fa fa-female shortcut-icon icon-violet"></i></a>
+            <a href="#" onclick="buscarPorCategoriaValue('vestId')" ><h3>Vestuário</h3></a>
+            <input id="vestId" value="Calçados, Roupas e Bolsas" type="hidden" />
+            <!--<span class="total-items">52,546</span>-->
         </div>
     </div>
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="#" onclick="buscarPorCategoria('mobId')"><i class="fa fa-mobile-phone shortcut-icon icon-dark-blue"></i></a>
-            <a id="mobId" href="#" onclick="buscarPorCategoria('mobId')"><h3>Mobile</h3></a>
-            <span class="total-items">215,546</span>
+            <a href="#" onclick="buscarPorCategoriaValue('mobId')"><i class="fa fa-mobile-phone shortcut-icon icon-dark-blue"></i></a>
+            <a href="#" onclick="buscarPorCategoriaValue('mobId')"><h3>Mobile</h3></a>
+            <input id="mobId" value="Mobile" type="hidden" />
         </div>
     </div>
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="#" onclick="buscarPorCategoria('sportId')"><i class="fa fa-soccer-ball-o shortcut-icon icon-orange"></i></a>
-            <a id="sportId" href="#" onclick="buscarPorCategoria('sportId')"><h3>Sportivo</h3></a>
-            <span class="total-items">415,546</span>
+            <a href="#" onclick="buscarPorCategoriaValue('sportId')"><i class="fa fa-soccer-ball-o shortcut-icon icon-orange"></i></a>
+            <a href="#" onclick="buscarPorCategoria('sportId')"><h3>Sportivo</h3></a>
+            <input id="sportId" value="Esportes e Fitness" type="hidden" />
+            <!--<span class="total-items">415,546</span>-->
         </div>  
     </div>
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="category.html"><i class="fa fa-gears shortcut-icon icon-light-blue"></i></a>
-            <a href="category.html"><h3>Industry</h3></a>
-            <span class="total-items">15,546</span>
+            <a href="#" onclick="buscarPorCategoriaValue('camId')"><i style="line-height: 0.5;" class="glyphicon glyphicon-camera shortcut-icon icon-light-blue"></i></a>
+            <a href="#" onclick="buscarPorCategoriaValue('camId')"><h3>Câmeras e Acessorios</h3></a>
+            <input id="camId" value="Câmeras e Acessorios" type="hidden" />
         </div>  
     </div>
     <div class="col-xs-4 col-sm-3">
         <div class="shortcut">
-            <a href="category.html"><i class="fa fa-wrench shortcut-icon icon-light-green"></i></a>
-            <a href="category.html"><h3>Job</h3></a>
-            <span class="total-items">152,546</span>
+            <a href="#" onclick="buscarPorCategoriaValue('AutoId')"><i  class="fa fa-car shortcut-icon icon-light-green"></i></a>
+            <a href="#" onclick="buscarPorCategoriaValue('AutoId')"><h3>Acessórios para Veículos</h3></a>
+            <input id="AutoId" value="Acessórios para Veículos" type="hidden" />
         </div>  
     </div>
 </div>

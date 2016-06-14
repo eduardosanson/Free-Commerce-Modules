@@ -311,12 +311,28 @@ public class ProdutoController {
     private void prepararCidadesECategorias(Model model,ProdutoPage produtoPage,String categoriaProcurada) {
         List<Categoria> categorias = categoriaService.buscarCategoriasPrincipais();
         List<String> cidades = enderecoService.cidadesEmLojasCadastradas();
-        List<Categoria> categoriasSemelhantes;
-        if (produtoPage.getProdutos().isEmpty()){
+        List<Categoria> categoriasSemelhantes = null;
+        if (produtoPage.getProdutos().isEmpty() && "".equalsIgnoreCase(categoriaProcurada)){
             categoriasSemelhantes = categorias;
         }else {
-            Categoria pai = categoriaService.buscarPaiPeloFilho(produtoPage.getProdutos().get(0).getCategoria().getId().toString());
-            categoriasSemelhantes = categoriaService.buscarFilhasPorId(pai.getId());
+            Categoria pai;
+            if ("".equalsIgnoreCase(categoriaProcurada) && produtoPage.getProdutos()!=null && !produtoPage.getProdutos().isEmpty()){
+                pai = categoriaService.buscarPaiPeloFilho(produtoPage.getProdutos().get(0).getCategoria().getId().toString());
+                categoriasSemelhantes = categoriaService.buscarFilhasPorId(pai.getId());
+            }else {
+                Categoria c = categoriaService.buscarPorNome(categoriaProcurada);
+
+                if (c!=null){
+                    pai = c.getPai();
+                    if (pai!=null){
+                        categoriasSemelhantes = categoriaService.buscarFilhasPorId(pai.getId());
+                    }else {
+                        categoriasSemelhantes = categoriaService.buscarFilhasPorId(c.getId());
+
+                    }
+                }
+            }
+
         }
         model.addAttribute("categorias",categorias);
         model.addAttribute("cidades",cidades);

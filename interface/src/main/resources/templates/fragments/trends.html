@@ -4,7 +4,8 @@
     </div>
     <div class="widget-body">
     <ul class="trends">
-            <li th:each="categoria : ${categoriasPrincipais}"><a href="#" th:text="${categoria.descricao}"></a></li>
+            <li th:each="categoria : ${categoriasPrincipais}"><a th:id="'findByCat' + ${categoria.id}"
+                                                                 th:onclick="'buscarPorCategoriaText(\'findByCat' +${categoria.id} + '\')'" th:text="${categoria.descricao}"></a></li>
     </ul>
 </div>
 </div>

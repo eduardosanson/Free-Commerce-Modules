@@ -33,6 +33,22 @@ public class Categoria {
     @org.hibernate.annotations.ForeignKey(name = "fk_categoria_categoria")
     private Categoria pai;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Categoria categoria = (Categoria) o;
+
+        return id != null ? id.equals(categoria.id) : categoria.id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public String getDescricao() {
         return descricao;
     }

@@ -158,19 +158,19 @@ public class CategoriaController {
     }
 
     @RequestMapping(params = {"nome"})
-    public ResponseEntity<List<Categoria>> buscarPeloNome(@PathParam("nome") String nome){
-        List<Categoria> categorias =null;
+    public ResponseEntity<Categoria> buscarPeloNome(@PathParam("nome") String nome){
+        Categoria categoria =null;
         try {
-            categorias = categoriaService.buscarPorNome(nome);
-            if (categorias==null || categorias.isEmpty()){
-                return new ResponseEntity<List<Categoria>>(HttpStatus.NOT_FOUND);
+            categoria = categoriaService.buscarPorNome(nome);
+            if (categoria==null){
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }else {
-                return new ResponseEntity<List<Categoria>>(categorias,HttpStatus.FOUND);
+                return new ResponseEntity<>(categoria,HttpStatus.FOUND);
             }
 
         }catch (Exception e){
             e.printStackTrace();
-            return new ResponseEntity<List<Categoria>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<Categoria>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

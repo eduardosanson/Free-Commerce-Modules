@@ -6,6 +6,8 @@ import com.free.commerce.to.BuscarProdutoTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Created by pc on 12/06/2016.
  */
@@ -17,10 +19,15 @@ public class BuscarProdutoResolver {
 
     private ProductRepository repository;
 
-    public BuscarProdutoResolver(BuscarProdutoTO buscarProdutoTO, Pageable pageable, ProductRepository repository) {
+    private List<String> categorias;
+
+    public BuscarProdutoResolver(BuscarProdutoTO buscarProdutoTO, Pageable pageable,
+                                 ProductRepository repository,
+                                 List<String> categorias) {
         this.buscarProdutoTO = buscarProdutoTO;
         this.pageable = pageable;
         this.repository = repository;
+        this.categorias = categorias;
     }
 
     public Page<Produto> buscarProdutos(){
@@ -154,7 +161,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && !hasOrderBy()) {
-            return repository.findByCategoriaPaiDescricaoLikeAndNomeLike(buscarProdutoTO.getCategoria(), buscarProdutoTO.getNome(), pageable);
+            return repository.findByCategoriaDescricaoInAndNomeLike(categorias, buscarProdutoTO.getNome(), pageable);
         }
         return isByCategoriaAndCidade();
     }
@@ -169,7 +176,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && !hasOrderBy()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLike(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),buscarProdutoTO.getCategoria(),pageable);
+            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadePrecoDesc();
     }
@@ -233,7 +240,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByCategoriaPaiDescricaoLikeAndNovoAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getCategoria(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoDesc(categorias,buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
         }
         return isByCategoriaPrecoDesc();
     }
@@ -244,7 +251,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && !hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByCategoriaPaiDescricaoLikeAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getCategoria(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByCategoriaDescricaoInAndNomeLikeOrderByPrecoDesc(categorias,buscarProdutoTO.getNome(),pageable);
         }
         return isByCategoriaPrecoAsc();
     }
@@ -255,7 +262,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && !hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByCategoriaPaiDescricaoLikeAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getCategoria(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByCategoriaDescricaoInAndNomeLikeOrderByPrecoAsc(categorias,buscarProdutoTO.getNome(),pageable);
         }
         return isByCategoriaAndNovoPrecoAsc();
     }
@@ -266,7 +273,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByCategoriaPaiDescricaoLikeAndNovoAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getCategoria(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoAsc(categorias,buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
         }
         return isByCidadeAndNovoPrecoDesc();
     }
@@ -311,7 +318,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeOrderByPrecoDesc(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),buscarProdutoTO.getCategoria(),pageable);
+            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoDesc(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadeAndCategoriaPrecoAsc();
     }
@@ -322,7 +329,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeOrderByPrecoAsc(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),buscarProdutoTO.getCategoria(),pageable);
+            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoAsc(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadeAndCategoriaRegistradoDesc();
     }
@@ -334,8 +341,8 @@ public class BuscarProdutoResolver {
                 && !hasNovo()
                 && isRegistradoDesc()) {
             return repository
-                    .findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeOrderByRegistradoDesc(buscarProdutoTO.getNome(),
-                            buscarProdutoTO.getCidade(),buscarProdutoTO.getCategoria(),pageable);
+                    .findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByRegistradoDesc(buscarProdutoTO.getNome(),
+                            buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadeAndCategoriaAndNovoPrecoDesc();
     }
@@ -347,8 +354,8 @@ public class BuscarProdutoResolver {
                 && hasNovo()
                 && isPrecoDesc()) {
             return repository
-                    .findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeAndNovoOrderByPrecoDesc(buscarProdutoTO.getNome(),
-                            buscarProdutoTO.getCidade(),buscarProdutoTO.getCategoria(),buscarProdutoTO.isNovo(),pageable);
+                    .findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoDesc(buscarProdutoTO.getNome(),
+                            buscarProdutoTO.getCidade(),categorias,buscarProdutoTO.isNovo(),pageable);
         }
         return isByCidadeAndCategoriaAndNovoPrecoAsc();
     }
@@ -358,8 +365,8 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeAndNovoOrderByPrecoAsc(buscarProdutoTO.getNome(),
-                    buscarProdutoTO.getCidade(),buscarProdutoTO.getCategoria(),buscarProdutoTO.isNovo(),pageable);
+            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoAsc(buscarProdutoTO.getNome(),
+                    buscarProdutoTO.getCidade(),categorias,buscarProdutoTO.isNovo(),pageable);
         }
         return isByCategoriaRegistradoDesc();
     }
@@ -369,7 +376,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isRegistradoDesc()) {
-            return repository.findByCategoriaPaiDescricaoLikeAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getCategoria(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByCategoriaDescricaoInAndNomeLikeOrderByRegistradoDesc(categorias,buscarProdutoTO.getNome(),pageable);
         }
         return ByNovo();
     }
@@ -399,8 +406,8 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && !hasOrderBy()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeAndNovo(buscarProdutoTO.getNome(),
-                    buscarProdutoTO.getCidade(),buscarProdutoTO.getCategoria(),buscarProdutoTO.isNovo(),pageable);
+            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovo(buscarProdutoTO.getNome(),
+                    buscarProdutoTO.getCidade(),categorias,buscarProdutoTO.isNovo(),pageable);
         }
         return null;
     }

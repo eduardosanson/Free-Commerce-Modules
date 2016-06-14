@@ -19,6 +19,6 @@ public interface CategoriaService {
 
     Categoria buscarCategoriaPorId(Long id);
 
-    List<Categoria> buscarPorNome(String nome);
+    Categoria buscarPorNome(String nome);
 
 }

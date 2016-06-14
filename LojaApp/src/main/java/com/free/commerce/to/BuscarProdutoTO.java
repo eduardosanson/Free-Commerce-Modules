@@ -2,6 +2,9 @@ package com.free.commerce.to;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by pc on 12/06/2016.
  */
@@ -12,6 +15,7 @@ public class BuscarProdutoTO {
     private String nome;
     private String novo;
     private String orderBy;
+    private List<String> categorias = new ArrayList<>();
 
     public String getNovo() {
         return novo;
@@ -91,5 +95,13 @@ public class BuscarProdutoTO {
         }else {
             this.orderBy = orderBy;
         }
+    }
+
+    public List<String> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<String> categorias) {
+        this.categorias = categorias;
     }
 }

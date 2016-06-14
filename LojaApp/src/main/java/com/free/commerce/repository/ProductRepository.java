@@ -80,12 +80,12 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
     Page<Produto> findByLojaEnderecoCidadeAndNomeLike(String cidade,String nome, Pageable pageable);
 
     //Por categoria
-    Page<Produto> findByCategoriaPaiDescricaoLikeAndNomeLike(String categoriaPai,String nome, Pageable pageable);
+    Page<Produto> findByCategoriaDescricaoInAndNomeLike(List<String> categorias, String nome, Pageable pageable);
 
     //Por cidade e Categoria
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLike(String nome,
+    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(String nome,
                                                                                   String cidade,
-                                                                                  String categoriaPai,
+                                                                                  List<String> categorias,
                                                                                   Pageable pageable);
     /** Ordenados por preco e mais atuais**/
 
@@ -116,19 +116,19 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
     /** buscar Por Categoria com ordenaçao  **/
 
     //Por categoria novo ou usado ordenado por maior Preco
-    Page<Produto> findByCategoriaPaiDescricaoLikeAndNovoAndNomeLikeOrderByPrecoDesc(String categoriaPai,boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoDesc(List<String> categorias,boolean novo,String nome, Pageable pageable);
 
     //Por categoria ordenado por maior Preco
-    Page<Produto> findByCategoriaPaiDescricaoLikeAndNomeLikeOrderByPrecoDesc(String categoriaPai,String nome, Pageable pageable);
+    Page<Produto> findByCategoriaDescricaoInAndNomeLikeOrderByPrecoDesc(List<String> categorias,String nome, Pageable pageable);
 
     //Por categoria ordenado por menor Preco
-    Page<Produto> findByCategoriaPaiDescricaoLikeAndNomeLikeOrderByPrecoAsc(String categoriaPai, String nome, Pageable pageable);
+    Page<Produto> findByCategoriaDescricaoInAndNomeLikeOrderByPrecoAsc(List<String> categorias, String nome, Pageable pageable);
 
     //Por categoria novo ou usado ordenado por maior Preco
-    Page<Produto> findByCategoriaPaiDescricaoLikeAndNovoAndNomeLikeOrderByPrecoAsc(String categoriaPai,boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoAsc(List<String> categorias,boolean novo,String nome, Pageable pageable);
 
     //Por categoria ordenado por adicionado recentemente
-    Page<Produto> findByCategoriaPaiDescricaoLikeAndNomeLikeOrderByRegistradoDesc(String categoriaPai,String nome, Pageable pageable);
+    Page<Produto> findByCategoriaDescricaoInAndNomeLikeOrderByRegistradoDesc(List<String> categorias,String nome, Pageable pageable);
 
     /** FIM buscar Por Categoria com ordenaçao  **/
 
@@ -150,33 +150,33 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
     /**FIM buscar Por cidade com ordenaçao  **/
 
     //Por cidade e Categoria ordernado por maior preco
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeOrderByPrecoDesc(String nome,
+    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoDesc(String nome,
                                                                                   String cidade,
-                                                                                  String categoriaPai,
+                                                                                  List<String> categorias,
                                                                                   Pageable pageable);
 
     //Por cidade e Categoria ordernado por menor preco
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeOrderByPrecoAsc(String nome,
+    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoAsc(String nome,
                                                                                                  String cidade,
-                                                                                                 String categoriaPai,
+                                                                                                 List<String> categorias,
                                                                                                  Pageable pageable);
 
     //Por cidade e Categoria ordernado por adicionando recentemente
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeOrderByRegistradoDesc(String nome,
+    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByRegistradoDesc(String nome,
                                                                                                 String cidade,
-                                                                                                String categoriaPai,
+                                                                                                List<String> categorias,
                                                                                                 Pageable pageable);
 
     //Por cidade e Categoria ordernado por maior preco Novo ou usado
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeAndNovoOrderByPrecoDesc(String nome,
+    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoDesc(String nome,
                                                                                                  String cidade,
-                                                                                                 String categoriaPai,
+                                                                                                 List<String> categorias,
                                                                                                  boolean novo,
                                                                                                  Pageable pageable);
 
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeAndNovoOrderByPrecoAsc(String nome,
+    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoAsc(String nome,
                                                                                                         String cidade,
-                                                                                                        String categoriaPai,
+                                                                                                        List<String> categorias,
                                                                                                         boolean novo,
                                                                                                         Pageable pageable);
 
@@ -187,5 +187,5 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
 
     Page<Produto> findByNomeLike(String nome, Pageable pageable);
 
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaPaiDescricaoLikeAndNovo(String nome, String cidade, String categoria, boolean novo, Pageable pageable);
+    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovo(String nome, String cidade, List<String> categorias, boolean novo, Pageable pageable);
 }

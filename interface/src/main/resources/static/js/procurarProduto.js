@@ -90,3 +90,23 @@ function buscarPorCategoria(id){
 
     window.location=url;
 }
+
+function buscarPorCategoriaValue(id){
+
+    url = "/produto?categoria=";
+
+    categoria = document.getElementById(id).value;
+    url = url + categoria + "&pagina=1";
+
+    window.location=url;
+}
+
+function buscarPorCategoriaText(id){
+
+    url = "/produto?categoria=";
+
+    categoria = document.getElementById(id).innerText;
+    url = url + categoria + "&pagina=1";
+
+    window.location=url;
+}

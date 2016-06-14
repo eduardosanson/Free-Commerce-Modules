@@ -4,6 +4,7 @@ import com.free.commerce.entity.CarrinhoDeCompras;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.service.interfaces.CarrinhoService;
+import com.free.commerce.service.interfaces.CategoriaService;
 import com.free.commerce.service.interfaces.LojaService;
 import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.BuscarProdutoTO;
@@ -41,6 +42,9 @@ public class ProdutoController {
 
     @Autowired
     private CarrinhoService carrinhoService;
+
+    @Autowired
+    private CategoriaService categoriaService;
 
     @RequestMapping(params = "lojaId", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(httpMethod = "POST", value = "Say Hello To World using Swagger")
@@ -90,6 +94,11 @@ public class ProdutoController {
                                                 @RequestParam(value = "page") Integer pagina,
                                                 @RequestParam(value = "size") Integer size){
         BuscarProdutoTO buscarProdutoTO = new BuscarProdutoTO();
+
+        if (!"".equalsIgnoreCase(categoria)){
+            List<String> categoriasRelacionadas = categoriaService.categoriasAssociadas(categoriaService.buscarCategoriaPelaDescricao(categoria));
+            buscarProdutoTO.setCategorias(categoriasRelacionadas);
+        }
 
         buscarProdutoTO.setCategoria(categoria);
         buscarProdutoTO.setCidade(cidade);

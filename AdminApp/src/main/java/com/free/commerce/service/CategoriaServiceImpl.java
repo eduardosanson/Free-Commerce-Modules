@@ -28,17 +28,14 @@ public class CategoriaServiceImpl implements CategoriaService{
     public Categoria cadastrarCategoria(CategoriaTO categoriaTO) throws RegraDeNegocioException {
         Categoria categoria = criarCategoria(categoriaTO);
 
-        List<Categoria> categoriasCatastradas = categoriaRepository.buscarPeloNome(categoria.getDescricao());
-
-
-        for (Categoria categoriaCatastrada:categoriasCatastradas) {
+        Categoria categoriaCatastrada = categoriaRepository.buscarPeloNome(categoria.getDescricao());
 
             if (categoriaCatastrada!=null && categoriaCatastrada.getPai()!=null && categoriaCatastrada.getPai().getId()==Long.parseLong(categoriaTO.getCategoriaPaiId())){
                 throw new RegraDeNegocioException(RegraDeNegocioEnum.VALOR_JA_CADASTRADO);
             }else if (categoriaCatastrada.getPai()==null){
                 throw new RegraDeNegocioException(RegraDeNegocioEnum.VALOR_JA_CADASTRADO);
             }
-        }
+
 
         categoria = categoriaRepository.save(categoria);
 
@@ -88,8 +85,8 @@ public class CategoriaServiceImpl implements CategoriaService{
     }
 
     @Override
-    public List<Categoria> buscarPorNome(String nome) {
-        List<Categoria> categoria=null;
+    public Categoria buscarPorNome(String nome) {
+        Categoria categoria=null;
 
         categoria = categoriaRepository.buscarPeloNome(nome);
 

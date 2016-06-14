@@ -19,4 +19,8 @@ public interface CategoriaService {
     Categoria buscarPorId(Long catPaiId);
 
     Categoria buscarPorNome(String nome);
+
+    Categoria buscarCategoriaPelaDescricao(String descricao);
+
+    List<String> categoriasAssociadas(Categoria categoria);
 }
