@@ -82,7 +82,7 @@ public class ProdutoController {
     }
 
     @RequestMapping
-    public ResponseEntity<ProdutoPage> produtoPorPreco(@RequestParam(value = "cidade",defaultValue = "")String cidade,
+    public ResponseEntity<ProdutoPage> buscarProduto(@RequestParam(value = "cidade",defaultValue = "")String cidade,
                                                 @RequestParam(value = "categoria",defaultValue = "") String categoria,
                                                 @RequestParam(value = "produtoNome",defaultValue = "") String nome,
                                                 @RequestParam(value = "novo",defaultValue = "") String novo,

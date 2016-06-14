@@ -20,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -239,9 +240,9 @@ public class ProdutoController {
         model.addAttribute("produtos",produtoPage);
         model.addAttribute("page",page);
         model.addAttribute("nomeProcurado",buscarProdutoTO.getNome());
-        model.addAttribute("categoriaProcurada",categoria);
 
-        prepararCidadesECategorias(model);
+
+        prepararCidadesECategorias(model,produtoPage,categoria);
 
 
         return INDEX;
@@ -296,23 +297,31 @@ public class ProdutoController {
             produtos = produtoService.buscarProdutos(buscarProdutoTO);
         }
 
-
         Page page = criarPagina(pageNumber, produtos);
 
 
         model.addAttribute("produtoPage",produtos);
         model.addAttribute("page",page);
 
-        prepararCidadesECategorias(model);
+        prepararCidadesECategorias(model,produtos,categoria);
 
         return "fragments/" + PAGE_LISTA_PRODUTOS + " :: " + FRAGMENT_LISTA_PRODUTOS;
     }
 
-    private void prepararCidadesECategorias(Model model) {
+    private void prepararCidadesECategorias(Model model,ProdutoPage produtoPage,String categoriaProcurada) {
         List<Categoria> categorias = categoriaService.buscarCategoriasPrincipais();
         List<String> cidades = enderecoService.cidadesEmLojasCadastradas();
+        List<Categoria> categoriasSemelhantes;
+        if (produtoPage.getProdutos().isEmpty()){
+            categoriasSemelhantes = categorias;
+        }else {
+            Categoria pai = categoriaService.buscarPaiPeloFilho(produtoPage.getProdutos().get(0).getCategoria().getId().toString());
+            categoriasSemelhantes = categoriaService.buscarFilhasPorId(pai.getId());
+        }
         model.addAttribute("categorias",categorias);
         model.addAttribute("cidades",cidades);
+        model.addAttribute("categoriasSemelhantes",categoriasSemelhantes);
+        model.addAttribute("categoriaProcurada",categoriaProcurada);
     }
 
 

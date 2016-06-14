@@ -1,7 +1,7 @@
 <li id="carrinho" class="dropdown" th:fragment="carrinho-header">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
         <span class="glyphicon glyphicon-shopping-cart"></span>
-        <i th:if="${carrinho != null }" th:text="${carrinho.totalNoCarrinho()}"></i> - Items<span class="caret"></span></a>
+        <i th:id="totalCarrinho" th:value="${carrinho.totalNoCarrinho()}" th:if="${carrinho != null }" th:text="${carrinho.totalNoCarrinho()}"></i> - Items<span class="caret"></span></a>
     <ul class="dropdown-menu dropdown-cart" role="menu" th:if="${carrinho != null and carrinho.totalNoCarrinho() &gt; 0}">
         <li  th:each="produtoMap : ${carrinho.getConteudo()}">
                       <span class="item">
@@ -13,7 +13,7 @@
                             <span class="item-info">
                                 <span th:text="${produtoMap.key.nome}"></span>
                                 <span th:text=" 'R$ ' + ${#numbers.formatDecimal(produtoMap.key.preco, 0, 'POINT', 2, 'POINT')}"></span>
-                                <span th:text="'Quatidade ' + ${produtoMap.value}"></span>
+                                <span th:id="'qtd' + ${produtoMap.key.id}" th:text="'Quatidade ' + ${produtoMap.value}"></span>
                             </span>
                         </span>
                         <span class="item-right">

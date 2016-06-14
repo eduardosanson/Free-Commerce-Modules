@@ -1,185 +1,53 @@
 <div class="row" th:fragment="featured">
-    <div class="col-md-12">
+
+    <div class="col-md-12" th:if="${!#lists.isEmpty(novosProdutos.produtos)}">
         <div class="section-header">
-            <h2>Featured</h2>
+            <h2>Mais Recentes</h2>
         </div>
-        <div id="featured-products" class="owl-carousel owl-carousel-featured">
-            <div class="item">
+        <div id="featured-products" class="owl-carousel owl-carousel-featured" >
+            <div class="item" th:each="produto : ${novosProdutos.produtos}">
                 <div class="item-ads-grid">
                     <div class="item-badge-grid featured-ads">
-                        <a href="#">Featured Ads</a>
+                        <a href="#">Oferta !</a>
                     </div>
                     <div class="item-img-grid">
-                        <img alt="" src="/img/products/product-1.jpg" 
-                             th:src="@{/img/products/product-1.jpg}"
-                             class="img-responsive img-center"/>
+                        <li th:if="${!#lists.isEmpty(produto.imagens)}" th:attr="data-thumb='/'+${produto.imagens.get(0).path}" >
+                            <img alt="" th:src="'/'+${produto.imagens.get(0).path}" class="img-responsive img-center" />
+                        </li>
+
+                        <li th:if="${#lists.isEmpty(produto.imagens)}">
+                            <img alt=""  th:src="'/img/products/produto-sem-imagem.jpg'"
+                                 class="img-responsive img-center" />
+                        </li>
                     </div>
                     <div class="item-title">
-                        <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
+                        <a th:href="@{/produto/detail/} + ${produto.id}" >
+                            <h4 th:text="${produto.nome}"></h4>
+                        </a>
                     </div>
                     <div class="item-meta">
                         <ul>
-                            <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                            <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                            <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                            <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
+                            <li><i class="fa fa-map-marker"></i> <a href="category.html" th:text="${produto.loja.endereco.cidade}"></a></li>
+                            <li th:inline="text"><i class="fa fa-bookmark"></i> [[${produto.isNovo()?'Novo':'Usado'}]]</li>
                         </ul>
                     </div>
                     <div class="product-footer">
                         <div class="item-price-grid pull-left">
-                            <h3>$ 100</h3>
-                            <span>Negotiable</span>
+                            <h3 class="h4" th:text=" 'R$ ' + ${#numbers.formatDecimal(produto.preco, 0, 'POINT', 2, 'POINT')}"></h3>
                         </div>
                         <div class="item-action-grid pull-right">
                             <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
+                                <li><a th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null)}"
+                                       th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" data-toggle="tooltip" data-placement="top" title="Save Favorite"
+                                       class="btn btn-default btn-sm"><i class="glyphicon glyphicon-shopping-cart"></i></a></li>
+                                <li><a th:href="@{/produto/detail/} + ${produto.id}" data-toggle="tooltip" data-placement="top"
+                                       title="Ver Detalhes" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
                             </ul>
                         </div>
                     </div>
                 </div>   
             </div>
-
-            <div class="item">
-                <div class="item-ads-grid">
-                    <div class="item-badge-grid premium-ads">
-                        <a href="#">Featured Ads</a>
-                    </div>
-                    <div class="item-img-grid">
-                        <img alt="" src="/img/products/product-6.jpg" 
-                             th:src="@{/img/products/product-6.jpg}"
-                             class="img-responsive img-center"/>
-                    </div>
-                    <div class="item-title">
-                        <a href="detail.html"><h4>Samsung Tab 3 V 116</h4></a>
-                    </div>
-                    <div class="item-meta">
-                        <ul>
-                            <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                            <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                            <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                            <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                        </ul>
-                    </div>
-                    <div class="product-footer">
-                        <div class="item-price-grid pull-left">
-                            <h3>$ 100</h3>
-                            <span>Negotiable</span>
-                        </div>
-                        <div class="item-action-grid pull-right">
-                            <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="item">
-                <div class="item-ads-grid highlight-ads">
-                    <div class="item-img-grid">
-                        <img alt="" src="/img/products/product-7.jpg"
-                             th:src="@{/img/products/product-7.jpg}"
-                             class="img-responsive img-center"/>
-                    </div>
-                    <div class="item-title">
-                        <a href="detail.html"><h4>Sony Experia Z2 LTE</h4></a>
-                    </div>
-                    <div class="item-meta">
-                        <ul>
-                            <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                            <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                            <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                            <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                        </ul>
-                    </div>
-                    <div class="product-footer">
-                        <div class="item-price-grid pull-left">
-                            <h3>$ 100</h3>
-                            <span>Negotiable</span>
-                        </div>
-                        <div class="item-action-grid pull-right">
-                            <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="item">
-                <div class="item-ads-grid">
-                    <div class="item-badge-grid hot-ads">
-                        <a href="#">Featured Ads</a>
-                    </div>
-                    <div class="item-img-grid">
-                        <img alt="" src="/img/products/product-1.jpg"
-                             th:src="@{/img/products/product-1.jpg}"
-                             class="img-responsive img-center"/>
-                    </div>
-                    <div class="item-title">
-                        <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
-                    </div>
-                    <div class="item-meta">
-                        <ul>
-                            <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                            <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                            <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                            <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                        </ul>
-                    </div>
-                    <div class="product-footer">
-                        <div class="item-price-grid pull-left">
-                            <h3>$ 100</h3>
-                            <span>Negotiable</span>
-                        </div>
-                        <div class="item-action-grid pull-right">
-                            <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="item">
-                <div class="item-ads-grid">
-                    <div class="item-badge-grid featured-ads">
-                        <a href="#">Featured Ads</a>
-                    </div>
-                    <div class="item-img-grid">
-                        <img alt="" src="/img/products/product-1.jpg" 
-                             th:src="@{/img/products/product-1.jpg}"
-                             class="img-responsive img-center"/>
-                    </div>
-                    <div class="item-title">
-                        <a href="detail.html"><h4>Lenovo A326 Black 4GB RAM</h4></a>
-                    </div>
-                    <div class="item-meta">
-                        <ul>
-                            <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                            <li class="item-cat"><i class="fa fa-bars"></i> <a href="category.html">Electronics</a> , <a href="category.html">Smartphone</a></li>
-                            <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
-                            <li class="item-type"><i class="fa fa-bookmark"></i> New</li>
-                        </ul>
-                    </div>
-                    <div class="product-footer">
-                        <div class="item-price-grid pull-left">
-                            <h3>$ 100</h3>
-                            <span>Negotiable</span>
-                        </div>
-                        <div class="item-action-grid pull-right">
-                            <ul>
-                                <li><a href="#" data-toggle="tooltip" data-placement="top" title="Save Favorite" class="btn btn-default btn-sm"><i class="fa fa-heart"></i></a></li>
-                                <li><a href="detail.html" data-toggle="tooltip" data-placement="top" title="Show Details" class="btn btn-success btn-sm"><i class="fa fa-eye"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
 </div>

@@ -7,6 +7,7 @@ import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import com.br.free.commerce.to.BuscarProdutoTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
+import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Cliente;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,8 +62,17 @@ public class HomeController {
         model.addAttribute("pageFragment", PAGE_FRAGMENT);
 
         List<String> cidades = enderecoService.cidadesEmLojasCadastradas();
+        List<Categoria> categorias = categoriaService.buscarCategoriasPrincipais();
+
+        BuscarProdutoTO buscarProduto = new BuscarProdutoTO();
+        buscarProduto.setOrderBy("RegistradoDesc");
+        buscarProduto.setPage("1");
+        buscarProduto.setSize("5");
+
 
         model.addAttribute("cidades",cidades);
+        model.addAttribute("categoriasPrincipais",categorias.stream().limit(8).toArray());
+        model.addAttribute("novosProdutos",produtoService.buscarProdutos(buscarProduto));
 
         return "index";
     }

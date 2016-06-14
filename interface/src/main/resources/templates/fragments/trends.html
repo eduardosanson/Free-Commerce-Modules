@@ -1,17 +1,10 @@
 <div class="widget" th:fragment="trends">
     <div class="widget-header">
-        <h3>Trends</h3>
+        <h3>Categorias</h3>
     </div>
     <div class="widget-body">
     <ul class="trends">
-            <li><a href="#">Smartphone &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-            <li><a href="#">Watch &amp; Jewelry &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-            <li><a href="#">Clothes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-            <li><a href="#">Shoes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-            <li><a href="#">Music &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-            <li><a href="#">Furniture &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-            <li><a href="#">Photography &nbsp;<span class="item-numbers">(242)</span></a></li>
-            <li><a href="#">Web Development &nbsp;<span class="item-numbers">(2,342)</span></a></li>
+            <li th:each="categoria : ${categoriasPrincipais}"><a href="#" th:text="${categoria.descricao}"></a></li>
     </ul>
 </div>
 </div>
