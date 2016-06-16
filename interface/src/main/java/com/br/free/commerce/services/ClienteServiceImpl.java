@@ -89,7 +89,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<Pedido> meusPedidos(Long clienteId) {
-        String url = "http://localhost:8090/v1/pedido/cliente?clienteId="+clienteId;
+        String url = "http://lojacommerce.herokuapp.com/pedido/cliente?clienteId="+clienteId;
         List<Pedido> pedidos=null;
         try {
             pedidos = template.getForObject(url,List.class);

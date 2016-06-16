@@ -15,7 +15,7 @@ public class EnderecoServiceImpl {
 
     public List<String> cidadesEmLojasCadastradas(){
 
-        return restTemplate.getForObject("http://localhost:8090/v1/endereco/cidades",List.class);
+        return restTemplate.getForObject("http://lojacommerce.herokuapp.com/endereco/cidades",List.class);
 
     }
 }

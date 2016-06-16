@@ -4,8 +4,8 @@ logging:
 #Servidores de recurso free-commerce
 
 produto:
-    service: http://localhost:8090
-    version: /v1
+    service: lojacommerce.herokuapp.com
+    version:
     context: /produto
     cadastrar: ?lojaId=
     buscarProdutoPorId: ?produtoId=
@@ -22,8 +22,8 @@ produto:
 
 
 carrinho:
-    service: http://localhost:8090
-    version: /v1
+    service: lojacommerce.herokuapp.com
+    version:
     context: /carrinho
     buscarCarrinhoDeCompras: ?cookieId=%s
 

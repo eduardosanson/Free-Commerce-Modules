@@ -1,0 +1,1 @@
+ heroku deploy:war --war .\target\AdminApp-0.0.1-SNAPSHOT.war --app adminap

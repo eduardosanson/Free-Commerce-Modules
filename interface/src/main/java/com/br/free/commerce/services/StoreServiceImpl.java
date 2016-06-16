@@ -28,10 +28,9 @@ public class StoreServiceImpl implements StoreService {
 
     private static final Logger logger = Logger.getLogger(StoreServiceImpl.class);
 
-    private static String url ="http://";
-    private static String ip ="localhost";
-    private static String port =":8090";
-    private static String service="/v1/loja";
+    private static String protocol ="http://";
+    private static String domain ="lojacommerce.herokuapp.com";
+    private static String service="/loja";
 
     private static String PASTA_LOJA_PERFIL="loja/perfil/";
 
@@ -47,8 +46,8 @@ public class StoreServiceImpl implements StoreService {
 
         UserLogin user= null;
         try{
-            requestUrl = url+ip+port+service;
-            logger.info("Chamando a url: " + requestUrl);
+            requestUrl = protocol + domain +service;
+            logger.info("Chamando a protocol: " + requestUrl);
             map.put("cadastrarLojaTO", cadastrarLojaTO);
 
             user = template.postForObject(requestUrl, cadastrarLojaTO,UserLogin.class,map);
@@ -65,7 +64,7 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public void alterarPerfil(Long lojaId, MultipartFile file) {
-        String url = "http://localhost:8090/v1/loja/perfil?lojaId="+lojaId;
+        String url = "http://lojacommerce.herokuapp.com/loja/perfil?lojaId="+lojaId;
 
         Imagem imagem = ImagemProcessor.processor(PASTA_LOJA_PERFIL+lojaId,"PERFIL",file);
 
@@ -74,19 +73,19 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public Loja buscarLoja(Long id) {
-        String url = "http://localhost:8090/v1/loja/"+id;
+        String url = "http://lojacommerce.herokuapp.com/loja/"+id;
         return template.getForObject(url,Loja.class);
     }
 
     @Override
     public Loja buscarLojaPorCpfOuCnpj(String cpfOuCnpj) {
-        String url = "http://localhost:8090/v1/loja?cpfOuCnpj="+cpfOuCnpj;
+        String url = "http://lojacommerce.herokuapp.com/loja?cpfOuCnpj="+cpfOuCnpj;
         return template.getForObject(url,Loja.class);
     }
 
     @Override
     public List<Pedido> minhasSolicitacoes(Long id) {
-        String url = "http://localhost:8090/v1/pedido/loja?lojaId="+id;
+        String url = "http://lojacommerce.herokuapp.com/pedido/loja?lojaId="+id;
         List<Pedido> pedidos=null;
         try {
             pedidos = template.getForObject(url,List.class);

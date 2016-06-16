@@ -34,7 +34,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public List<Categoria> buscarTodasCategorias() {
-        String url = "http://localhost:8089/v1/categoria";
+        String url = "http://adminap.herokuapp.com/categoria";
         List<Categoria> categorias = null;
 
         logger.info("Buscando categorias para a url: " + url );
@@ -53,7 +53,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public Categoria cadastrarCategoria(CategoriaTO categoriaTO) {
-        String url = "http://localhost:8089/v1/categoria";
+        String url = "http://adminap.herokuapp.com/categoria";
 
         Categoria categoria = restTemplate.postForObject(url,categoriaTO,Categoria.class);
         return categoria;
@@ -61,7 +61,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public List<Categoria> buscarCategoriasPrincipais() {
-        String url = "http://localhost:8089/v1/categoria?principal=true";
+        String url = "http://adminap.herokuapp.com/categoria?principal=true";
         List<Categoria> categorias = null;
 
         logger.info("Buscando categorias principais para a url: " + url );
@@ -80,7 +80,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public Categoria buscarPorId(Long catPaiId) {
-        String url = "http://localhost:8089/v1/categoria/"+catPaiId;
+        String url = "http://adminap.herokuapp.com/categoria/"+catPaiId;
         Categoria categoria = null;
 
         logger.info("Buscando categorias principais para a url: " + url );
@@ -99,7 +99,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     @Override
     public Categoria buscarPorNome(String nome) {
-        String url = "http://localhost:8089/v1/categoria?nome="+nome;
+        String url = "http://adminap.herokuapp.com/categoria?nome="+nome;
         Categoria categoria = null;
 
         logger.info("Buscando categorias principais para a url: " + url );

@@ -23,8 +23,8 @@ public class UserServiceImpl implements LoginService{
         UserLogin userLogin = null;
 
         try{
-            System.out.println("http://localhost:8090/v1/loja?login="+ email);
-            userLogin = loginService.getForObject("http://localhost:8090/v1/loja?login="+ email,UserLogin.class);
+            System.out.println("http://lojacommerce.herokuapp.com/loja?login="+ email);
+            userLogin = loginService.getForObject("http://lojacommerce.herokuapp.com/loja?login="+ email,UserLogin.class);
             System.out.println(userLogin);
 
         }catch (Exception e){

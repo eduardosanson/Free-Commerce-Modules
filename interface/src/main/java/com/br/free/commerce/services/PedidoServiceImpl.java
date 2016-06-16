@@ -19,7 +19,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Long registrarPedido(RegistrarPedidoTO registrarPedidoTO) {
-        String url = "http://localhost:8090/v1/pedido";
+        String url = "http://lojacommerce.herokuapp.com/pedido";
 
 
 

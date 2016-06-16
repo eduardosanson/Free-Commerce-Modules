@@ -21,7 +21,7 @@ public class AutorizacaoLojaServiceImpl implements AutorizacaoLojaService {
 
     @Override
     public List<Loja> buscarLojasPendentes() {
-        String url = "http://localhost:8090/v1/loja/pendente";
+        String url = "http://lojacommerce.herokuapp.com/loja/pendente";
         List<Loja> lojas=null;
 
         try{
@@ -39,14 +39,14 @@ public class AutorizacaoLojaServiceImpl implements AutorizacaoLojaService {
 
     @Override
     public void cancelarSolicitacao(String lojaId) {
-        String url = "http://localhost:8090/v1/cancelar?lojaId="+lojaId;
+        String url = "http://lojacommerce.herokuapp.com/cancelar?lojaId="+lojaId;
 
         restService.getForObject(url,Object.class);
     }
 
     @Override
     public void autorizarSolicitacao(String lojaId) {
-        String url = "http://localhost:8090/v1/autorizar?lojaId="+lojaId;
+        String url = "http://lojacommerce.herokuapp.com/autorizar?lojaId="+lojaId;
 
         Object object = restService.getForObject(url,Object.class);
 
@@ -54,7 +54,7 @@ public class AutorizacaoLojaServiceImpl implements AutorizacaoLojaService {
 
     @Override
     public List<AutorizacaoLoja> buscarautorizacao(int pagina,int limite) {
-        String url = "http://localhost:8090/v1/autorizacao?pagina="+pagina+"&limite="+limite;
+        String url = "http://lojacommerce.herokuapp.com/autorizacao?pagina="+pagina+"&limite="+limite;
         List<AutorizacaoLoja> autorizacoes=null;
 
         try{
@@ -72,7 +72,7 @@ public class AutorizacaoLojaServiceImpl implements AutorizacaoLojaService {
 
     @Override
     public List<AutorizacaoLoja> buscarautorizacaoPorStatus(String status,int pagina,int limite) {
-        String url = "http://localhost:8090/v1/autorizacao?status="+status +"&pagina="+pagina+"&limite="+limite;
+        String url = "http://lojacommerce.herokuapp.com/autorizacao?status="+status +"&pagina="+pagina+"&limite="+limite;
         List<AutorizacaoLoja> autorizacoes=null;
 
         try{
@@ -90,7 +90,7 @@ public class AutorizacaoLojaServiceImpl implements AutorizacaoLojaService {
 
     @Override
     public List<AutorizacaoLoja> buscarautorizacaoPorStatusENome(String status, String nome,int pagina,int limite) {
-        String url = "http://localhost:8090/v1/autorizacao?status="+status+"&nome="+nome + "&pagina="+pagina+"&limite="+limite;
+        String url = "http://lojacommerce.herokuapp.com/autorizacao?status="+status+"&nome="+nome + "&pagina="+pagina+"&limite="+limite;
         List<AutorizacaoLoja> autorizacoes=null;
 
         try{
