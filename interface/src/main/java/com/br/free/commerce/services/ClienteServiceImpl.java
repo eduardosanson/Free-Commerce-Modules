@@ -71,7 +71,7 @@ public class ClienteServiceImpl implements ClienteService {
         String requestUrl;
 
         Cliente cliente= null;
-            requestUrl = "http://localhost:8085/v1/cliente/concluirCadastro";
+            requestUrl = "http://clienteapp.herokuapp.com/cliente/concluirCadastro";
             logger.info("Chamando a url: " + requestUrl);
 
             cliente = template.postForObject(requestUrl,cadastroTO,Cliente.class);
@@ -81,7 +81,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente buscarCliente(Long id) {
-        String url ="http://localhost:8085/v1/cliente?clienteId="+id;
+        String url ="http://clienteapp.herokuapp.com/cliente?clienteId="+id;
 
         Cliente cliente = template.getForObject(url,Cliente.class);
         return cliente;
@@ -115,7 +115,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public void alterarPerfil(Long clienteId, MultipartFile file) {
-        String url = "http://localhost:8085/v1/cliente/perfil?clienteId="+clienteId;
+        String url = "http://clienteapp.herokuapp.com/cliente/perfil?clienteId="+clienteId;
 
         Imagem imagem = ImagemProcessor.processor(PASTA_CLIENTE_PERFIL+clienteId,"PERFIL",file);
 

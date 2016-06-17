@@ -4,7 +4,6 @@ import com.free.commerce.entity.AutorizacaoLoja;
 import com.free.commerce.entity.Enums.AutorizacaoStatus;
 import com.free.commerce.entity.Loja;
 import org.springframework.data.domain.Pageable;
-import scala.util.parsing.combinator.testing.Str;
 
 import java.util.List;
 

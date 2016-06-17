@@ -50,8 +50,8 @@
                                         </div>
                                         <div class="flexslider post-images">
                                             <ul class="slides">
-                                                <li th:each="imagem : ${produto.imagens}" th:attr="data-thumb='/'+${imagem.path}" >
-                                                    <img alt="" th:src="'/'+${imagem.path}" />
+                                                <li th:each="imagem : ${produto.imagens}" th:attr="data-thumb=${imagem.path}" >
+                                                    <img alt="" th:src="${imagem.path}" />
                                                 </li>
 
                                                 <li th:if="${#lists.isEmpty(produto.imagens)}">
@@ -121,7 +121,7 @@
                                                     <a href="#">Featured Ads</a>
                                                 </div>
                                                 <div class="item-img-grid">
-                                                    <img alt="" th:src="'/'+${outroProduto.imagens != null and outroProduto.imagens.size() != 0 ? outroProduto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
+                                                    <img alt="" th:src="${outroProduto.imagens != null and outroProduto.imagens.size() != 0 ? outroProduto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
                                                          src="/img/products/product-1.jpg" class="img-responsive img-center"/>
                                                 </div>
                                                 <div class="item-title">
@@ -182,7 +182,7 @@
                                 </div>
                                 <div class="widget-body text-center">
                                     <img alt="avatar" src="/img/people/gie.jpg"
-                                         th:src="'/' + ${produto.loja.perfil != null ? produto.loja.perfil.path : 'img/people/user.png'}" class="seller-avatar img-responsive"/>
+                                         th:src="${produto.loja.perfil != null ? produto.loja.perfil.path : 'img/people/user.png'}" class="seller-avatar img-responsive"/>
                                     <h2 class="seller-name" th:inline="text">[[${produto.loja.nome}]]</h2>
                                     <p class="seller-detail">Localização: <strong th:inline="text">[[${produto.loja.endereco.cidade}]]</strong><br/>
                                         Disponível desde: <strong th:inline="text"> [[${#dates.format(produto.registrado, 'dd/MM/yyyy HH:mm')}]]</strong></p>

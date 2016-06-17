@@ -1,1 +1,2 @@
- heroku deploy:war --war .\target\AdminApp-0.0.1-SNAPSHOT.war --app adminap
+echo deploing adminappcommerce
+heroku deploy:war --war .\target\AdminApp-1.0-SNAPSHOT.war --app adminappcommerce

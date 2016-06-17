@@ -3,7 +3,7 @@
 
         <div class="col-md-2">
             <div class="thumbnail">
-                <img class="img-responsive user-photo" th:src="${mensagem.cliente.perfil != null ? '/' + mensagem.cliente.perfil.path : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'}" src=""/>
+                <img class="img-responsive user-photo" th:src="${mensagem.cliente.perfil != null ? mensagem.cliente.perfil.path : 'https://ssl.gstatic.com/accounts/ui/avatar_2x.png'}" src=""/>
             </div><!-- /thumbnail -->
         </div><!-- /col-sm-1 -->
 

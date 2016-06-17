@@ -115,7 +115,7 @@
                                             </div>
                                             <div class="item-img-grid">
                                                 <img alt="" class="thumb-img img-responsive"
-                                                     th:src="'/'+${produtoView.produto.imagens != null and produtoView.produto.imagens.size() != 0 ? produtoView.produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"/>
+                                                     th:src="${produtoView.produto.imagens != null and produtoView.produto.imagens.size() != 0 ? produtoView.produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"/>
 
                                             </div>
                                             <div class="item-title">

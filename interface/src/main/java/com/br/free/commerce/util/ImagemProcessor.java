@@ -1,7 +1,9 @@
 package com.br.free.commerce.util;
 
 import com.br.free.commerce.InterfaceApplication;
+import com.br.free.commerce.services.CloudImage;
 import com.free.commerce.entity.Imagem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,11 +20,15 @@ import java.util.Date;
  */
 public class ImagemProcessor {
 
+
+
+
     public static Imagem processor(String nomePasta, String nomeArquivo, MultipartFile file) {
         String nomeDaPasta = InterfaceApplication.ROOT + "/" + nomePasta + "/";
         FileName fileName = new FileName(file.getOriginalFilename(), '/', '.');
         String pathCompleto = nomeDaPasta + nomeArquivo + "." + fileName.extension();
         Imagem imagem = new Imagem();
+        CloudImage cloudImage = new CloudImage();
 
         if (!file.isEmpty()) {
             try {
@@ -33,6 +39,7 @@ public class ImagemProcessor {
                 }
 
                 File fileRoot = new File(pathCompleto);
+
                 FileOutputStream outputStream = new FileOutputStream(fileRoot);
                 BufferedOutputStream stream = new BufferedOutputStream(outputStream);
 
@@ -40,7 +47,7 @@ public class ImagemProcessor {
                 stream.close();
                 imagem.setRegistrado(new Date());
                 imagem.setNomeDoArquivo(nomeArquivo);
-                imagem.setPath(pathCompleto);
+                imagem.setPath(cloudImage.enviarArquivo(fileRoot));
                 return imagem;
             } catch (Exception e) {
                 e.printStackTrace();

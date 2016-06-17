@@ -63,6 +63,6 @@ public class CustomUserDetails extends User{
                 .ifPresent(c-> pathFotoPerfil = Optional.ofNullable(c.getPerfil())
                         .orElse(perfilDefault).getPath());
 
-        return pathFotoPerfil.startsWith("/") ? pathFotoPerfil : "/" + pathFotoPerfil;
+        return pathFotoPerfil;
     }
 }

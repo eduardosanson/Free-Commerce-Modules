@@ -16,7 +16,7 @@
                         <!--</div>-->
                         <div class="item-img">
                             <img alt="" class="thumb-img img-responsive"
-                                 th:src="'/'+${produto.imagens != null and produto.imagens.size() != 0 ? produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"/>
+                                 th:src="${produto.imagens != null and produto.imagens.size() != 0 ? produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"/>
                         </div>
                     </div>
                     <div class="col-sm-8 col-xs-6">

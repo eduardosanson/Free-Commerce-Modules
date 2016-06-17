@@ -7,11 +7,6 @@ import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.repository.ClienteRepository;
 import com.free.commerce.service.ClienteServiceImpl;
-import com.free.commerce.service.interfaces.ClienteService;
-import com.mangofactory.swagger.configuration.SpringSwaggerConfig;
-import com.mangofactory.swagger.plugin.EnableSwagger;
-import com.mangofactory.swagger.plugin.SwaggerSpringMvcPlugin;
-import com.wordnik.swagger.model.ApiInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +21,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-@EnableSwagger
 @EnableAutoConfiguration
 public class CadastroAppApplication {
 
     private static final Logger log = LoggerFactory.getLogger(CadastroAppApplication.class);
-
-    private SpringSwaggerConfig springSwaggerConfig;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CadastroAppApplication.class, args);

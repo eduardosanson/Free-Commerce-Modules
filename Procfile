@@ -1,1 +1,1 @@
-web: java java -jar interface\target\interface-0.0.1-SNAPSHOT.war
+web: java -jar interface\target\interface-0.0.1-SNAPSHOT.war

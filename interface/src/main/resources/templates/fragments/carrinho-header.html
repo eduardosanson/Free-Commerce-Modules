@@ -7,7 +7,7 @@
                       <span class="item">
                         <span class="item-left">
 
-                            <img th:src="'/'+${produtoMap.key.imagens != null and produtoMap.key.imagens.size() != 0 ? produtoMap.key.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
+                            <img th:src="${produtoMap.key.imagens != null and produtoMap.key.imagens.size() != 0 ? produtoMap.key.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
                                  alt="" class="thumb-img img-responsive"/>
 
                             <span class="item-info">

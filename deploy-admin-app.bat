@@ -1,0 +1,1 @@
+call .\AdminApp\deploy-on-heroku.bat

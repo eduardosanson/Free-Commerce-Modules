@@ -55,7 +55,7 @@
                         <td><input type="checkbox" /></td>
                         <!--<td><img alt="" class="thumb-img img-responsive"-->
                                  <!--src="${produto.fotoPrincipal.path}"-->
-                                 <!--th:src="'/'+${produto.fotoPrincipal.path}"/></td>-->
+                                 <!--th:src="${produto.fotoPrincipal.path}"/></td>-->
                         <td>
                             <div class="item-title"><a th:href="@{/loja/detail/} + ${autorizacao.loja.id}" target="_blank"><strong th:text="${autorizacao.loja.nome}"></strong></a></div>                            <div class="item-meta">
                                 <ul>

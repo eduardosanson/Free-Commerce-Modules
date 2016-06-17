@@ -11,8 +11,8 @@
                         <a href="#">Oferta !</a>
                     </div>
                     <div class="item-img-grid">
-                        <li th:if="${!#lists.isEmpty(produto.imagens)}" th:attr="data-thumb='/'+${produto.imagens.get(0).path}" >
-                            <img alt="" th:src="'/'+${produto.imagens.get(0).path}" class="img-responsive img-center" />
+                        <li th:if="${!#lists.isEmpty(produto.imagens)}" th:attr="data-thumb=${produto.imagens.get(0).path}" >
+                            <img alt="" th:src="${produto.imagens.get(0).path}" class="img-responsive img-center" />
                         </li>
 
                         <li th:if="${#lists.isEmpty(produto.imagens)}">

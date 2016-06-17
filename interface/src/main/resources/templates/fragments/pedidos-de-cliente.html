@@ -21,7 +21,7 @@
                         <tr th:each="itemPedido : ${pedido.itemPedido}">
                             <td class="col-sm-8 col-md-6">
                                 <div class="media">
-                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" th:src="'/'+${itemPedido.produto.imagens != null and itemPedido.produto.imagens.size() != 0 ? itemPedido.produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
+                                    <a class="thumbnail pull-left" href="#"> <img class="media-object" th:src="${itemPedido.produto.imagens != null and itemPedido.produto.imagens.size() != 0 ? itemPedido.produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"
                                                                                                             alt="" style="width: 72px; height: 72px;"/> </a>
                                     <div class="media-body">
                                         <h4 class="media-heading"><a th:href="'/produto/detail/'+ ${itemPedido.produto.id}"><strong th:text="${itemPedido.produto.nome}"></strong></a></h4>

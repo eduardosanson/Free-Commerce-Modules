@@ -4,7 +4,7 @@ logging:
 #Servidores de recurso free-commerce
 
 produto:
-    service: lojacommerce.herokuapp.com
+    service: http://lojacommerce.herokuapp.com
     version:
     context: /produto
     cadastrar: ?lojaId=

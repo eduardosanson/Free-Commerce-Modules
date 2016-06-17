@@ -11,7 +11,6 @@ import com.free.commerce.to.BuscarProdutoTO;
 import com.free.commerce.to.CarrinhoDeComprasTO;
 import com.free.commerce.to.ProdutoPage;
 import com.free.commerce.to.ProdutoTO;
-import com.wordnik.swagger.annotations.ApiOperation;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,8 +21,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import scala.util.parsing.combinator.testing.Str;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,7 +44,6 @@ public class ProdutoController {
     private CategoriaService categoriaService;
 
     @RequestMapping(params = "lojaId", method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(httpMethod = "POST", value = "Say Hello To World using Swagger")
     public @ResponseBody ResponseEntity<Produto> cadastrarProduto(@RequestParam("lojaId") Long lojaId, @RequestBody ProdutoTO produtoTO){
 
         Produto produto = produtoService.CadastrarProduto(produtoTO,lojaId);

@@ -6,8 +6,6 @@ import com.free.commerce.service.AdminServiceImpl;
 import com.free.commerce.service.CategoriaServiceImpl;
 import com.free.commerce.to.AdministradorTO;
 import com.free.commerce.to.CategoriaTO;
-import com.mangofactory.swagger.plugin.EnableSwagger;
-import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -15,11 +13,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import scala.util.parsing.combinator.testing.Str;
-
 
 @SpringBootApplication
-@EnableSwagger
 @EnableAutoConfiguration
 public class AdminApp {
 

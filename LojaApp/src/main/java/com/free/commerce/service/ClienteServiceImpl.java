@@ -28,7 +28,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public Cliente recuperarProID(Long id) {
-        String url = "http://localhost:8085/v1/cliente/"+id;
+        String url = "http://clienteapp.herokuapp.com/cliente/"+id;
         Cliente cliente = null;
 
         try {
