@@ -1,7 +1,6 @@
 package com.br.free.commerce.services;
 
 import com.br.free.commerce.services.Interface.ClienteService;
-import com.br.free.commerce.to.BuscarClienteTO;
 import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
 import com.br.free.commerce.util.ImagemProcessor;
@@ -32,10 +31,9 @@ public class ClienteServiceImpl implements ClienteService {
 
     private static String PASTA_CLIENTE_PERFIL="cliente/perfil/";
 
-    private static String url ="http://";
-    private static String ip ="localhost";
-    private static String port =":8085";
-    private static String service="/v1/cliente";
+    private static String protocol ="http://";
+    private static String domain ="clienteapp.herokuapp.com";
+    private static String service="/cliente";
 
     public ClienteServiceImpl() {
         this.template = new RestTemplate();
@@ -49,8 +47,8 @@ public class ClienteServiceImpl implements ClienteService {
 
         UserLogin user= null;
         try{
-            requestUrl = url+ip+port+service;
-            logger.info("Chamando a url: " + requestUrl);
+            requestUrl = protocol + domain +service;
+            logger.info("Chamando a protocol: " + requestUrl);
             map.put("storeForm",cadastrarClienteTO);
 
             user = template.postForObject(requestUrl,cadastrarClienteTO,UserLogin.class,map);
@@ -72,7 +70,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         Cliente cliente= null;
             requestUrl = "http://clienteapp.herokuapp.com/cliente/concluirCadastro";
-            logger.info("Chamando a url: " + requestUrl);
+            logger.info("Chamando a protocol: " + requestUrl);
 
             cliente = template.postForObject(requestUrl,cadastroTO,Cliente.class);
 

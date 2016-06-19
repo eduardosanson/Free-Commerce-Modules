@@ -5,10 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 import java.io.File;
@@ -26,6 +23,16 @@ public class InterfaceApplication extends WebMvcConfigurerAdapter{
 	CommandLineRunner init() {
 		return (String[] args) -> {
 			new File(ROOT).mkdir();
+		};
+	}
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+//				registry.addMapping("/paymentNotifyController/notify").allowedOrigins("https://sandbox.pagseguro.uol.com.br");
+			}
 		};
 	}
 

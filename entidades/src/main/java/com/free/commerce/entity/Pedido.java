@@ -31,6 +31,16 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private PedidoStatus status;
 
+    private String codigoDeNotificacao;
+
+    public String getCodigoDeNotificacao() {
+        return codigoDeNotificacao;
+    }
+
+    public void setCodigoDeNotificacao(String codigoDeNotificacao) {
+        this.codigoDeNotificacao = codigoDeNotificacao;
+    }
+
     public PedidoStatus getStatus() {
         return status;
     }

@@ -13,7 +13,9 @@ import com.free.commerce.service.interfaces.ProdutoService;
 import com.free.commerce.to.ProdutoPedido;
 import com.free.commerce.to.RegistrarPedidoTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.*;
 
@@ -91,5 +93,43 @@ public class PedidoServiceImpl implements PedidoService {
         itemPedido.setRegistrado(new Date());
 
         return itemPedido;
+    }
+
+    @Override
+    public Pedido buscarPeloId(Long id) {
+        return pedidoRepository.findOne(id);
+    }
+
+    @Override
+    public void aterarStatus(Long id,PedidoStatus status, String notificationCode) {
+        Pedido pedido = pedidoRepository.findOne(id);
+
+        if (pedido==null){
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND);
+        }
+
+        pedido.setStatus(status);
+        pedido.setCodigoDeNotificacao(notificationCode);
+
+        for (ItemPedido itemPedido: pedido.getItemPedido()) {
+            itemPedido.setStatus(ItemPedidoStatus.getItemPedido(status));
+        }
+
+        pedidoRepository.save(pedido);
+    }
+
+    @Override
+    public void confirmarPagamentos(Long id){
+        Pedido pedido = pedidoRepository.findOne(id);
+
+        for (ItemPedido itemPedido:pedido.getItemPedido()) {
+            Produto produto = itemPedido.getProduto();
+            int quantidadeEmEstoque = produto.getQuantidade();
+            int quantidadeComprada = itemPedido.getQuantidade();
+            int quantidadeFinal = quantidadeEmEstoque - quantidadeComprada;
+            quantidadeFinal = quantidadeFinal < 0 ? 0 : quantidadeFinal;
+            produto.setQuantidade(quantidadeFinal);
+            produtoService.salvar(produto);
+        }
     }
 }

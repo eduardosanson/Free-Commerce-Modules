@@ -1,5 +1,5 @@
-
-INSERT INTO freecommerce.categoria (id,descricao,categoria_pai) VALUES 
+﻿
+INSERT INTO categoria (id,descricao,categoria_pai) VALUES 
 
 ('1',	'Calçados, Roupas e Bolsas',NULL),	
 ('2',	'Vestidos',1)                    ,

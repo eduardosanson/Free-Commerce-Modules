@@ -39,4 +39,6 @@ public interface ProdutoService {
     Page<Produto> buscarProdutosPorCidadeECategoria(String cidade, String categoria);
 
     Page<Produto> buscarProdutos(BuscarProdutoTO buscarProdutoTO,Pageable pageable);
+
+    void salvar(Produto produto);
 }

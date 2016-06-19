@@ -25,18 +25,23 @@ public class Interceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         LOGGER.info("add interceptor");
 
-        Carrinho carrinho = (Carrinho) request.getSession().getAttribute("scopedTarget.carrinho");
+        try {
+            Carrinho carrinho = (Carrinho) request.getSession().getAttribute("scopedTarget.carrinho");
 
-        request.getCookies();
+            request.getCookies();
 
 
-        if (carrinho==null){
-            carrinho = new Carrinho();
+            if (carrinho==null){
+                carrinho = new Carrinho();
+            }
+
+            if (modelAndView!=null&&modelAndView.getModel()!=null){
+                modelAndView.getModel().put("carrinho",carrinho);
+            }
+        }catch (Exception e){
+            LOGGER.error(e.getMessage());
         }
 
-        if (modelAndView!=null&&modelAndView.getModel()!=null){
-            modelAndView.getModel().put("carrinho",carrinho);
-        }
 //        modelAndView.addObject("carrinho",carrinho);
         super.postHandle(request, response, handler, modelAndView);
     }

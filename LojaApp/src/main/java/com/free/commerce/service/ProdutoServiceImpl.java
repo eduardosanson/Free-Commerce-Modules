@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by eduardo.sanson on 21/03/2016.
@@ -179,8 +180,19 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Page<Produto> buscarProdutos(BuscarProdutoTO buscarProdutoTO, Pageable pageable){
+        Page<Produto> produtoPage = new BuscarProdutoResolver(buscarProdutoTO,pageable,repository,buscarProdutoTO.getCategorias()).buscarProdutos();
 
-        return new BuscarProdutoResolver(buscarProdutoTO,pageable,repository,buscarProdutoTO.getCategorias()).buscarProdutos();
+        produtoPage
+                .getContent()
+                .stream()
+                .filter(a -> a.getQuantidade()>0);
+
+        return produtoPage;
+    }
+
+    @Override
+    public void salvar(Produto produto) {
+        repository.save(produto);
     }
 
 

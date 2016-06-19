@@ -27,12 +27,13 @@
                                             <p th:inline="text"> R$ [[${#numbers.formatDecimal(produto.preco, 0, 'POINT', 2, 'POINT')}]]</p>
                                         </div>
                                         <div class="post-title">
-                                            <h2><p th:text="${produto.nome}"></p></h2>
-                                            <button
-                                                    th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null)}"
-                                                    th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'" class="pull-right btn btn-custom">
-                                                Adicionar ao carrinho
-                                                <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                            <p><h2 th:inline="text">[[${produto.nome}]]
+                                            <a href="#" th:if="${#authentication.principal == 'anonymousUser' or (#authentication.principal.userlogin.cliente !=null)}"
+                                               th:onclick="'addAoCarrinho(\'' + ${produto.id} + '\',1);'"
+                                               class="myButton pull-right">Eu quero !
+                                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                            </a>
+                                        </h2></p>
                                         </div>
                                         <div class="post-meta">
                                             <ul>
@@ -182,7 +183,7 @@
                                 </div>
                                 <div class="widget-body text-center">
                                     <img alt="avatar" src="/img/people/gie.jpg"
-                                         th:src="${produto.loja.perfil != null ? produto.loja.perfil.path : 'img/people/user.png'}" class="seller-avatar img-responsive"/>
+                                         th:src="${produto.loja.perfil != null ? produto.loja.perfil.path : '/img/people/user.png'}" class="seller-avatar img-responsive"/>
                                     <h2 class="seller-name" th:inline="text">[[${produto.loja.nome}]]</h2>
                                     <p class="seller-detail">Localização: <strong th:inline="text">[[${produto.loja.endereco.cidade}]]</strong><br/>
                                         Disponível desde: <strong th:inline="text"> [[${#dates.format(produto.registrado, 'dd/MM/yyyy HH:mm')}]]</strong></p>
@@ -198,39 +199,39 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="widget">
-                                <div class="widget-header">
-                                    <h3>Browse by Category</h3>
-                                </div>
-                                <div class="widget-body">
-                                    <ul class="trends">
-                                        <li><a href="#">Smartphone &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Watch &amp; Jewelry &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Clothes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Shoes &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Music &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Furniture &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                        <li><a href="#">Photography &nbsp;<span class="item-numbers">(242)</span></a></li>
-                                        <li><a href="#">Web Development &nbsp;<span class="item-numbers">(2,342)</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="widget">
-                                <div class="widget-header">
-                                    <h3>Browse by Brand</h3>
-                                </div>
-                                <div class="widget-body">
-                                    <ul class="brands">
-                                        <li><label><input type="checkbox" /> Apple</label></li>
-                                        <li><label><input type="checkbox" /> Asus</label></li>
-                                        <li><label><input type="checkbox" /> Acer</label></li>
-                                        <li><label><input type="checkbox" /> Nexus</label></li>
-                                        <li><label><input type="checkbox" /> Nokia</label></li>
-                                        <li><label><input type="checkbox" /> Lenovo</label></li>
-                                        <li><label><input type="checkbox" /> Samsung</label></li>
-                                    </ul>
-                                </div>  
-                            </div>
+                            <!--<div class="widget">-->
+                                <!--<div class="widget-header">-->
+                                    <!--<h3>Browse by Category</h3>-->
+                                <!--</div>-->
+                                <!--<div class="widget-body">-->
+                                    <!--<ul class="trends">-->
+                                        <!--<li><a href="#">Smartphone &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
+                                        <!--<li><a href="#">Watch &amp; Jewelry &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
+                                        <!--<li><a href="#">Clothes &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
+                                        <!--<li><a href="#">Shoes &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
+                                        <!--<li><a href="#">Music &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
+                                        <!--<li><a href="#">Furniture &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
+                                        <!--<li><a href="#">Photography &nbsp;<span class="item-numbers">(242)</span></a></li>-->
+                                        <!--<li><a href="#">Web Development &nbsp;<span class="item-numbers">(2,342)</span></a></li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="widget">-->
+                                <!--<div class="widget-header">-->
+                                    <!--<h3>Browse by Brand</h3>-->
+                                <!--</div>-->
+                                <!--<div class="widget-body">-->
+                                    <!--<ul class="brands">-->
+                                        <!--<li><label><input type="checkbox" /> Apple</label></li>-->
+                                        <!--<li><label><input type="checkbox" /> Asus</label></li>-->
+                                        <!--<li><label><input type="checkbox" /> Acer</label></li>-->
+                                        <!--<li><label><input type="checkbox" /> Nexus</label></li>-->
+                                        <!--<li><label><input type="checkbox" /> Nokia</label></li>-->
+                                        <!--<li><label><input type="checkbox" /> Lenovo</label></li>-->
+                                        <!--<li><label><input type="checkbox" /> Samsung</label></li>-->
+                                    <!--</ul>-->
+                                <!--</div>  -->
+                            <!--</div>-->
                         </div>
                     </div>
                 </div>
@@ -385,7 +386,8 @@
 
                                                     <label class="string optional" for="terms">
                                                         <input type="checkbox" id="terms" style=""/>
-                                                        <a href="#">aceito os termos e condições</a>
+                                                        <a href="http://res.cloudinary.com/dhydvxirz/raw/upload/v1466360103/Termos_e_Condi%C3%A7%C3%B5es_do_FreeCommerce.docx">
+                                                            aceito os termos e condições</a>
                                                     </label>
 
                                             </div>

@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
         http
                 .exceptionHandling().authenticationEntryPoint(http403ForbiddenEntryPoint).accessDeniedHandler(accessDeniedHandler)
          .and().authorizeRequests().
-                antMatchers("/","/public/**","/login").
+                antMatchers("/","/public/**","/login","/paymentNotifyController/**").
                 permitAll()
         .and().
                 authorizeRequests().
@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
                 formLogin().
                 loginPage("/public/login").successHandler(authenticationSuccessHandler)
         .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/public/login/logout")).logoutSuccessUrl("/").
-        and().csrf().ignoringAntMatchers("/produto/menu/upload","/store/menu/imagem/**");
+        and().csrf().ignoringAntMatchers("/produto/menu/upload","/store/menu/imagem/**","/paymentNotifyController/**");
 
     }
 

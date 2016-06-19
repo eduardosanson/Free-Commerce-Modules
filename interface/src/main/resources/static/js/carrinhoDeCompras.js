@@ -3,10 +3,23 @@ var url = "/produto/addAoCarrrinho?produtoId="+produtoId + "&quantidade="+quanti
 
     loadCarrinhoHeader(url);
 
+    return;
+
 }
+
+function carrinhoHeaderPopulate(){
+    var url = "/produto/carrinhoHeaderPopulate";
+    $("#carrinho").load(url);
+}
+
 
 function loadCarrinhoHeader(url){
     $("#carrinho").load(url);
+//    $("#carrinho").load(url, {limit: 25},
+//                       function (responseText, textStatus, req) {
+//                           if (textStatus == "error") {
+//                             return "oh noes!!!!";
+//                           });
 }
 
 function CarrinhoMenos(produtoId){
@@ -23,8 +36,7 @@ function CarrinhoMenos(produtoId){
 
     }else{
         loadCarrinhoHeader(reduzir);
-        subtrairValorTotalPorProduto(produtoId)
-        subtrairValorTotal(produtoId);
+        acertarCarrinho(produtoId);
     }
 
 }
@@ -77,9 +89,9 @@ function subtrairValorTotal(produtoId){
     elementId = "valorProduto"+produtoId
 
     value = document.getElementById(elementId).innerHTML
-    valorProduto = parseFloat(value.split(" ")[1])
+    valorProduto = peneiraDeLetras(value);
     value = document.getElementById("valorTotal").innerHTML
-    valorTotal = parseFloat(value.split(" ")[1]);
+    valorTotal = peneiraDeLetras(value);;
     document.getElementById("valorTotal").innerHTML = converterParaReal(valorTotal - valorProduto);
 }
 
@@ -89,32 +101,31 @@ function subtrairValorTotalPorProduto(produtoId){
     valorTotalPorProduto = "valorTotalPorProduto" +produtoId;
 
     value = document.getElementById(elementId).innerHTML
-    valorUnitario = parseFloat(value.split(" ")[1])
+    valorUnitario = peneiraDeLetras(value);
     value = document.getElementById(valorTotalPorProduto).innerHTML
-    valorTotal = parseFloat(value.split(" ")[1]);
+    valorTotal = peneiraDeLetras(value);;
     document.getElementById(valorTotalPorProduto).innerHTML = converterParaReal(valorTotal - valorUnitario);
 }
 
-function somarValorTotalPorProduto(produtoId){
+function somarValorTotalPorProduto(produtoId,value){
 
     elementId = "valorProduto"+produtoId;
     valorTotalPorProduto = "valorTotalPorProduto" +produtoId;
 
-    value = document.getElementById(elementId).innerHTML
-    valorUnitario = parseFloat(value.split(" ")[1])
-    value = document.getElementById(valorTotalPorProduto).innerHTML
-    valorTotal = parseFloat(value.split(" ")[1]);
-    document.getElementById(valorTotalPorProduto).innerHTML = converterParaReal(valorTotal + valorUnitario);
+
+    document.getElementById(valorTotalPorProduto).innerHTML = converterParaReal(value);
 }
 
-function somarValorTotal(produtoId){
+function peneiraDeLetras(value){
+    v = value.replace("R$","");
+    return parseFloat(v);
 
-    elementId = "valorProduto"+produtoId
-    value = document.getElementById(elementId).innerHTML
-    valorProduto = parseFloat(value.split(" ")[1])
-    value = document.getElementById("valorTotal").innerHTML
-    valorTotal = parseFloat(value.split(" ")[1]);
-    document.getElementById("valorTotal").innerHTML = converterParaReal(valorTotal + valorProduto);
+}
+
+function somarValorTotal(produtoId,value){
+
+
+    document.getElementById("valorTotal").innerHTML = converterParaReal(value);
 }
 
 function CarrinhoMais(produtoId){
@@ -123,13 +134,41 @@ function CarrinhoMais(produtoId){
     somar = "/carrinho/somar/"+produtoId;
 
     loadCarrinhoHeader(somar);
-    document.getElementById(elementId).value++
 
-    somarValorTotal(produtoId);
 
-    somarValorTotalPorProduto(produtoId);
+
+    acertarCarrinho(produtoId)
+
+
 }
 
 function converterParaReal(value){
-    return "R$ " + value.toFixed(2);
+    return "R$ " + parseFloat(value).toFixed(2);
 }
+
+function acertarCarrinho(produtoId){
+
+    var xmlhttp = new XMLHttpRequest();
+    var url = "/carrinho/produto/"+produtoId+".json";
+
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var myArr = JSON.parse(xmlhttp.responseText);
+            my(myArr);
+        }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+
+    function my(arr) {
+
+            document.getElementById("value"+produtoId).value=arr.quantideDoProduto
+
+            somarValorTotalPorProduto(produtoId,arr.valorPorProduto)
+
+            somarValorTotal(produtoId,arr.valorCarrinho);
+
+}
+
+}
+

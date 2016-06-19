@@ -45,7 +45,7 @@
                                                                          th:onclick="'adicionarFrete('+ ${produtoMap.key.id} + ');'">
                                 </button></td>
 
-                                <td class="col-md-3 text-center"><strong th:id="'valorProduto'+${produtoMap.key.id}" th:text=" 'R$ ' + ${#numbers.formatDecimal(produtoMap.key.preco, 0, 'POINT', 2, 'POINT')}"></strong></td>
+                                <td class="col-md-3 text-center"><strong th:id="'valorProduto'+${produtoMap.key.id}" th:text="'R$ ' + ${#numbers.formatDecimal(produtoMap.key.preco, 0, 'POINT', 2, 'POINT')}"></strong></td>
 
                                 <td class="col-md-4">
                                     <strong th:id="'valorTotalPorProduto'+${produtoMap.key.id}" th:inline="text">
@@ -102,14 +102,14 @@
                            </div>
                            <div class="col-md-2 pull-left">
                                 <input id="real" size="2" maxlength="3" min="0" class="form-control input-sm"
-                                       type="number" th:field="*{real}" value="00" required="required"/>
+                                       type="text" th:field="*{real}" value="00" required="required" onkeypress="return isNumber(event)"/>
                            </div>
                            <div class="col-md-1">
                                <label>,</label>
                            </div>
                            <div class="col-md-2">
                                <input id="moeda" maxlength="2" min="0" class="form-control input-sm pull-left"
-                                      type="number" th:field="*{moeda}" required="required" value="00"/>
+                                      type="text" th:field="*{moeda}" required="required" value="00" onkeypress="return isNumber(event)"/>
                            </div>
                        </div>
                         <input type="hidden" th:field="*{produtoId}" id="produtoFrete" required="required"/>
@@ -126,11 +126,24 @@
     </div>
 
 
-
     <script type="text/javascript">
+    /*<![CDATA[*/
         function adicionarFrete(i){
             document.getElementById('produtoFrete').value=i;
         }
+
+        $('.moeda').mask('99',{'translation': {0: {pattern: /[0-9*]/}}});
+        $('.real').mask('9999',{'translation': {0: {pattern: /[0-9*]/}}});
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+    /*]]>*/
     </script>
 </div>
 

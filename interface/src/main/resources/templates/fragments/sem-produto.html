@@ -1,0 +1,62 @@
+<div th:fragment="sem-produto">
+        <div aria-labelledby="sendMessageModalLabel" role="dialog" tabindex="-1" id="semEstoque" class="modal fade in" style="display:block;">
+            <div role="document" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-label="Close" data-dismiss="modal" class="close" type="button" onclick="carrinhoHeaderPopulate()"><span aria-hidden="true">×</span></button>
+                        <h4 id="sendMessageModalLabel" class="modal-title">Ops esse produto se esgotou!</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Entre em contato com o vendedor no nosso quadro de mensagens <a th:href="${detail}">aqui</a> para maiores informações</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button" onclick="carrinhoHeaderPopulate()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <!--<style>-->
+            <!--&lt;!&ndash;.modal{&ndash;&gt;-->
+                <!--&lt;!&ndash;display: block; /* Hidden by default */&ndash;&gt;-->
+            <!--&lt;!&ndash;}&ndash;&gt;-->
+        <!--</style>-->
+        <!--<div class="modal-dialog" onload="showmodal()">-->
+
+            <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+            <!--<div class="modal-content" style="color:blue;" style="display:block;">-->
+                <!--<div class="modal-header">-->
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--<h4 class="modal-title">Ops esse produto se esgotou!</h4>-->
+                <!--</div>-->
+                <!--<div class="modal-body">-->
+                    <!--<p>Entre em contato com o vendedor no nosso quadro de mensagens <a th:href="${detail}">aqui</a> para maiores informações</p>-->
+                <!--</div>-->
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                <!--</div>-->
+            <!--</div>-->
+
+        <!--</div>-->
+        <!--<script type="script">-->
+
+            <!--function showmodal(){-->
+            <!--document.getElementById("semEstoque").showModal();-->
+            <!--}-->
+
+            <!--$('#semEstoque').modal({-->
+            <!--show: 'true'-->
+        <!--});-->
+
+        <!--$("#semEstoque").modal()-->
+
+        <!--</script>-->
+</div>

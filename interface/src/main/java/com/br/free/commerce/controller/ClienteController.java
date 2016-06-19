@@ -1,7 +1,6 @@
 package com.br.free.commerce.controller;
 
 import br.com.uol.pagseguro.exception.PagSeguroServiceException;
-import com.br.free.commerce.PagamentoServiceImpl;
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
 import com.br.free.commerce.exception.RegraDeNegocioException;
@@ -9,6 +8,7 @@ import com.br.free.commerce.exception.enuns.RegraDeNegocioEnum;
 import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.LoginService;
 import com.br.free.commerce.services.Interface.PedidoService;
+import com.br.free.commerce.services.PagamentoServiceImpl;
 import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.*;
 import com.free.commerce.entity.*;
@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;

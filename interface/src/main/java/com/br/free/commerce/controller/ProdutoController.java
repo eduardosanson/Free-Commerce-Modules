@@ -22,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
@@ -54,6 +55,8 @@ public class ProdutoController {
     private static final String PAGINA_CADASTRAR_IMAGEM_PRODUTO ="cadastrar-imagem-produto";
     private static final String MENU_NAME="MENU_NAME";
     private static final String MENU_FRAGMENT="MENU_FRAGMENT";
+    private static final String SEM_PRODUTO_NO_ESTOQUE_PAGE = "sem-produto";
+    private static final String SEM_PRODUTO_NO_ESTOQUE_FRAGMENT = "sem-produto";
 
     @Autowired
     private ProdutoService produtoService;
@@ -340,6 +343,13 @@ public class ProdutoController {
         model.addAttribute("categoriaProcurada",categoriaProcurada);
     }
 
+    @RequestMapping("/carrinhoHeaderPopulate")
+    public String carrinhoHeaderPopulate(){
+
+        return "fragments/"+ CARRINHO_HEADER_PAGE + " :: " + CARRINHO_HEADER_PFRAGMENT;
+
+    }
+
 
     @RequestMapping(value = "/addAoCarrrinho",params = {"produtoId","quantidade"})
     public String addProduto(@RequestParam("produtoId") String produtoId,
@@ -347,6 +357,15 @@ public class ProdutoController {
                              Model model, HttpServletRequest request){
         Produto produto = produtoService.buscarProdutoPorId(produtoId);
         String cookieId="";
+        int quantidadeDisponivel = produto.getQuantidade();
+        int quantidadeNoCarrinho = carrinho.getConteudo().get(produto) != null ? carrinho.getConteudo().get(produto) : 0;
+        quantidadeDisponivel = quantidadeDisponivel - quantidadeNoCarrinho;
+
+        if (quantidadeDisponivel<=0){
+            model.addAttribute("detail","/produto/detail/"+produtoId);
+            return "fragments/"+ SEM_PRODUTO_NO_ESTOQUE_PAGE + " :: " + SEM_PRODUTO_NO_ESTOQUE_FRAGMENT;
+
+        }
 
         carrinho.addProduto(produto,Integer.parseInt(quantidade));
 
@@ -361,7 +380,7 @@ public class ProdutoController {
 
         }
 
-        carrinhoService.SalvarCarrinhoDeComprasDosProdutos(cookieId,produto.getId(),Integer.parseInt(quantidade));
+//        carrinhoService.SalvarCarrinhoDeComprasDosProdutos(cookieId,produto.getId(),Integer.parseInt(quantidade));
 
         return "fragments/"+ CARRINHO_HEADER_PAGE + " :: " + CARRINHO_HEADER_PFRAGMENT;
     }
