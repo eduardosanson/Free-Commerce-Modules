@@ -1,6 +1,7 @@
 package com.br.free.commerce.interceptor;
 
 import com.br.free.commerce.bean.Carrinho;
+import com.br.free.commerce.bean.Count;
 import com.br.free.commerce.services.Interface.ProdutoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,8 @@ public class Interceptor extends HandlerInterceptorAdapter {
             if (modelAndView!=null&&modelAndView.getModel()!=null){
                 modelAndView.getModel().put("carrinho",carrinho);
             }
+
+            modelAndView.getModel().put("count",new Count());
         }catch (Exception e){
             LOGGER.error(e.getMessage());
         }
@@ -48,6 +51,7 @@ public class Interceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
         return super.preHandle(request, response, handler);
     }
 }

@@ -11,12 +11,16 @@ import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Cliente;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -82,6 +86,33 @@ public class HomeController {
 
         return INDEX;
 
+    }
+
+    @RequestMapping("/total/Users")
+    @ResponseBody
+    public Long totalDeUsuarios(){
+        RestTemplate template = new RestTemplate();
+        return template.getForObject("http://adminappcommerce.herokuapp.com/staticController/total/Users",Long.class);
+    }
+
+    @RequestMapping("/total/sellers")
+    public Long totalDeVendedores(){
+        RestTemplate template = new RestTemplate();
+        return template.getForObject("http://adminappcommerce.herokuapp.com/staticController/total/sellers",Long.class);
+    }
+
+
+    @RequestMapping("/total/items")
+    public Long totaoDeProdutos(){
+        RestTemplate template = new RestTemplate();
+        return template.getForObject("http://adminappcommerce.herokuapp.com/staticController/total/items",Long.class);
+    }
+
+
+    @RequestMapping("/total/location")
+    public Long totaoDeLugares(){
+        RestTemplate template = new RestTemplate();
+        return template.getForObject("http://adminappcommerce.herokuapp.com/staticController/total/location",Long.class);
     }
 
 
