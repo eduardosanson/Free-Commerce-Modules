@@ -117,6 +117,11 @@ public class ClienteServiceImpl implements ClienteService{
         return repository.save(cliente);
     }
 
+    @Override
+    public Cliente encontrarPeloCpf(String cpf){
+        return repository.findByCpf(cpf);
+    }
+
     private Cliente criarCliente(CadastrarClienteTO cadastrarClienteTO) {
         Cliente cliente = new Cliente();
         cliente.setNome(cadastrarClienteTO.getNome());

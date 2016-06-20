@@ -24,4 +24,5 @@ public interface ClienteService {
     Cliente atualizar(Cliente cliente);
 
 
+    Cliente encontrarPeloCpf(String cpf);
 }

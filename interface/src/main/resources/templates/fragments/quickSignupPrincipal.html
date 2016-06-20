@@ -8,7 +8,7 @@
                             <h1 class="logo"><i class="fa fa-recycle"></i> Free-commerce</h1>
                         </div>
                         <div class="panel-body">
-                            <form role="form" action="#" th:action="@{/cliente/form}" th:object="${cadastrarClienteTO}" method="post">
+                            <form role="form" action="#" th:action="@{/cliente/cadastro/completo}" th:object="${cadastrarClienteTO}" method="post">
                                 <h5>Login e senha:</h5>
                                 <hr size="3" color="#E6E9ED"/>
 
@@ -31,6 +31,9 @@
                                             <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                                    placeholder="Confirme o E-mail" class="form-control input-md"
                                                    name="confirmEmail" size="50"/>
+
+                                            <div th:if="${loginNoEqual!=null}" class="alert alert-danger form-control input-md"
+                                                 th:text="${loginNoEqual}" role="alert"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -53,6 +56,9 @@
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
                                             <input type="password" placeholder="Confirme o password" size="50"
                                                    class="form-control input-md" />
+
+                                            <div th:if="${senhaNoEqual!=null}" class="alert alert-danger form-control input-md"
+                                                 th:text="${senhaNoEqual}" role="alert"></div>
                                         </div>
                                     </div>
 
@@ -75,20 +81,25 @@
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                            <input th:field="*{sobreNome}" type="text" class="form-control input-md" placeholder="Nome" />
+                                            <input th:field="*{sobreNome}" type="text" class="form-control input-md" placeholder="Sobre nome" />
                                         </div>
                                         <div th:if="${#fields.hasErrors('sobreNome')}" class="alert alert-danger form-control input-md"
                                              th:errors="*{sobreNome}" role="alert">
                                         </div>
+                                        <div th:if="${sobreNomeErr!=null}" class="alert alert-danger form-control input-md"
+                                             th:text="${sobreNomeErr}" role="alert"></div>
                                     </div>
                                     <div class="col-md-4 form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                                            <input th:field="*{cpf}" type="text" placeholder="Cpf" class="form-control input-md"/>
+                                            <input id="cpf" th:field="*{cpf}" type="text" placeholder="Cpf" class="form-control input-md"/>
                                         </div>
                                         <div th:if="${#fields.hasErrors('cpf')}" class="alert alert-danger form-control input-md"
                                              th:errors="*{cpf}" role="alert">
                                         </div>
+
+                                        <div th:if="${cpf!=null}" class="alert alert-danger form-control input-md"
+                                             th:text="${cpf}" role="alert"></div>
                                     </div>
 
 
@@ -211,4 +222,11 @@
         </div>
 
     </section>
+    <script type="script">
+        $("#cpf").mask("999.999.999-99");
+
+        $("#cep").mask("99999-999");
+
+        $("#telefone").mask("(99) 9999?9-9999");
+    </script>
 </div>

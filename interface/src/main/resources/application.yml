@@ -19,6 +19,7 @@ produto:
     novo: novo=
     cidade: cidade=
     lojaId: lojaId=
+    qtdMaior: qtdMaior=
 
 
 carrinho:

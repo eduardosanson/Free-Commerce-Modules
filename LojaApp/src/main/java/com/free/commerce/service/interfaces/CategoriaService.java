@@ -20,7 +20,7 @@ public interface CategoriaService {
 
     Categoria buscarPorNome(String nome);
 
-    Categoria buscarCategoriaPelaDescricao(String descricao);
+    List<Categoria> buscarCategoriaPelaDescricao(String descricao);
 
-    List<String> categoriasAssociadas(Categoria categoria);
+    List<String> categoriasAssociadas(List<Categoria> categorias);
 }

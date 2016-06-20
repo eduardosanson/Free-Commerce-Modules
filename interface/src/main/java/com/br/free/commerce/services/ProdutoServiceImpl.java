@@ -53,7 +53,8 @@ public class ProdutoServiceImpl implements ProdutoService {
                 .buildURL()
                 .paramSize(pageSize.toString())
                 .paramPage(pageIdice.toString())
-                .paramLojaId(loja.getId().toString());
+                .paramLojaId(loja.getId().toString())
+                .paramQtdMaior("-1");
 
 
         logger.info( produtoControlerApiConfig.callBuildURL());

@@ -25,4 +25,6 @@ public interface ClienteService {
     List<Pedido> meusPedidos(Long clienteId);
 
     void alterarPerfil(Long clienteId, MultipartFile file);
+
+    Cliente buscarLojaPorCpfOuCnpj(String cpf);
 }

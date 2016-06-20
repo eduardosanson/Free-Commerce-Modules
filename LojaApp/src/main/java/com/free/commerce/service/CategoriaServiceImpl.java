@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by pc on 12/04/2016.
@@ -117,12 +116,23 @@ public class CategoriaServiceImpl implements CategoriaService {
     }
 
     @Override
-    public Categoria buscarCategoriaPelaDescricao(String descricao){
-        return repository.findByDescricaoLike("%"+descricao+"%");
+    public List<Categoria> buscarCategoriaPelaDescricao(String descricao){
+        return repository.findByDescricaoLikeIgnoreCase("%"+descricao+"%");
     }
 
     @Override
-    public List<String> categoriasAssociadas(Categoria categoria){
+    public List<String> categoriasAssociadas(List<Categoria> categorias){
+        List<String> categoriasString = new ArrayList<>();
+
+        for (Categoria c:categorias) {
+
+            categoriasString.addAll(minerarCategorias(c));
+        }
+
+        return categoriasString;
+    }
+
+    private List<String> minerarCategorias(Categoria categoria) {
         List<String> categorias = new ArrayList<>();
 
         if (categoria!=null){

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping("/")
+@SessionAttributes(
+        { "cadastrarClienteTO" })
 public class HomeController {
 
     private static final String PAGE_NAME="home";
@@ -34,11 +37,6 @@ public class HomeController {
 
     private static final String HOME_URL="/";
     private static final String INDEX="index";
-    private static final String PAGINA_PROFILE="profileForm";
-    private static final String FRAGMENTO_PROFILE="profileForm";
-    private static final String PROFILE_LOJA_URL="/store/menu/prfileFoto";
-    private static final String PROFILE_CLIENTE_URL="/cliente/menu/prfileFoto";
-    private static final String PROFILE_ADMIN_URL="/admin/menu/prfileFoto";
 
     @Autowired
     private ClienteService clienteService;

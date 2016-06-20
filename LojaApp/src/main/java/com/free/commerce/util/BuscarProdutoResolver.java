@@ -42,7 +42,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getCidade())
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && isPrecoDesc()) {
-            return repository.findByNomeLikeOrderByPrecoDesc(buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(), pageable);
         }
         return isOrderByPrecoAsc();
     }
@@ -57,7 +57,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getCidade())
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && isPrecoAsc()) {
-            return repository.findByNomeLikeOrderByPrecoAsc(buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(), pageable);
         }
         return isOrderByRegistradoDesc();
     }
@@ -72,7 +72,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getCidade())
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && isRegistradoDesc()) {
-            return repository.findByNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(), pageable);
         }
         return isByNovo();
     }
@@ -87,7 +87,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getCidade())
                 && hasNovo()
                 && hasOrderBy()) {
-            return repository.findByNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(), pageable);
         }
         return isByNovoOrderByPrecoDesc();
     }
@@ -102,7 +102,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getCidade())
                 && hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByNovoAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.isNovo(), buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNovoAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.isNovo(), buscarProdutoTO.getNome(), pageable);
         }
         return isByNovoOrderByPrecoAsc();
     }
@@ -112,7 +112,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getCidade())
                 && hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByNovoAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.isNovo(), buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNovoAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.isNovo(), buscarProdutoTO.getNome(), pageable);
         }
         return isByNovoRegistradoDesc();
     }
@@ -122,7 +122,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getCidade())
                 && hasNovo()
                 && isRegistradoDesc()) {
-            return repository.findByNovoAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.isNovo(), buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNovoAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.isNovo(), buscarProdutoTO.getNome(), pageable);
         }
         return isByCidadeRegistradoDesc();
     }
@@ -132,7 +132,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && isRegistradoDesc()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc(buscarProdutoTO.getNome(), buscarProdutoTO.getCidade(), pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(), buscarProdutoTO.getCidade(), pageable);
         }
         return isByCidade();
     }
@@ -147,7 +147,7 @@ public class BuscarProdutoResolver {
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && !hasOrderBy()) {
-            return repository.findByLojaEnderecoCidadeAndNomeLike(buscarProdutoTO.getCidade(), buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNomeLike(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getCidade(), buscarProdutoTO.getNome(), pageable);
         }
         return isByCategoria();
     }
@@ -161,7 +161,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && "".equalsIgnoreCase(buscarProdutoTO.getNovo())
                 && !hasOrderBy()) {
-            return repository.findByCategoriaDescricaoInAndNomeLike(categorias, buscarProdutoTO.getNome(), pageable);
+            return repository.findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLike(buscarProdutoTO.getQuantidade(),categorias, buscarProdutoTO.getNome(), pageable);
         }
         return isByCategoriaAndCidade();
     }
@@ -176,7 +176,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && !hasOrderBy()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadePrecoDesc();
     }
@@ -187,7 +187,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
         }
         return isByCidadePrecoAsc();
     }
@@ -197,7 +197,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
         }
         return isByNovoAndCidadePrecoDesc();
     }
@@ -207,7 +207,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.isNovo(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
         }
         return isByNovoAndCidadePrecoAsc();
     }
@@ -218,7 +218,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.isNovo(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
         }
         return isByNovoAndCidadeRegistradoDesc();
     }
@@ -229,7 +229,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isRegistradoDesc()) {
-            return repository.findByNovoAndLojaEnderecoCidadeAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.isNovo(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndNovoAndLojaEnderecoCidadeAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getCidade(),buscarProdutoTO.getNome(),pageable);
         }
         return isByNovoAndCategoriaPrecoDesc();
     }
@@ -240,7 +240,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoDesc(categorias,buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),categorias,buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
         }
         return isByCategoriaPrecoDesc();
     }
@@ -251,7 +251,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && !hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByCategoriaDescricaoInAndNomeLikeOrderByPrecoDesc(categorias,buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),categorias,buscarProdutoTO.getNome(),pageable);
         }
         return isByCategoriaPrecoAsc();
     }
@@ -262,7 +262,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && !hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByCategoriaDescricaoInAndNomeLikeOrderByPrecoAsc(categorias,buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),categorias,buscarProdutoTO.getNome(),pageable);
         }
         return isByCategoriaAndNovoPrecoAsc();
     }
@@ -273,7 +273,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoAsc(categorias,buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),categorias,buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
         }
         return isByCidadeAndNovoPrecoDesc();
     }
@@ -284,7 +284,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getCidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getCidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
         }
         return isByCidadeAndNovoPrecoAsc();
     }
@@ -295,7 +295,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getCidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getCidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
 
         }
         return isByCidadeAndNovoRegistradoDesc();
@@ -307,7 +307,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isRegistradoDesc()) {
-            return repository.findByLojaEnderecoCidadeAndNovoAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getCidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNovoAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getCidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
         }
         return isByCidadeAndCategoriaPrecoDesc();
     }
@@ -318,7 +318,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && isPrecoDesc()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoDesc(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadeAndCategoriaPrecoAsc();
     }
@@ -329,7 +329,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && !hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoAsc(buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadeAndCategoriaRegistradoDesc();
     }
@@ -341,7 +341,7 @@ public class BuscarProdutoResolver {
                 && !hasNovo()
                 && isRegistradoDesc()) {
             return repository
-                    .findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByRegistradoDesc(buscarProdutoTO.getNome(),
+                    .findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),
                             buscarProdutoTO.getCidade(),categorias,pageable);
         }
         return isByCidadeAndCategoriaAndNovoPrecoDesc();
@@ -354,7 +354,7 @@ public class BuscarProdutoResolver {
                 && hasNovo()
                 && isPrecoDesc()) {
             return repository
-                    .findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoDesc(buscarProdutoTO.getNome(),
+                    .findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoDesc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),
                             buscarProdutoTO.getCidade(),categorias,buscarProdutoTO.isNovo(),pageable);
         }
         return isByCidadeAndCategoriaAndNovoPrecoAsc();
@@ -365,7 +365,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isPrecoAsc()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoAsc(buscarProdutoTO.getNome(),
+            return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoAsc(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),
                     buscarProdutoTO.getCidade(),categorias,buscarProdutoTO.isNovo(),pageable);
         }
         return isByCategoriaRegistradoDesc();
@@ -376,7 +376,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && isRegistradoDesc()) {
-            return repository.findByCategoriaDescricaoInAndNomeLikeOrderByRegistradoDesc(categorias,buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLikeOrderByRegistradoDesc(buscarProdutoTO.getQuantidade(),categorias,buscarProdutoTO.getNome(),pageable);
         }
         return ByNovo();
     }
@@ -386,7 +386,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && hasNovo()
                 && hasOrderBy()) {
-            return repository.findByNovoAndNomeLike(buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndNovoAndNomeLike(buscarProdutoTO.getQuantidade(),buscarProdutoTO.isNovo(),buscarProdutoTO.getNome(),pageable);
         }
         return ByNome();
     }
@@ -396,7 +396,7 @@ public class BuscarProdutoResolver {
                 && !hasCidade()
                 && !hasNovo()
                 && !hasOrderBy()) {
-            return repository.findByNomeLike(buscarProdutoTO.getNome(),pageable);
+            return repository.findByQuantidadeGreaterThanAndNomeLike(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),pageable);
         }
         return ByCidadeAndCategoriaAndNovo();
     }
@@ -406,7 +406,7 @@ public class BuscarProdutoResolver {
                 && hasCidade()
                 && hasNovo()
                 && !hasOrderBy()) {
-            return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovo(buscarProdutoTO.getNome(),
+            return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovo(buscarProdutoTO.getQuantidade(),buscarProdutoTO.getNome(),
                     buscarProdutoTO.getCidade(),categorias,buscarProdutoTO.isNovo(),pageable);
         }
         return null;

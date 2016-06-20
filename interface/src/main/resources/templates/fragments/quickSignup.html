@@ -7,27 +7,36 @@
         <p th:if="${clienteCadastrologinErro !=null}" th:text="${clienteCadastrologinErro}"></p>
         <form th:action="@{/cliente/form}" th:object="${cadastrarClienteTO}" method="post">
             <div class="form-group">
-                <input th:field="*{nome}" type="text" class="form-control input-lg" placeholder="Name"/>
+                <input th:field="*{nome}" type="text" class="form-control input-lg" placeholder="Name" required="required"/>
+                <div th:if="${nomeError!=null}" class="alert alert-danger form-control input-md"
+                     th:text="${nomeError}" role="alert"></div>
+
                 <div th:if="${#fields.hasErrors('nome')}" class="alert alert-danger form-control input-md"
                      th:errors="*{nome}" role="alert"></div>
             </div>
             <div class="form-group">
-                <input th:field="*{login}" type="text" class="form-control input-lg" placeholder="Email"/>
+                <input th:field="*{login}" type="text" class="form-control input-lg" placeholder="Email" required="required"/>
                 <div th:if="${#fields.hasErrors('login')}" class="alert alert-danger form-control input-md"
                      th:errors="*{login}" role="alert"></div>
+
+                <div th:if="${loginError!=null}" class="alert alert-danger form-control input-md"
+                     th:text="${loginError}" role="alert"></div>
             </div>
             <div class="form-group">
-                <input th:field="*{senha}" type="password" class="form-control input-lg" placeholder="Password"/>
+                <input th:field="*{senha}" type="password" class="form-control input-lg" placeholder="Password" required="required"/>
                 <div th:if="${#fields.hasErrors('senha')}" class="alert alert-danger form-control input-md"
                      th:errors="*{senha}" role="alert"></div>
+
+                <div th:if="${senhaError!=null}" class="alert alert-danger form-control input-md"
+                     th:text="${senhaError}" role="alert"></div>
             </div>
             <div class="form-group">
-                <div class="checkbox">
+
                     <label class="string optional" for="terms">
-                        <input type="checkbox" id="terms" style=""/>
+                        <input type="checkbox" id="terms" style="" required="required"/>
                         <a href="http://res.cloudinary.com/dhydvxirz/raw/upload/v1466360103/Termos_e_Condi%C3%A7%C3%B5es_do_FreeCommerce.docx">aceito os termos e condições</a>
                     </label>
-                </div>
+
             </div>
             <div class="form-group">
                 <button class="btn btn-block btn-custom">Cadastrar</button>

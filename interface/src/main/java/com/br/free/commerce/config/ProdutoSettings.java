@@ -49,6 +49,8 @@ public class ProdutoSettings {
 
     private String lojaId;
 
+    private String qtdMaior;
+
 
     @Override
     public String toString() {
@@ -287,6 +289,13 @@ public class ProdutoSettings {
         whichParam(lojaId,this.lojaId);
         return this;
     }
+
+    public ProdutoSettings paramQtdMaior(String qtd){
+        whichParam(qtd,this.qtdMaior);
+        return this;
+    }
+
+
 
     public String callBuildURL(){
         if (urlFinal==null){

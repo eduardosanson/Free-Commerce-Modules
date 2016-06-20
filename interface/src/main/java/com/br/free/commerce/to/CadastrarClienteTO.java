@@ -11,14 +11,20 @@ import javax.validation.constraints.NotNull;
 public class CadastrarClienteTO {
 
     @Email
+    @NotBlank
     private String login;
+
+    private String confirmarEmail;
 
     @NotBlank
     @NotNull
     private String senha;
 
+    private String confirmeSenha;
+
     private String telefone;
 
+    @NotBlank
     private String nome;
 
     private String sobreNome;
@@ -39,6 +45,8 @@ public class CadastrarClienteTO {
 
     private  String cidade;
 
+    private boolean termos = false;
+
     @Override
     public String toString() {
         return "CadastrarClienteTO{" +
@@ -56,6 +64,30 @@ public class CadastrarClienteTO {
                 ", uf='" + uf + '\'' +
                 ", cidade='" + cidade + '\'' +
                 '}';
+    }
+
+    public String getConfirmeSenha() {
+        return confirmeSenha;
+    }
+
+    public void setConfirmeSenha(String confirmeSenha) {
+        this.confirmeSenha = confirmeSenha;
+    }
+
+    public String getConfirmarEmail() {
+        return confirmarEmail;
+    }
+
+    public void setConfirmarEmail(String confirmarEmail) {
+        this.confirmarEmail = confirmarEmail;
+    }
+
+    public boolean isTermos() {
+        return termos;
+    }
+
+    public void setTermos(boolean termos) {
+        this.termos = termos;
     }
 
     public String getSobreNome() {

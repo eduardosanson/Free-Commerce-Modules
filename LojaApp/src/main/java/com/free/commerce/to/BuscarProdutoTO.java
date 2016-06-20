@@ -15,6 +15,7 @@ public class BuscarProdutoTO {
     private String nome;
     private String novo;
     private String orderBy;
+    private int quantidade =0;
     private List<String> categorias = new ArrayList<>();
 
     public String getNovo() {
@@ -27,6 +28,14 @@ public class BuscarProdutoTO {
         }else{
             return false;
         }
+    }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
 
     public void setNovo(String novo) {

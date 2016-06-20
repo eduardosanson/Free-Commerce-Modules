@@ -1,6 +1,7 @@
 package com.free.commerce.controller;
 
 import com.free.commerce.entity.CarrinhoDeCompras;
+import com.free.commerce.entity.Categoria;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.service.interfaces.CarrinhoService;
@@ -83,13 +84,20 @@ public class ProdutoController {
 
     @RequestMapping
     public ResponseEntity<ProdutoPage> buscarProduto(@RequestParam(value = "cidade",defaultValue = "")String cidade,
-                                                @RequestParam(value = "categoria",defaultValue = "") String categoria,
-                                                @RequestParam(value = "produtoNome",defaultValue = "") String nome,
-                                                @RequestParam(value = "novo",defaultValue = "") String novo,
-                                                @RequestParam(value = "order",defaultValue = "") String orderBy,
-                                                @RequestParam(value = "page") Integer pagina,
-                                                @RequestParam(value = "size") Integer size){
+                                                    @RequestParam(value = "categoria",defaultValue = "") String categoria,
+                                                    @RequestParam(value = "produtoNome",defaultValue = "") String nome,
+                                                    @RequestParam(value = "novo",defaultValue = "") String novo,
+                                                    @RequestParam(value = "order",defaultValue = "") String orderBy,
+                                                    @RequestParam(value = "page") Integer pagina,
+                                                    @RequestParam(value = "size") Integer size,
+                                                    @RequestParam(value = "qtd",defaultValue = "0") String qtd){
         BuscarProdutoTO buscarProdutoTO = new BuscarProdutoTO();
+        int quantd=0;
+        if (qtd.startsWith("-")){
+            quantd = -1;
+        }else {
+            quantd = Integer.parseInt(qtd);
+        }
 
         if (!"".equalsIgnoreCase(categoria)){
             List<String> categoriasRelacionadas = categoriaService.categoriasAssociadas(categoriaService.buscarCategoriaPelaDescricao(categoria));
@@ -101,6 +109,7 @@ public class ProdutoController {
         buscarProdutoTO.setNome(nome);
         buscarProdutoTO.setNovo(novo);
         buscarProdutoTO.setOrderBy(orderBy);
+        buscarProdutoTO.setQuantidade(quantd);
 
         return new ResponseEntity(criarProdutoPage(produtoService.buscarProdutos(buscarProdutoTO,new PageRequest(pagina,size))),HttpStatus.OK);
 

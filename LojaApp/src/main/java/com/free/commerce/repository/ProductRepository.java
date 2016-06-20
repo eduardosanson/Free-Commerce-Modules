@@ -39,11 +39,11 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
      *  Todos
      */
 
-    Page<Produto> findByNomeLikeOrderByPrecoDesc(String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeOrderByPrecoDesc(int quantidade,String nome, Pageable pageable);
 
-    Page<Produto> findByNomeLikeOrderByPrecoAsc(String nome,Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeOrderByPrecoAsc(int quantidade,String nome,Pageable pageable);
 
-    Page<Produto> findByNomeLikeOrderByRegistradoDesc(String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeOrderByRegistradoDesc(int quantidade,String nome, Pageable pageable);
 
     /*******     Fim Buscas por valores de compra     *******/
 
@@ -53,7 +53,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
      *  Usados
      */
 
-    Page<Produto> findByNovoAndNomeLike(boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNovoAndNomeLike(int quantidade,boolean novo,String nome, Pageable pageable);
 
     /*******     Fim Buscas por Estado do Produto     *******/
 
@@ -64,11 +64,11 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
      *  Todos
      */
 
-    Page<Produto> findByNovoAndNomeLikeOrderByPrecoDesc(boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNovoAndNomeLikeOrderByPrecoDesc(int quantidade,boolean novo,String nome, Pageable pageable);
 
-    Page<Produto> findByNovoAndNomeLikeOrderByPrecoAsc(boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNovoAndNomeLikeOrderByPrecoAsc(int quantidade,boolean novo,String nome, Pageable pageable);
 
-    Page<Produto> findByNovoAndNomeLikeOrderByRegistradoDesc(boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNovoAndNomeLikeOrderByRegistradoDesc(int quantidade,boolean novo,String nome, Pageable pageable);
 
 
     /*******   Fim Buscas por Estado do Produto e valores de compra  *******/
@@ -76,23 +76,23 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
     /** busca por cidade, categoria e ambos**/
 
     //Por cidade
-    Page<Produto> findByLojaEnderecoCidadeAndNomeLike(String cidade,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNomeLike(int quantidade,String cidade,String nome, Pageable pageable);
 
     //Por categoria
-    Page<Produto> findByCategoriaDescricaoInAndNomeLike(List<String> categorias, String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLike(int quantidade,List<String> categorias, String nome, Pageable pageable);
 
     //Por cidade e Categoria
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(String nome,
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(int quantidade,String nome,
                                                                                   String cidade,
                                                                                   List<String> categorias,
                                                                                   Pageable pageable);
     /** Ordenados por preco e mais atuais**/
 
     //Por cidade ordenado por maior preco
-    Page<Produto> findByLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(String cidade,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(int quantidade,String cidade,String nome, Pageable pageable);
 
     //Por cidade ordenado por Menor preco
-    Page<Produto> findByLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(String cidade, String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(int quantidade,String cidade, String nome, Pageable pageable);
 
 
     /*****FIM Ordenados por preco e mais atuais *******************/
@@ -103,44 +103,44 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
      * adicionados recentemente
      **/
     //novo ou usado ordenado por maior Preco
-    Page<Produto> findByNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(boolean novo, String cidade,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoDesc(int quantidade,boolean novo, String cidade,String nome, Pageable pageable);
 
     //novo ou usado ordenado por menor preco
-    Page<Produto> findByNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(boolean novo, String cidade, String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNovoAndLojaEnderecoCidadeAndNomeLikeOrderByPrecoAsc(int quantidade,boolean novo, String cidade, String nome, Pageable pageable);
 
     //novo ou usado ordenado por adicionado recentemente
-    Page<Produto> findByNovoAndLojaEnderecoCidadeAndNomeLikeOrderByRegistradoDesc(boolean novo, String cidade, String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNovoAndLojaEnderecoCidadeAndNomeLikeOrderByRegistradoDesc(int quantidade,boolean novo, String cidade, String nome, Pageable pageable);
     /** FIM Produtos novos ou usados ordenados  **/
 
     /** buscar Por Categoria com ordenaçao  **/
 
     //Por categoria novo ou usado ordenado por maior Preco
-    Page<Produto> findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoDesc(List<String> categorias,boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoDesc(int quantidade,List<String> categorias,boolean novo,String nome, Pageable pageable);
 
     //Por categoria ordenado por maior Preco
-    Page<Produto> findByCategoriaDescricaoInAndNomeLikeOrderByPrecoDesc(List<String> categorias,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLikeOrderByPrecoDesc(int quantidade,List<String> categorias,String nome, Pageable pageable);
 
     //Por categoria ordenado por menor Preco
-    Page<Produto> findByCategoriaDescricaoInAndNomeLikeOrderByPrecoAsc(List<String> categorias, String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLikeOrderByPrecoAsc(int quantidade,List<String> categorias, String nome, Pageable pageable);
 
     //Por categoria novo ou usado ordenado por maior Preco
-    Page<Produto> findByCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoAsc(List<String> categorias,boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNovoAndNomeLikeOrderByPrecoAsc(int quantidade,List<String> categorias,boolean novo,String nome, Pageable pageable);
 
     //Por categoria ordenado por adicionado recentemente
-    Page<Produto> findByCategoriaDescricaoInAndNomeLikeOrderByRegistradoDesc(List<String> categorias,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndCategoriaDescricaoInAndNomeLikeOrderByRegistradoDesc(int quantidade,List<String> categorias,String nome, Pageable pageable);
 
     /** FIM buscar Por Categoria com ordenaçao  **/
 
     /** buscar Por cidade com ordenaçao  **/
 
     //Por cidade maior preco ou usado
-    Page<Produto> findByLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoDesc(String cidade, boolean novo,String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoDesc(int quantidade,String cidade, boolean novo,String nome, Pageable pageable);
 
     //Por cidade menor preco novo ou usado
-    Page<Produto> findByLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoAsc(String cidade, boolean novo,String nome,Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNovoAndNomeLikeOrderByPrecoAsc(int quantidade,String cidade, boolean novo,String nome,Pageable pageable);
 
     //Por cidade adicionado recentemente novo ou usado
-    Page<Produto> findByLojaEnderecoCidadeAndNovoAndNomeLikeOrderByRegistradoDesc(String cidade, boolean novo,String nome,Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndLojaEnderecoCidadeAndNovoAndNomeLikeOrderByRegistradoDesc(int quantidade,String cidade, boolean novo,String nome,Pageable pageable);
 
 
     /** buscar Por Categoria com ordenaçao  **/
@@ -149,31 +149,31 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
     /**FIM buscar Por cidade com ordenaçao  **/
 
     //Por cidade e Categoria ordernado por maior preco
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoDesc(String nome,
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoDesc(int quantidade,String nome,
                                                                                   String cidade,
                                                                                   List<String> categorias,
                                                                                   Pageable pageable);
 
     //Por cidade e Categoria ordernado por menor preco
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoAsc(String nome,
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByPrecoAsc(int quantidade,String nome,
                                                                                                  String cidade,
                                                                                                  List<String> categorias,
                                                                                                  Pageable pageable);
 
     //Por cidade e Categoria ordernado por adicionando recentemente
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByRegistradoDesc(String nome,
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInOrderByRegistradoDesc(int quantidade,String nome,
                                                                                                 String cidade,
                                                                                                 List<String> categorias,
                                                                                                 Pageable pageable);
 
     //Por cidade e Categoria ordernado por maior preco Novo ou usado
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoDesc(String nome,
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoDesc(int quantidade,String nome,
                                                                                                  String cidade,
                                                                                                  List<String> categorias,
                                                                                                  boolean novo,
                                                                                                  Pageable pageable);
 
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoAsc(String nome,
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovoOrderByPrecoAsc(int quantidade,String nome,
                                                                                                         String cidade,
                                                                                                         List<String> categorias,
                                                                                                         boolean novo,
@@ -182,9 +182,9 @@ public interface ProductRepository extends PagingAndSortingRepository<Produto, L
     /** FIM busca por cidade, categoria e ambos  **/
 
 
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc(String nome, String cidade, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc(int quantidade,String nome, String cidade, Pageable pageable);
 
-    Page<Produto> findByNomeLike(String nome, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLike(int quantidade,String nome, Pageable pageable);
 
-    Page<Produto> findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovo(String nome, String cidade, List<String> categorias, boolean novo, Pageable pageable);
+    Page<Produto> findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoInAndNovo(int quantidade,String nome, String cidade, List<String> categorias, boolean novo, Pageable pageable);
 }

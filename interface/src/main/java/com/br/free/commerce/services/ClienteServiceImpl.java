@@ -4,10 +4,7 @@ import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.to.CadastrarClienteTO;
 import com.br.free.commerce.to.FinalizarCadastroTO;
 import com.br.free.commerce.util.ImagemProcessor;
-import com.free.commerce.entity.Cliente;
-import com.free.commerce.entity.Imagem;
-import com.free.commerce.entity.Pedido;
-import com.free.commerce.entity.UserLogin;
+import com.free.commerce.entity.*;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -118,6 +115,12 @@ public class ClienteServiceImpl implements ClienteService {
         Imagem imagem = ImagemProcessor.processor(PASTA_CLIENTE_PERFIL+clienteId,"PERFIL",file);
 
         template.put(url,imagem);
+    }
+
+    @Override
+    public Cliente buscarLojaPorCpfOuCnpj(String cpf) {
+        String url = "http://clienteapp.herokuapp.com/cliente?cpf="+cpf;
+        return template.getForObject(url,Cliente.class);
     }
 
 

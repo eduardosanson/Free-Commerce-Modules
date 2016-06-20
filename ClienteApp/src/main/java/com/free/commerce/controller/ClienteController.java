@@ -33,7 +33,11 @@ public class ClienteController {
     private static final Logger logger =Logger.getLogger(ClienteController.class);
 
     @RequestMapping
-    public ResponseEntity<Cliente> buscarCliente(@RequestParam("clienteId") Long id){
+    public ResponseEntity<Cliente> buscarCliente(@RequestParam(value = "clienteId",defaultValue = "0") Long id,
+                                                 @RequestParam(value = "cpf",defaultValue = "") String cpf){
+        if (id==0){
+            return new ResponseEntity<Cliente>(clienteService.encontrarPeloCpf(cpf),HttpStatus.OK);
+        }
 
         return new ResponseEntity<Cliente>(clienteService.recuperarProID(id),HttpStatus.OK);
     }
@@ -117,6 +121,5 @@ public class ClienteController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
 
     }
-
 
 }

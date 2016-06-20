@@ -1,5 +1,7 @@
 package com.br.free.commerce.controller;
 
+import br.com.caelum.stella.validation.CPFValidator;
+import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.uol.pagseguro.exception.PagSeguroServiceException;
 import com.br.free.commerce.bean.Carrinho;
 import com.br.free.commerce.entity.CustomUserDetails;
@@ -11,6 +13,7 @@ import com.br.free.commerce.services.Interface.PedidoService;
 import com.br.free.commerce.services.PagamentoServiceImpl;
 import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.*;
+import com.br.free.commerce.util.MaskUtil;
 import com.free.commerce.entity.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +42,8 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/cliente")
+@SessionAttributes(
+        { "cadastrarClienteTO" })
 public class ClienteController {
 
 
@@ -278,10 +286,79 @@ public class ClienteController {
         return INDEX;
     }
 
+    @RequestMapping(value = "/cadastro/completo",method = RequestMethod.POST)
+    public String singUpComplete(@Valid CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult,
+                         Model model, HttpServletRequest request, RedirectAttributes redirectAttrs){
+        boolean hasError=false;
+
+        model.addAttribute(PAGE_NAME,PAGE_CADASTRO);
+        model.addAttribute(PAGE_FRAGMENT,FRAGMENT_CADASTRO);
+
+        cadastrarClienteTO.setTelefone(MaskUtil.removeTelefoneMask(cadastrarClienteTO.getTelefone()));
+        cadastrarClienteTO.setCep(MaskUtil.removeCepMask(cadastrarClienteTO.getCep()));
+        cadastrarClienteTO.setCpf(MaskUtil.removeCpfOuCnpjMask(cadastrarClienteTO.getCpf()));
+
+
+        if (cadastrarClienteTO.getSobreNome() == null || "".equalsIgnoreCase(cadastrarClienteTO.getSenha())){
+            model.addAttribute("sobreNomeErr","Sobre Nome não pode ser nullo");
+            hasError=true;
+        }
+        if (!cadastrarClienteTO.getLogin().equalsIgnoreCase(cadastrarClienteTO.getLogin())){
+            model.addAttribute("loginNoEqual","E-mails não conferem");
+            hasError=true;
+        }
+        if (!cadastrarClienteTO.getSenha().equalsIgnoreCase(cadastrarClienteTO.getSenha())){
+            model.addAttribute("senhaNoEqual","senhas não conferem");
+            hasError=true;
+        }
+
+        CPFValidator cpfValidator = new CPFValidator();
+
+        try {
+            cpfValidator.assertValid(cadastrarClienteTO.getCpf());
+        }catch (InvalidStateException e){
+            model.addAttribute("cpf","CPF inválido");
+            return INDEX;
+        }
+
+        if (bindingResult.hasErrors() || hasError){
+            return INDEX;
+        }
+
+
+        Cliente cliente = clienteService.buscarLojaPorCpfOuCnpj(cadastrarClienteTO.getCpf());
+        if (cliente!=null){
+            model.addAttribute("cpf","CPF já cadastrado");
+            return INDEX;
+        }
+
+        UserLogin user = null;
+        try {
+            user = loginService.recuperarPorEmail(cadastrarClienteTO.getLogin());
+        } catch (RegraDeNegocioException e) {
+            if (e.getTipoErro().equals(RegraDeNegocioEnum.NAO_ENCONTRADO)){
+                user = clienteService.cadastrarCliente(cadastrarClienteTO);
+                redirectAttrs.addAttribute("username",user.getLogin());
+                redirectAttrs.addAttribute("password",user.getSenha());
+                userDetailsServiceImpl.login(request,user.getLogin(),user.getSenha());
+            }
+
+
+            return "redirect:/cliente/menu";
+        }
+
+        if (user!=null){
+            redirectAttrs.addFlashAttribute("quickSingErro",true).
+                    addFlashAttribute("errorMessage","Usuário já cadastrado");
+        }
+        return "redirect:/";
+
+    }
+
 
     @RequestMapping(value = "/form",method = RequestMethod.POST)
     public String singUp(@Valid CadastrarClienteTO cadastrarClienteTO, BindingResult bindingResult,
-                         Model model, HttpServletRequest request,RedirectAttributes redirectAttrs){
+                         Model model, HttpServletRequest request, RedirectAttributes redirectAttrs){
         model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
         model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
 
@@ -290,6 +367,21 @@ public class ClienteController {
 
         if (bindingResult.hasErrors()){
             System.out.println("ocorreu um erro");
+            redirectAttrs.addFlashAttribute("org.springframework.validation.BindingResult.register", bindingResult);
+            redirectAttrs.addFlashAttribute("cadastrarClienteTO", cadastrarClienteTO);
+
+        if (cadastrarClienteTO.getNome()==null || "".equalsIgnoreCase(cadastrarClienteTO.getNome()) ){
+            redirectAttrs.addFlashAttribute("nomeError","Nome é obrigatório");
+        }
+        if (cadastrarClienteTO.getLogin() ==null || "".equalsIgnoreCase(cadastrarClienteTO.getLogin())){
+            redirectAttrs.addFlashAttribute("loginError","Login é obrigatório");
+        }
+        if (cadastrarClienteTO.getSenha() == null || "".equalsIgnoreCase(cadastrarClienteTO.getSenha())){
+            redirectAttrs.addFlashAttribute("senhaError","Senha é obrigatório");
+
+        }
+
+
             return "redirect:/";
         }
 

@@ -161,13 +161,13 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     public Page<Produto> buscarProdutosMaisBaratos(){
 
-        return repository.findByNomeLikeOrderByPrecoDesc("%%",new PageRequest(0,5));
+        return repository.findByQuantidadeGreaterThanAndNomeLikeOrderByPrecoDesc(0,"%%",new PageRequest(0,5));
     }
 
     @Override
     public Page<Produto> buscarProdutosPorCidade(String cidade){
 
-        return repository.findByNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc("%%",cidade,new PageRequest(0,5));
+        return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc(0,"%%",cidade,new PageRequest(0,5));
     }
 
     @Override
@@ -175,19 +175,13 @@ public class ProdutoServiceImpl implements ProdutoService {
 
         List<String> categorias = categoriaService.categoriasAssociadas(categoriaService.buscarCategoriaPelaDescricao(categoria));
 
-        return repository.findByNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn("%%",cidade,categorias,new PageRequest(0,5));
+        return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(0,"%%",cidade,categorias,new PageRequest(0,5));
     }
 
     @Override
     public Page<Produto> buscarProdutos(BuscarProdutoTO buscarProdutoTO, Pageable pageable){
-        Page<Produto> produtoPage = new BuscarProdutoResolver(buscarProdutoTO,pageable,repository,buscarProdutoTO.getCategorias()).buscarProdutos();
 
-        produtoPage
-                .getContent()
-                .stream()
-                .filter(a -> a.getQuantidade()>0);
-
-        return produtoPage;
+        return new BuscarProdutoResolver(buscarProdutoTO,pageable,repository,buscarProdutoTO.getCategorias()).buscarProdutos();
     }
 
     @Override
