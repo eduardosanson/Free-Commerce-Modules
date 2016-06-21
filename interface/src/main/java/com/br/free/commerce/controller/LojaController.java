@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URISyntaxException;
 import java.util.*;
 
 /**
@@ -106,6 +107,37 @@ public class LojaController {
 
     private Logger logger = Logger.getLogger(LojaController.class);
 
+    @RequestMapping("/menu/alterarsenha")
+    public String alterarSenha(AlterarSenhaTO alterarSenhaTO,Model model){
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
+        model.addAttribute(MENU_NAME,PAGE_CHANGE_PASSWORD);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENT_CHANGE_PASSWORD);
+
+        return INDEX;
+    }
+    @RequestMapping(value = "/menu/alterarsenha",method = RequestMethod.POST)
+    public String alterarSenha(AlterarSenhaTO alterarSenhaTO,
+                               @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                               Model model) throws URISyntaxException {
+
+        model.addAttribute(PAGE_NAME,PAGE_ACCOUNT);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_ACCOUNT);
+        model.addAttribute(MENU_NAME,PAGE_CHANGE_PASSWORD);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENT_CHANGE_PASSWORD);
+
+        if (alterarSenhaTO.getSenhaAtual().equalsIgnoreCase(customUserDetails.getUserlogin().getSenha())){
+            UserLogin userlogin = customUserDetails.getUserlogin();
+            userlogin.setSenha(alterarSenhaTO.getNovaSenha());
+            storeService.alterarLogin(userlogin);
+        }else {
+            model.addAttribute("erroSenha","Senha atual não confere");
+        }
+
+        return INDEX;
+
+
+    }
 
     @RequestMapping(value = "/menu/imagem/delete/{produtoId}")
     public @ResponseBody ResponseEntity deletarImagem(@RequestParam("key") long imagemId,@PathVariable("produtoId") long produtoId){

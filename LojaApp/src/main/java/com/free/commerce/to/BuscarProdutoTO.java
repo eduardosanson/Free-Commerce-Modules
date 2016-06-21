@@ -1,5 +1,6 @@
 package com.free.commerce.to;
 
+import com.free.commerce.entity.Enums.AutorizacaoStatus;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class BuscarProdutoTO {
     private String novo;
     private String orderBy;
     private int quantidade =0;
+    private List<AutorizacaoStatus> status = new ArrayList<>();
     private List<String> categorias = new ArrayList<>();
 
     public String getNovo() {
@@ -28,6 +30,14 @@ public class BuscarProdutoTO {
         }else{
             return false;
         }
+    }
+
+    public List<AutorizacaoStatus> getStatus() {
+        return status;
+    }
+
+    public void setStatus(List<AutorizacaoStatus> status) {
+        this.status = status;
     }
 
     public int getQuantidade() {

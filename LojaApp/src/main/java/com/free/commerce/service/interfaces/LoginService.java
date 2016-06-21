@@ -11,4 +11,6 @@ public interface LoginService {
     void criarLogin(UserLogin login);
 
     UserLogin recuperarPorEmail(String email);
+
+    void alterarLogin(UserLogin userLogin);
 }

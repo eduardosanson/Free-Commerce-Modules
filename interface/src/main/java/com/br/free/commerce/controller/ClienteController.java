@@ -10,6 +10,7 @@ import com.br.free.commerce.exception.enuns.RegraDeNegocioEnum;
 import com.br.free.commerce.services.Interface.ClienteService;
 import com.br.free.commerce.services.Interface.LoginService;
 import com.br.free.commerce.services.Interface.PedidoService;
+import com.br.free.commerce.services.Interface.StoreService;
 import com.br.free.commerce.services.PagamentoServiceImpl;
 import com.br.free.commerce.services.UserDetailsServiceImpl;
 import com.br.free.commerce.to.*;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +69,8 @@ public class ClienteController {
     private static final String FRAGMENTO_PEDIDOS_CLIENTE = "pedidos-de-cliente";
     private static final String PAGE_CADASTRO="quickSignupPrincipal";
     private static final String FRAGMENT_CADASTRO="quickSignupPrincipal";
+    private static final String FRAGMENT_CHANGE_PASSWORD="change-password";
+    private static final String PAGE_CHANGE_PASSWORD="change-password";
 
     public static final String CONTEXTO="/cliente";
     public static final String FINALIZAR_COMPRA="/menu/finalizarCompras";
@@ -97,7 +101,42 @@ public class ClienteController {
     @Autowired
     private MensagemController mensagemController;
 
+    @Autowired
+    private StoreService storeService;
+
     private static final Logger LOGGER = Logger.getLogger(ClienteController.class);
+
+    @RequestMapping("/menu/alterarsenha")
+    public String alterarSenha(AlterarSenhaTO alterarSenhaTO,Model model){
+        model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
+        model.addAttribute(MENU_NAME,PAGE_CHANGE_PASSWORD);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENT_CHANGE_PASSWORD);
+
+        return INDEX;
+    }
+    @RequestMapping(value = "/menu/alterarsenha",method = RequestMethod.POST)
+    public String alterarSenha(AlterarSenhaTO alterarSenhaTO,
+                               @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                               Model model) throws URISyntaxException {
+
+        model.addAttribute(PAGE_NAME,PAGE_CLIENTE);
+        model.addAttribute(PAGE_FRAGMENT,PAGE_CLIENTE);
+        model.addAttribute(MENU_NAME,PAGE_CHANGE_PASSWORD);
+        model.addAttribute(MENU_FRAGMENT,FRAGMENT_CHANGE_PASSWORD);
+
+        if (alterarSenhaTO.getSenhaAtual().equalsIgnoreCase(customUserDetails.getUserlogin().getSenha())){
+            UserLogin userlogin = customUserDetails.getUserlogin();
+            userlogin.setSenha(alterarSenhaTO.getNovaSenha());
+            storeService.alterarLogin(userlogin);
+        }else {
+            model.addAttribute("erroSenha","Senha atual não confere");
+        }
+
+        return INDEX;
+
+
+    }
 
     @RequestMapping("/menu")
     public String login(@AuthenticationPrincipal CustomUserDetails userDetails, Model model,
@@ -303,11 +342,11 @@ public class ClienteController {
             model.addAttribute("sobreNomeErr","Sobre Nome não pode ser nullo");
             hasError=true;
         }
-        if (!cadastrarClienteTO.getLogin().equalsIgnoreCase(cadastrarClienteTO.getLogin())){
+        if (!cadastrarClienteTO.getLogin().equalsIgnoreCase(cadastrarClienteTO.getConfirmarEmail())){
             model.addAttribute("loginNoEqual","E-mails não conferem");
             hasError=true;
         }
-        if (!cadastrarClienteTO.getSenha().equalsIgnoreCase(cadastrarClienteTO.getSenha())){
+        if (!cadastrarClienteTO.getSenha().equalsIgnoreCase(cadastrarClienteTO.getConfirmeSenha())){
             model.addAttribute("senhaNoEqual","senhas não conferem");
             hasError=true;
         }

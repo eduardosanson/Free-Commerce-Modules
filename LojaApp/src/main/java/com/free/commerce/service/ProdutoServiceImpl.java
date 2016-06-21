@@ -1,6 +1,7 @@
 package com.free.commerce.service;
 
 import com.free.commerce.entity.Categoria;
+import com.free.commerce.entity.Enums.AutorizacaoStatus;
 import com.free.commerce.entity.Imagem;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
@@ -160,22 +161,26 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Page<Produto> buscarProdutosMaisBaratos(){
+        List<AutorizacaoStatus> autorizacaoStatuses = new ArrayList<>();
+        autorizacaoStatuses.add(AutorizacaoStatus.AUTORIZADO);
 
-        return repository.findByQuantidadeGreaterThanAndNomeLikeOrderByPrecoDesc(0,"%%",new PageRequest(0,5));
+        return repository.findByLojaAutorizacaoLojaStatusInAndQuantidadeGreaterThanAndNomeLikeIgnoreCaseOrderByPrecoDesc(autorizacaoStatuses,0,"%%",new PageRequest(0,5));
     }
 
     @Override
     public Page<Produto> buscarProdutosPorCidade(String cidade){
-
-        return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeOrderByRegistradoDesc(0,"%%",cidade,new PageRequest(0,5));
+        List<AutorizacaoStatus> autorizacaoStatuses = new ArrayList<>();
+        autorizacaoStatuses.add(AutorizacaoStatus.AUTORIZADO);
+        return repository.findByLojaAutorizacaoLojaStatusInAndQuantidadeGreaterThanAndNomeLikeIgnoreCaseAndLojaEnderecoCidadeOrderByRegistradoDesc(autorizacaoStatuses,0,"%%",cidade,new PageRequest(0,5));
     }
 
     @Override
     public Page<Produto> buscarProdutosPorCidadeECategoria(String cidade, String categoria){
 
         List<String> categorias = categoriaService.categoriasAssociadas(categoriaService.buscarCategoriaPelaDescricao(categoria));
-
-        return repository.findByQuantidadeGreaterThanAndNomeLikeAndLojaEnderecoCidadeAndCategoriaDescricaoIn(0,"%%",cidade,categorias,new PageRequest(0,5));
+        List<AutorizacaoStatus> autorizacaoStatuses = new ArrayList<>();
+        autorizacaoStatuses.add(AutorizacaoStatus.AUTORIZADO);
+        return repository.findByLojaAutorizacaoLojaStatusInAndQuantidadeGreaterThanAndNomeLikeIgnoreCaseAndLojaEnderecoCidadeAndCategoriaDescricaoIn(autorizacaoStatuses,0,"%%",cidade,categorias,new PageRequest(0,5));
     }
 
     @Override

@@ -25,4 +25,9 @@ public class LoginServiceImpl implements LoginService {
     public UserLogin recuperarPorEmail(String email) {
         return repository.getLoginPorEmail(email);
     }
+
+    @Override
+    public void alterarLogin(UserLogin userLogin){
+        repository.save(userLogin);
+    }
 }

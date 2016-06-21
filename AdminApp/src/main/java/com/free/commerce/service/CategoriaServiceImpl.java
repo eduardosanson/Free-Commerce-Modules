@@ -27,15 +27,7 @@ public class CategoriaServiceImpl implements CategoriaService{
     @Override
     public Categoria cadastrarCategoria(CategoriaTO categoriaTO) throws RegraDeNegocioException {
         Categoria categoria = criarCategoria(categoriaTO);
-
-        Categoria categoriaCatastrada = categoriaRepository.buscarPeloNome(categoria.getDescricao());
-
-            if (categoriaCatastrada!=null && categoriaCatastrada.getPai()!=null && categoriaCatastrada.getPai().getId()==Long.parseLong(categoriaTO.getCategoriaPaiId())){
-                throw new RegraDeNegocioException(RegraDeNegocioEnum.VALOR_JA_CADASTRADO);
-            }else if (categoriaCatastrada.getPai()==null){
-                throw new RegraDeNegocioException(RegraDeNegocioEnum.VALOR_JA_CADASTRADO);
-            }
-
+        categoria.setId(null);
 
         categoria = categoriaRepository.save(categoria);
 

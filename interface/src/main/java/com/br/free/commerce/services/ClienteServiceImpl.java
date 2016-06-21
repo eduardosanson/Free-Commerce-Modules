@@ -11,6 +11,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,28 @@ public class ClienteServiceImpl implements ClienteService {
         }
 
         return user;
+    }
+
+    @Override
+    public void alterarDadosDeCliente(Cliente cliente) {
+        logger.info("inicio de cadastro de cliente: " + cliente.getEmail());
+        String requestUrl;
+        Map<String, CadastrarClienteTO> map = new HashMap<String, CadastrarClienteTO>();
+
+        UserLogin user= null;
+        try{
+            requestUrl = protocol + domain +service;
+            URI uri = new URI(requestUrl);
+            logger.info("Chamando a protocol: " + requestUrl + " put");
+
+            template.put(uri,cliente);
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+            logger.info("erro na comunicação");
+
+        }
     }
 
     @Override

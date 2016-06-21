@@ -51,6 +51,8 @@ public class ProdutoSettings {
 
     private String qtdMaior;
 
+    private String status;
+
 
     @Override
     public String toString() {
@@ -295,7 +297,10 @@ public class ProdutoSettings {
         return this;
     }
 
-
+    public ProdutoSettings paramStatus(String status){
+        whichParam(status,this.status);
+        return this;
+    }
 
     public String callBuildURL(){
         if (urlFinal==null){

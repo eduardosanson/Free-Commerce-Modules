@@ -20,6 +20,7 @@ produto:
     cidade: cidade=
     lojaId: lojaId=
     qtdMaior: qtdMaior=
+    status: status=
 
 
 carrinho:

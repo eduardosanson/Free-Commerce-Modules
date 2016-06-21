@@ -2,6 +2,7 @@ package com.free.commerce.controller;
 
 import com.free.commerce.entity.CarrinhoDeCompras;
 import com.free.commerce.entity.Categoria;
+import com.free.commerce.entity.Enums.AutorizacaoStatus;
 import com.free.commerce.entity.Loja;
 import com.free.commerce.entity.Produto;
 import com.free.commerce.service.interfaces.CarrinhoService;
@@ -22,6 +23,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -90,8 +93,29 @@ public class ProdutoController {
                                                     @RequestParam(value = "order",defaultValue = "") String orderBy,
                                                     @RequestParam(value = "page") Integer pagina,
                                                     @RequestParam(value = "size") Integer size,
-                                                    @RequestParam(value = "qtd",defaultValue = "0") String qtd){
+                                                    @RequestParam(value = "qtd",defaultValue = "0") String qtd,
+                                                    @RequestParam(value = "status",defaultValue = "AUTORIZADO") String status ){
         BuscarProdutoTO buscarProdutoTO = new BuscarProdutoTO();
+        List<AutorizacaoStatus> autorizacaoStatus = new ArrayList<>();
+
+        if ("All".equalsIgnoreCase(status)) {
+            for (AutorizacaoStatus auto:
+                    AutorizacaoStatus.values()) {
+                autorizacaoStatus.add(auto);
+
+            }
+
+        }else {
+            for (AutorizacaoStatus auto:
+                    AutorizacaoStatus.values()) {
+                if (status.equalsIgnoreCase(auto.name())){
+                    autorizacaoStatus.add(auto);
+                    break;
+                }
+
+            }
+        }
+
         int quantd=0;
         if (qtd.startsWith("-")){
             quantd = -1;
@@ -110,6 +134,8 @@ public class ProdutoController {
         buscarProdutoTO.setNovo(novo);
         buscarProdutoTO.setOrderBy(orderBy);
         buscarProdutoTO.setQuantidade(quantd);
+        buscarProdutoTO.setStatus(autorizacaoStatus);
+
 
         return new ResponseEntity(criarProdutoPage(produtoService.buscarProdutos(buscarProdutoTO,new PageRequest(pagina,size))),HttpStatus.OK);
 

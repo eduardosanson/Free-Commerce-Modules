@@ -2,7 +2,7 @@
     <table class="table table-bordered" >
         <thead>
         <tr>
-            <th><input id="checkAll" type="checkbox" /></th>
+            <!--<th><input id="checkAll" type="checkbox" /></th>-->
             <th>Imagem</th>
             <th>Detalhes</th>
             <th>Preço</th>
@@ -13,7 +13,7 @@
 
         <tbody th:fragment="tabelaProduto">
         <tr th:each="produto  : ${produtoPage.produtos}" th:if="${produtoPage != null}" >
-            <td><input type="checkbox" /></td>
+            <!--<td><input type="checkbox" /></td>-->
             <td><img alt="" class="thumb-img img-responsive"
                      th:src="${produto.imagens != null and produto.imagens.size() != 0 ? produto.imagens.get(0).path : 'img/products/produto-sem-imagem.jpg'}"/></td>
             <!--th:if="${not #lists.isEmpty(produto.imagens)}"-->
@@ -22,7 +22,7 @@
                 <div class="item-meta">
                     <ul>
                         <li class="item-date"><i class="fa fa-clock-o"></i> Today 10.35 am</li>
-                        <li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>
+                        <!--<li class="item-location"><a href="category.html"><i class="fa fa-map-marker"></i> Manchester</a></li>-->
                         <li class="item-type" ><i class="fa fa-bookmark"></i> <small th:text="${produto.isNovo() ? 'Novo' : 'Usado'}"></small></li>
                     </ul>
                 </div>
@@ -32,21 +32,21 @@
             <td>
                 <ul class="actions-table">
                     <li><a th:href="'/store/menu/editar/produto/' + ${produto.id}" class="label label-success"><i class="fa fa-pencil"></i></a></li>
-                    <li><a class="label label-warning"><i class="fa fa-close"></i> disable</a></li>
-                    <li><a href="#" class="label label-danger" onclick="return confirm('Remove this item?')"><i class="glyphicon glyphicon-remove-circle"></i></a></li>
+                    <!--<li><a class="label label-warning"><i class="fa fa-close"></i> disable</a></li>-->
+                    <!--<li><a href="#" class="label label-danger" onclick="return confirm('Remove this item?')"><i class="glyphicon glyphicon-remove-circle"></i></a></li>-->
                 </ul>
             </td>
         </tr>
         </tbody>
     </table>
     <div class="row">
-        <div class="col-xs-3">
-            <select class="form-control">
-                <option selected="">Bulk Action</option>
-                <option>Block</option>
-                <option>Delete</option>
-            </select>
-        </div>
+        <!--<div class="col-xs-3">-->
+            <!--<select class="form-control">-->
+                <!--<option selected="">Bulk Action</option>-->
+                <!--<option>Block</option>-->
+                <!--<option>Delete</option>-->
+            <!--</select>-->
+        <!--</div>-->
         <div class="col-xs-9 text-right">
             <ul class="pagination table-pagination"  th:each="i : ${page.primeiraMetade}">
                 <li><input th:class="${i}==${page.paginaAtual}?'btn btn-default active disabled' : 'btn'" type="button" onclick="showProductPage(this.value)" th:value="${i}"/></li>

@@ -18,6 +18,8 @@ public interface ClienteService {
 
     UserLogin cadastrarCliente(CadastrarClienteTO cadastrarClienteTO);
 
+    void alterarDadosDeCliente(Cliente cliente);
+
     Cliente concluirCadastro(FinalizarCadastroTO cadastroTO);
 
     Cliente buscarCliente(Long clienteId);

@@ -67,7 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
                 formLogin().
                 loginPage("/public/login").successHandler(authenticationSuccessHandler)
         .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/public/login/logout")).logoutSuccessUrl("/").
-        and().csrf().ignoringAntMatchers("/produto/menu/upload","/store/menu/imagem/**","/paymentNotifyController/**");
+        and().csrf().ignoringAntMatchers("/produto/menu/upload","/store/menu/imagem/**",
+                "/paymentNotifyController/**","/cliente/menu/alterarsenha","/admin/menu/alterarsenha","/loja/menu/alterarsenha");
 
     }
 

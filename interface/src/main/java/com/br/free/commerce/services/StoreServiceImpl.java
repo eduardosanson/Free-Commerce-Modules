@@ -13,6 +13,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +77,13 @@ public class StoreServiceImpl implements StoreService {
     public Loja buscarLoja(Long id) {
         String url = "http://lojacommerce.herokuapp.com/loja/"+id;
         return template.getForObject(url,Loja.class);
+    }
+
+    @Override
+    public void alterarLogin(UserLogin userLogin) throws URISyntaxException {
+        String url = "http://lojacommerce.herokuapp.com/userLogin/";
+        URI uri = new URI(url);
+        template.put(url,userLogin);
     }
 
     @Override

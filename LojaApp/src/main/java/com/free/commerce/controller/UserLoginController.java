@@ -1,14 +1,12 @@
 package com.free.commerce.controller;
 
+import com.free.commerce.entity.Cliente;
 import com.free.commerce.entity.UserLogin;
 import com.free.commerce.service.interfaces.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by eduardo.sanson on 09/05/2016.
@@ -34,6 +32,22 @@ public class UserLoginController {
         }catch (Exception e){
             e.printStackTrace();
             return new ResponseEntity<UserLogin>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity alterarUserDetails(@RequestBody UserLogin userLogin){
+
+        try {
+
+            loginService.alterarLogin(userLogin);
+
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

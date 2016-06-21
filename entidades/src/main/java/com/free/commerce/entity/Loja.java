@@ -1,6 +1,7 @@
 package com.free.commerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -53,6 +54,10 @@ public class Loja {
     @Column
     @Type(type="timestamp")
     private Date registrado;
+
+    @OneToOne(mappedBy ="loja",cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private AutorizacaoLoja autorizacaoLoja;
 
     public List<Produto> getProdutos() {
         return produtos;
@@ -163,5 +168,13 @@ public class Loja {
 
     public void setRegistrado(Date registrado) {
         this.registrado = registrado;
+    }
+
+    public AutorizacaoLoja getAutorizacaoLoja() {
+        return autorizacaoLoja;
+    }
+
+    public void setAutorizacaoLoja(AutorizacaoLoja autorizacaoLoja) {
+        this.autorizacaoLoja = autorizacaoLoja;
     }
 }

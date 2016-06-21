@@ -51,7 +51,7 @@ public class PedidoServiceImpl implements PedidoService {
         alterarStatusPedidoTO.setNotificationCode(notificationCode);
         alterarStatusPedidoTO.setStatus(status.name());
 
-        restTemplate.postForObject(url,new AlterarStatusPedidoTO(),Pedido.class);
+        restTemplate.postForObject(url,alterarStatusPedidoTO,Pedido.class);
 
     }
 

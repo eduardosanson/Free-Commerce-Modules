@@ -7,6 +7,7 @@ import com.free.commerce.entity.Pedido;
 import com.free.commerce.entity.UserLogin;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -19,6 +20,8 @@ public interface StoreService {
     void alterarPerfil(Long lojaId, MultipartFile file);
 
     Loja buscarLoja(Long id);
+
+    void alterarLogin(UserLogin userLogin) throws URISyntaxException;
 
     Loja buscarLojaPorCpfOuCnpj(String cpfOuCnpj);
 

@@ -110,12 +110,6 @@ public class ClienteController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        Cliente cli = clienteService.recuperarProID(cliente.getId());
-
-        if (cli==null){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-
         clienteService.atualizar(cliente);
 
         return new ResponseEntity(HttpStatus.ACCEPTED);

@@ -6,14 +6,33 @@ package com.br.free.commerce.util;
 public class MaskUtil {
 
     public static String removeTelefoneMask(String telefone){
-        return telefone.replace("()-","");
+
+        if (telefone!=null){
+
+            return telefone.replaceAll("[^\\d.]","");
+        }
+
+        return telefone;
+
     }
 
     public static String removeCepMask(String cep){
-        return cep.replace("-","");
+
+        if (cep!=null){
+
+            return cep.replace("-","");
+        }
+
+        return cep;
     }
 
     public static String removeCpfOuCnpjMask(String cpfOuCnpj){
-        return cpfOuCnpj.replaceAll("[^0-9]+","");
+        if (cpfOuCnpj!=null){
+
+            return cpfOuCnpj.replaceAll("[^0-9]+","");
+        }
+
+        return cpfOuCnpj;
+
     }
 }

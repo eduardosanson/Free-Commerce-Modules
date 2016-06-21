@@ -1,5 +1,6 @@
 package com.br.free.commerce.to;
 
+import com.br.free.commerce.util.MaskUtil;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.br.CPF;
@@ -113,7 +114,7 @@ public class FinalizarCadastroTO {
     }
 
     public String getTelefone() {
-        return telefone;
+        return MaskUtil.removeTelefoneMask(telefone);
     }
 
     public void setTelefone(String telefone) {
@@ -137,7 +138,7 @@ public class FinalizarCadastroTO {
     }
 
     public String getCpf() {
-        return cpf;
+        return MaskUtil.removeCpfOuCnpjMask(cpf);
     }
 
     public void setCpf(String cpf) {
@@ -145,7 +146,7 @@ public class FinalizarCadastroTO {
     }
 
     public String getCep() {
-        return cep;
+        return MaskUtil.removeCepMask(cep);
     }
 
     public void setCep(String cep) {

@@ -31,7 +31,7 @@
             <div class="col-md-4 form-group">
                 <div class="input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                    <input type="text" th:field="*{cpf}" placeholder="Cpf" class="form-control input-md"/>
+                    <input id="cpf" type="text" th:field="*{cpf}" placeholder="Cpf" class="form-control input-md"/>
                     <!--th:field="*{cpfOuCnpj}"-->
                 </div>
                 <div th:if="${#fields.hasErrors('cpf')}" class="alert alert-danger form-control input-md"
@@ -42,7 +42,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <div class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></div>
-                    <input type="tel" maxlength="15" th:field="*{telefone}"
+                    <input id="telefone" type="tel" maxlength="15" th:field="*{telefone}"
                            class="form-control input-md" placeholder="(99) 99-999-9999" />
                 </div>
             </div>
@@ -138,5 +138,17 @@
             <button class="btn btn-block btn-custom">Finalizar Cadastro</button>
         </div>
     </form>
+
+    <script  th:inline="javascript">
+        $("#cpf").mask("999.999.999-99");
+
+        $("#cep").mask("99999-999");
+
+        $("#telefone").mask("(99) 9999?9-9999");
+
+        webshims.setOptions('waitReady', false);
+              webshims.setOptions('forms-ext', {types: 'date'});
+              webshims.polyfill('forms forms-ext');
+    </script>
 
 </div>
